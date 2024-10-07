@@ -17,7 +17,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.petepath.ui.theme.HistoryIcon
+import com.example.petepath.ui.theme.HomepageIcon
 import com.example.petepath.ui.theme.Pete2Icon
+import com.example.petepath.ui.theme.ProfileIcon
+import com.example.petepath.ui.theme.ReportIcon
 
 @Composable
 fun HomePage() {
@@ -53,7 +57,7 @@ fun HomePage() {
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             RouteCard(routeName = "Route 01 | Sudiang", price = "Rp2.500", buttonText = "Lihat Rute")
-//            RouteOutlinedCard(routeName = "Route 02 | Unhas", price = "Rp3.000", buttonText = "Lihat Rute")
+            RouteOutlinedCard(routeName = "Route 02 | Unhas", price = "Rp3.000", buttonText = "Lihat Rute")
         }
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -75,7 +79,7 @@ fun HomePage() {
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 RouteCard(routeName = "Route 01 Sudiang", price = "Rp2.500", buttonText = "")
-//                RouteOutlinedCard(routeName = "Route 02 Unhas", price = "Rp3.000", buttonText = "")
+                RouteOutlinedCard(routeName = "Route 02 Unhas", price = "Rp3.000", buttonText = "")
             }
             Spacer(modifier = Modifier.height(8.dp))
             Row(
@@ -83,14 +87,14 @@ fun HomePage() {
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 RouteCard(routeName = "Route 03 BTP", price = "Rp3.000", buttonText = "")
-//                RouteOutlinedCard(routeName = "Route 04 Pettarani", price = "Rp3.500", buttonText = "")
+                RouteOutlinedCard(routeName = "Route 04 Pettarani", price = "Rp3.500", buttonText = "")
             }
         }
 
         Spacer(modifier = Modifier.weight(1f))
 
         // Bottom Navigation (Placeholders)
-//        BottomNavigationBar()
+        BottomNavigationBar()
     }
 }
 
@@ -141,90 +145,73 @@ fun RouteCard(routeName: String, price: String, buttonText: String) {
         }
     }
 }
-//
-//@Composable
-//fun RouteOutlinedCard(routeName: String, price: String, buttonText: String) {
-//    Card(
-//        modifier = Modifier
-//            .width(160.dp)
-//            .padding(8.dp),
-//        shape = RoundedCornerShape(8.dp),
-//        border = BorderStroke(2.dp, Color(0xFF007BFF)),
-//        colors = CardDefaults.cardColors(containerColor = Color.White)
-//    ) {
-//        Column(
-//            modifier = Modifier.padding(16.dp),
-//            horizontalAlignment = Alignment.CenterHorizontally
-//        ) {
-//            // Route Icon
-//            Icon(
-//                painter = painterResource(id = R.drawable.ic_truck), // Replace with actual resource
-//                contentDescription = "Route Icon",
-//                tint = Color(0xFF007BFF),
-//                modifier = Modifier.size(48.dp)
-//            )
-//
-//            Spacer(modifier = Modifier.height(8.dp))
-//
-//            // Route Name
-//            Text(
-//                text = routeName,
-//                fontSize = 16.sp,
-//                fontWeight = FontWeight.Bold,
-//                color = Color(0xFF007BFF)
-//            )
-//
-//            // Price
-//            Text(
-//                text = price,
-//                fontSize = 14.sp,
-//                fontWeight = FontWeight.Normal,
-//                color = Color.Gray
-//            )
-//
-//            Spacer(modifier = Modifier.height(8.dp))
-//
-//            // Outlined Button (if provided)
-//            if (buttonText.isNotEmpty()) {
-//                OutlinedButton(
-//                    onClick = { /* TODO: Handle button click */ },
-//                    modifier = Modifier.fillMaxWidth(),
-//                    colors = ButtonDefaults.outlinedButtonColors(contentColor = Color(0xFF007BFF)),
-//                    border = BorderStroke(2.dp, Color(0xFF007BFF))
-//                ) {
-//                    Text(text = buttonText)
-//                }
-//            }
-//        }
-//    }
-//}
-//
-//@Composable
-//fun BottomNavigationBar() {
-//    BottomAppBar(
-//        contentColor = Color(0xFF007BFF),
-//        containerColor = Color.White
-//    ) {
-//        // Navigation icons as placeholders
-//        Icon(
-//            painter = painterResource(id = R.drawable.ic_home), // Replace with actual resource
-//            contentDescription = "Home",
-//            modifier = Modifier.size(24.dp)
-//        )
-//        Spacer(modifier = Modifier.weight(1f))
-//        Icon(
-//            painter = painterResource(id = R.drawable.ic_message), // Replace with actual resource
-//            contentDescription = "Messages",
-//            modifier = Modifier.size(24.dp)
-//        )
-//        Spacer(modifier = Modifier.weight(1f))
-//        Icon(
-//            painter = painterResource(id = R.drawable.ic_user), // Replace with actual resource
-//            contentDescription = "Profile",
-//            modifier = Modifier.size(24.dp)
-//        )
-//    }
-//}
+
+@Composable
+fun RouteOutlinedCard(routeName: String, price: String, buttonText: String) {
+    Card(
+        modifier = Modifier
+            .width(160.dp)
+            .padding(8.dp),
+        shape = RoundedCornerShape(8.dp),
+        border = BorderStroke(2.dp, Color(0xFF007BFF)),
+        colors = CardDefaults.cardColors(containerColor = Color.White)
+    ) {
+        Column(
+            modifier = Modifier.padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            // Route Icon
+            Pete2Icon()
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // Route Name
+            Text(
+                text = routeName,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color(0xFF007BFF)
+            )
+
+            // Price
+            Text(
+                text = price,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Normal,
+                color = Color.Gray
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // Outlined Button (if provided)
+            if (buttonText.isNotEmpty()) {
+                OutlinedButton(
+                    onClick = { /* TODO: Handle button click */ },
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = ButtonDefaults.outlinedButtonColors(contentColor = Color(0xFF007BFF)),
+                    border = BorderStroke(2.dp, Color(0xFF007BFF))
+                ) {
+                    Text(text = buttonText)
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun BottomNavigationBar() {
+    BottomAppBar(
+        contentColor = Color(0xFF007BFF),
+        containerColor = Color.White
+    ) {
+        HomepageIcon()
+        Spacer(modifier = Modifier.weight(1f))
+        HistoryIcon()
+        Spacer(modifier = Modifier.weight(1f))
+        ReportIcon()
+        Spacer(modifier = Modifier.weight(1f))
+        ProfileIcon()
+    }
+}
 
 @Preview
 @Composable

@@ -18,8 +18,47 @@ fun Pete2Icon(modifier: Modifier = Modifier) {
     )
 }
 
+@Composable
+fun HomepageIcon(modifier: Modifier = Modifier) {
+    Image(
+        painter = painterResource(id = R.drawable.vector_homepage),
+        contentDescription = "Homepage",
+        modifier = modifier.size(24.dp)
+    )
+}
+
+@Composable
+fun HistoryIcon(modifier: Modifier = Modifier) {
+    Image(
+        painter = painterResource(id = R.drawable.vector_history),
+        contentDescription = "History",
+        modifier = modifier.size(24.dp)
+    )
+}
+
+@Composable
+fun ReportIcon(modifier: Modifier = Modifier) {
+    Image(
+        painter = painterResource(id = R.drawable.vector_report),
+        contentDescription = "Report",
+        modifier = modifier.size(24.dp)
+    )
+}
+
+@Composable
+fun ProfileIcon(modifier: Modifier = Modifier) {
+    Image(
+        painter = painterResource(id = R.drawable.vector_profile),
+        contentDescription = "Profile",
+        modifier = Modifier.size(24.dp)
+    )
+}
 @Preview
 @Composable
 fun PreviewPeteIcon() {
     Pete2Icon()
+    HomepageIcon()
+    HistoryIcon()
+    ReportIcon()
+    ProfileIcon()
 }
