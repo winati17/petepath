@@ -25,6 +25,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.petepath.ui.theme.OutlinedPrimaryButton
+import com.example.petepath.ui.theme.PrimaryButton
 
 
 class MainActivity : ComponentActivity() {
@@ -40,59 +42,22 @@ class MainActivity : ComponentActivity() {
 //            }
 //        }
         setContent {
-            ButtonApp()
+            HomeScreen()
         }
     }
 }
 
 @Composable
-fun ButtonApp() {
-    // Center the buttons vertically and horizontally
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        // Filled Button
-        Button(
-            onClick = { /* TODO */ },
-            modifier = Modifier
-                .padding(16.dp)
-                .width(200.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF007BFF)), // Blue background color (007BFF)
-            shape = MaterialTheme.shapes.medium // Rounded corners
-        ) {
-            Text(
-                text = "Button",
-                color = Color.White, // White text
-                fontSize = 18.sp, // Font size
-                fontWeight = FontWeight.Bold // Bold text
-            )
-        }
-
-        Spacer(modifier = Modifier.height(16.dp)) // Space between buttons
-
-        // Outlined Button with BorderStroke for the border
-        OutlinedButton(
-            onClick = { /* TODO */ },
-            modifier = Modifier
-                .padding(16.dp).width(200.dp),
-            colors = ButtonDefaults.outlinedButtonColors(contentColor = Color(0xFF007BFF)), // Blue text color
-            border = BorderStroke(2.dp, Color(0xFF007BFF)), // Blue border with 2.dp width
-            shape = MaterialTheme.shapes.medium // Rounded corners
-        ) {
-            Text(
-                text = "Button",
-                color = Color(0xFF007BFF), // Blue text
-                fontSize = 18.sp, // Font size
-                fontWeight = FontWeight.Bold // Bold text
-            )
-        }
+fun HomeScreen() {
+    Column {
+        PrimaryButton(onClick = { /* TODO */ })
+        Spacer(modifier = Modifier.height(16.dp))
+        OutlinedPrimaryButton(onClick = { /* TODO */ })
     }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
-    ButtonApp()
+    HomeScreen()
 }
