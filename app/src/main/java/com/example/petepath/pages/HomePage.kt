@@ -29,7 +29,7 @@ fun HomePage() {
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
-            .background(Color.White)
+            .background(Color.White),
     ) {
         // Welcome Message
         Text(
@@ -54,10 +54,10 @@ fun HomePage() {
         // Recently Visited Routes
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.Center
         ) {
-            RouteCard(routeName = "Route 01 | Sudiang", price = "Rp2.500", buttonText = "Lihat Rute")
-            RouteOutlinedCard(routeName = "Route 02 | Unhas", price = "Rp3.000", buttonText = "Lihat Rute")
+            RouteOutlinedCard(routeName = "Route 01 | Sudiang", price = "", buttonText = "Lihat Rute", showIcon = false)
+            RouteOutlinedCard(routeName = "Route 02 | Unhas", price = "", buttonText = "Lihat Rute", showIcon = false)
         }
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -76,17 +76,17 @@ fun HomePage() {
         Column {
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.Center
             ) {
-                RouteCard(routeName = "Route 01 Sudiang", price = "Rp2.500", buttonText = "")
+                RouteOutlinedCard(routeName = "Route 01 Sudiang", price = "Rp2.500", buttonText = "")
                 RouteOutlinedCard(routeName = "Route 02 Unhas", price = "Rp3.000", buttonText = "")
             }
             Spacer(modifier = Modifier.height(8.dp))
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.Center
             ) {
-                RouteCard(routeName = "Route 03 BTP", price = "Rp3.000", buttonText = "")
+                RouteOutlinedCard(routeName = "Route 03 BTP", price = "Rp3.000", buttonText = "")
                 RouteOutlinedCard(routeName = "Route 04 Pettarani", price = "Rp3.500", buttonText = "")
             }
         }
@@ -99,55 +99,12 @@ fun HomePage() {
 }
 
 @Composable
-fun RouteCard(routeName: String, price: String, buttonText: String) {
-    Card(
-        modifier = Modifier
-            .width(160.dp)
-            .padding(8.dp),
-        shape = RoundedCornerShape(8.dp),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFFE3F2FD))
-    ) {
-        Column(
-            modifier = Modifier.padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Pete2Icon()
-            Spacer(modifier = Modifier.height(8.dp))
-
-            // Route Name
-            Text(
-                text = routeName,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color(0xFF007BFF)
-            )
-
-            // Price
-            Text(
-                text = price,
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Normal,
-                color = Color.Gray
-            )
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            // Button (if provided)
-            if (buttonText.isNotEmpty()) {
-                Button(
-                    onClick = { /* TODO: Handle button click */ },
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF007BFF))
-                ) {
-                    Text(text = buttonText, color = Color.White)
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun RouteOutlinedCard(routeName: String, price: String, buttonText: String) {
+fun RouteOutlinedCard(
+    routeName: String,
+    price: String,
+    buttonText: String,
+    showIcon: Boolean = true
+) {
     Card(
         modifier = Modifier
             .width(160.dp)
@@ -160,9 +117,10 @@ fun RouteOutlinedCard(routeName: String, price: String, buttonText: String) {
             modifier = Modifier.padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Route Icon
-            Pete2Icon()
-            Spacer(modifier = Modifier.height(8.dp))
+            if (showIcon) {
+                Pete2Icon()
+                Spacer(modifier = Modifier.height(8.dp))
+            }
 
             // Route Name
             Text(
@@ -196,6 +154,7 @@ fun RouteOutlinedCard(routeName: String, price: String, buttonText: String) {
         }
     }
 }
+
 
 @Composable
 fun BottomNavigationBar() {
