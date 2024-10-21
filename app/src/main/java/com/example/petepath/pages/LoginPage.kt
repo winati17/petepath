@@ -1,8 +1,8 @@
 
 package com.example.petepath.pages
 
-import android.graphics.drawable.shapes.Shape
-import androidx.compose.foundation.BorderStroke
+//import android.graphics.drawable.shapes.Shape
+//import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -10,7 +10,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
+//import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
@@ -79,7 +79,7 @@ fun LoginPage(){
 
         Spacer(modifier = Modifier.height(15.dp))
 
-        Row() {
+        Row {
             Text(text = "Belum punya akun? ")
             Text(text = "Daftar sekarang!", modifier = Modifier.clickable {  }, color = mainColor)
         }
