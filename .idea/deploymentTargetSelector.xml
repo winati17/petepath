@@ -2,12 +2,15 @@
 <project version="4">
   <component name="deploymentTargetSelector">
     <selectionStates>
-      <SelectionState runConfigName="app">
+      <SelectionState runConfigName="PetePath.app">
         <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="LoginPagePreview">
       </SelectionState>
       <SelectionState runConfigName="PreviewLoginPage">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
+      <SelectionState runConfigName="PreviewSignupPage">
       <SelectionState runConfigName="PreviewLoginPage (1)">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
