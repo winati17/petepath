@@ -8,6 +8,7 @@
       <SelectionState runConfigName="PreviewLoginPage">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
+      <SelectionState runConfigName="PreviewSignupPage">
       <SelectionState runConfigName="PreviewLoginPage (1)">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
