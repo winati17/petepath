@@ -25,7 +25,7 @@ fun MyAppNavigation(modifier: Modifier = Modifier) {
             SignupPage(modifier, navController)
         }
         composable("home"){
-            HomePage(modifier, navController)
+//            HomePage(modifier, navController)
         }
     })
 }
