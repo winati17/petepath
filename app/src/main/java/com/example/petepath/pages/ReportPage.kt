@@ -88,7 +88,8 @@ fun ReportPage() {
                 unfocusedContainerColor = Color.Transparent,
                 focusedBorderColor = outlineColor,          // Use outlineColor here
                 unfocusedBorderColor = outlineColor,
-                focusedLabelColor = outlineColor
+                focusedLabelColor = outlineColor,
+                unfocusedLabelColor = Color.Gray
             ),
             maxLines = 20,
             keyboardOptions = KeyboardOptions(
@@ -113,7 +114,8 @@ fun ReportPage() {
                 unfocusedContainerColor = Color.Transparent,
                 focusedBorderColor = outlineColor,          // Use outlineColor here
                 unfocusedBorderColor = outlineColor,
-                focusedLabelColor = outlineColor
+                focusedLabelColor = outlineColor,
+                unfocusedLabelColor = Color.Gray
             )
         )
 
@@ -180,7 +182,6 @@ fun DropdownMenuField(
             onDismissRequest = { expanded = false },
             modifier = Modifier
                 .fillMaxWidth(0.9f) // Membatasi lebar menjadi 90% dari layar
-                .padding(horizontal = 16.dp) // Memberikan jarak horizontal
                 .background(Color.White, shape = RoundedCornerShape(8.dp)) // Bentuk dan warna background
         ) {
             options.forEach { option ->
