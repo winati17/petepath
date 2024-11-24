@@ -49,15 +49,4 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun HomeScreen() {
-    Column {
-        PrimaryButton(onClick = { /* TODO */ })
-        Spacer(modifier = Modifier.height(16.dp))
-        OutlinedPrimaryButton(onClick = { /* TODO */ })
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    HomeScreen()
 }

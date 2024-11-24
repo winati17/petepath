@@ -6,9 +6,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.petepath.pages.HomePage
 //import com.example.petepath.pages.LoginPage
-import com.example.petepath.pages.SignupPage
+import com.example.petepath.pages.auth.SignupPage
 
 class MyAppNavigation {
 }
