@@ -2,28 +2,16 @@
 <project version="4">
   <component name="deploymentTargetSelector">
     <selectionStates>
-      <SelectionState runConfigName="PetePath.app">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="LoginPagePreview">
-      </SelectionState>
-      <SelectionState runConfigName="PreviewLoginPage">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="PreviewSignupPage">
-      <SelectionState runConfigName="PreviewLoginPage (1)">
+      <SelectionState runConfigName="PreviewHomePage">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
       <SelectionState runConfigName="MainActivity">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="PreviewPeteIcon">
+      <SelectionState runConfigName="ViewButtonPreview">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="PreviewHomePage">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="PreviewReportPage">
+      <SelectionState runConfigName="GridItem">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>
