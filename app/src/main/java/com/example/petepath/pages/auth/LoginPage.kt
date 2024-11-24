@@ -1,5 +1,5 @@
 
-package com.example.petepath.pages
+package com.example.petepath.pages.auth
 
 //import android.graphics.drawable.shapes.Shape
 //import androidx.compose.foundation.BorderStroke

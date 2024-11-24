@@ -1,11 +1,9 @@
-package com.example.petepath.pages
+package com.example.petepath.pages.features
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavController
 //import com.example.petepath.AuthViewModel
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -28,7 +26,7 @@ import androidx.compose.foundation.lazy.grid.*
 import androidx.compose.foundation.lazy.items
 
 @Composable
-fun HomePage() {
+fun HomePage(userName : String) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -37,7 +35,7 @@ fun HomePage() {
     ) {
         // Welcome Message
         Text(
-            text = "Halo, Cantik! \uD83D\uDC4B",
+            text = "Halo, $userName! \uD83D\uDC4B",
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
             color = Color(0xFF007BFF)
@@ -102,7 +100,18 @@ fun HomePage() {
             }
         }
 
-        BottomNavigationBar() // Ensure this is at the bottom
+        BottomAppBar(
+            contentColor = Color(0xFF007BFF),
+            containerColor = Color.White
+        ) {
+            HomepageIcon(active = true)
+            Spacer(modifier = Modifier.weight(1f))
+            HistoryIcon()
+            Spacer(modifier = Modifier.weight(1f))
+            ReportIcon()
+            Spacer(modifier = Modifier.weight(1f))
+            ProfileIcon()
+        }
     }
 }
 
@@ -180,24 +189,8 @@ fun AllRoute(
     }
 }
 
-@Composable
-fun BottomNavigationBar() {
-    BottomAppBar(
-        contentColor = Color(0xFF007BFF),
-        containerColor = Color.White
-    ) {
-        HomepageIcon(active = true)
-        Spacer(modifier = Modifier.weight(1f))
-        HistoryIcon()
-        Spacer(modifier = Modifier.weight(1f))
-        ReportIcon()
-        Spacer(modifier = Modifier.weight(1f))
-        ProfileIcon()
-    }
-}
-
 @Preview
 @Composable
 fun PreviewHomePage() {
-    HomePage()
+    HomePage(userName = "Cantik")
 }

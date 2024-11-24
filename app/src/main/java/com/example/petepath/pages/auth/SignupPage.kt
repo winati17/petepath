@@ -1,4 +1,4 @@
-package com.example.petepath.pages
+package com.example.petepath.pages.auth
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

@@ -1,4 +1,4 @@
-package com.example.petepath.pages
+package com.example.petepath.pages.features
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
