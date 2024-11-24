@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.petepath.ui.theme.HistoryIcon
 import com.example.petepath.ui.theme.HomepageIcon
-import com.example.petepath.ui.theme.OutlinedPrimaryButton
+import com.example.petepath.ui.theme.PrimaryButton
 import com.example.petepath.ui.theme.Pete2Icon
 import com.example.petepath.ui.theme.ProfileIcon
 import com.example.petepath.ui.theme.ReportIcon
@@ -129,7 +129,7 @@ fun RecentRoute(routeName: String) {
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            OutlinedPrimaryButton(
+            PrimaryButton(
                 onClick = { /* TODO: Handle button click */ },
                 text = "Lihat Rute"
             )
@@ -186,7 +186,7 @@ fun BottomNavigationBar() {
         contentColor = Color(0xFF007BFF),
         containerColor = Color.White
     ) {
-        HomepageIcon()
+        HomepageIcon(active = true)
         Spacer(modifier = Modifier.weight(1f))
         HistoryIcon()
         Spacer(modifier = Modifier.weight(1f))
