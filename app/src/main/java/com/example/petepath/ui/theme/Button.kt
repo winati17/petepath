@@ -7,44 +7,53 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun PrimaryButton(onClick: () -> Unit) {
+fun PrimaryButton(onClick: () -> Unit, text: String) {
     Button(
         onClick = onClick,
-        modifier = Modifier
-            .padding(16.dp)
-            .width(200.dp),
-        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF007BFF)), // Blue background color (007BFF)
+        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF007BFF)),
+        shape = MaterialTheme.shapes.medium,
+    ) {
+        Text(
+            text = text,
+            color = Color.White,
+            fontSize = 10.sp,
+            fontWeight = FontWeight.Bold
+        )
+    }
+}
+
+@Composable
+fun OutlinedPrimaryButton(onClick: () -> Unit, text : String) {
+    OutlinedButton(
+        onClick = onClick,
+        border = BorderStroke(1.dp, Color(0xFF007BFF)), // Blue border with 2.dp width
         shape = MaterialTheme.shapes.medium // Rounded corners
     ) {
         Text(
-            text = "Button",
-            color = Color.White, // White text
-            fontSize = 18.sp, // Font size
+            text = text,
+            color = Color(0xFF007BFF), // Blue text
+            fontSize = 10.sp, // Font size
             fontWeight = FontWeight.Bold // Bold text
         )
     }
 }
 
 @Composable
-fun OutlinedPrimaryButton(onClick: () -> Unit) {
-    OutlinedButton(
-        onClick = onClick,
-        modifier = Modifier
-            .padding(16.dp)
-            .width(200.dp),
-        colors = ButtonDefaults.outlinedButtonColors(contentColor = Color(0xFF007BFF)), // Blue text color
-        border = BorderStroke(2.dp, Color(0xFF007BFF)), // Blue border with 2.dp width
-        shape = MaterialTheme.shapes.medium // Rounded corners
-    ) {
-        Text(
-            text = "Button",
-            color = Color(0xFF007BFF), // Blue text
-            fontSize = 18.sp, // Font size
-            fontWeight = FontWeight.Bold // Bold text
-        )
+fun ViewButton() {
+    Column {
+        PrimaryButton(onClick = { /* TODO */ }, text ="Button")
+        Spacer(modifier = Modifier.height(16.dp))
+        OutlinedPrimaryButton(onClick = { /* TODO */ }, text ="Button")
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ViewButtonPreview() {
+    ViewButton()
 }

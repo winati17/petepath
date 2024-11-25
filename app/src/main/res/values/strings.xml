@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">PetePath</string>
+    <string name="login">Selamat Datang!</string>
 </resources>
