@@ -2,6 +2,7 @@ package com.example.petepath
 
 //import LoginPage
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -22,31 +23,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.petepath.ui.theme.OutlinedPrimaryButton
 import com.example.petepath.ui.theme.PrimaryButton
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        enableEdgeToEdge()
-//        val authViewModel : AuthViewModel by viewModels()
-//        setContent {
-//            FirebaseAuthDemoAppTheme{
-//                Scaffold(modifier = Modifier.fillMaxSize()){ innerPadding ->
-//                    MyAppNavigation(modifier = Modifier.padding(innerPadding), authViewModel=authViewModel)
-//                }
-//            }
-//        }
-//        setContent {
-//            LoginPage()
-//        }
         setContent {
-            HomeScreen()
+            val navController = rememberNavController()
+            Log.d("NavController", "Navigation Graph set up. Current destination: ${navController.currentDestination?.route}")
+            SetupNavGraph(navController = navController)
         }
     }
-}
-
-@Composable
-fun HomeScreen() {
 }

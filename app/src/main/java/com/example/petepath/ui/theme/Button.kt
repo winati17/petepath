@@ -12,17 +12,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-//            OutlinedPrimaryButton(
-//                onClick = { /* TODO: Handle button click */ },
-//                modifier = Modifier.fillMaxWidth(),
-//                colors = ButtonDefaults.outlinedButtonColors(contentColor = Color(0xFF007BFF)),
-//                border = BorderStroke(2.dp, Color(0xFF007BFF))
-//            )
-fun PrimaryButton(onClick: () -> Unit, text : String) {
+fun PrimaryButton(onClick: () -> Unit, text: String) {
     Button(
         onClick = onClick,
-        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF007BFF)), // Blue background color (007BFF)
-        shape = MaterialTheme.shapes.medium, // Rounded corner
+        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF007BFF)),
+        shape = MaterialTheme.shapes.medium,
     ) {
         Text(
             text = text,

@@ -1,9 +1,9 @@
 package com.example.petepath.pages.features
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-//import com.example.petepath.AuthViewModel
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -25,9 +25,12 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.*
 import androidx.compose.foundation.lazy.items
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import com.example.petepath.Screen
 
 @Composable
-fun HomePage(userName : String) {
+fun HomePage(userName : String, navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -66,7 +69,7 @@ fun HomePage(userName : String) {
                 "Route 03 | BTP",
                 "Route 04 | Pettarani"
             )) { routeName ->
-                RecentRoute(routeName = routeName)
+                RecentRoute(routeName = routeName, navController = navController)
             }
         }
 
@@ -118,11 +121,9 @@ fun HomePage(userName : String) {
 }
 
 @Composable
-fun RecentRoute(routeName: String) {
+fun RecentRoute(routeName: String, navController: NavController) {
     Card(
-        modifier = Modifier
-            .width(184.dp)
-            .padding(8.dp),
+        modifier = Modifier.width(184.dp).padding(8.dp),
         shape = RoundedCornerShape(8.dp),
         border = BorderStroke(1.dp, Color(0xFF007BFF)),
         colors = CardDefaults.cardColors(containerColor = Color.White)
@@ -144,7 +145,10 @@ fun RecentRoute(routeName: String) {
             Spacer(modifier = Modifier.height(8.dp))
 
             PrimaryButton(
-                onClick = { /* TODO: Handle button click */ },
+                onClick = {
+                    Log.d("NavController", "Button clicked. Attempting to navigate to ${Screen.Rute.route}.")
+                    navController.navigate(Screen.Rute.route)
+                },
                 text = "Lihat Rute"
             )
         }
@@ -200,8 +204,8 @@ fun AllRoute(routeNumber: String, routeName: String, price: String,
     }
 }
 
-@Preview
+@Preview (showBackground = true)
 @Composable
 fun PreviewHomePage() {
-    HomePage(userName = "Cantik")
+    HomePage(userName = "Cantik", navController = rememberNavController())
 }

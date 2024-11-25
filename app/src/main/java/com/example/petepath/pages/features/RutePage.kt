@@ -1,27 +1,21 @@
 package com.example.petepath.pages.features
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.List
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Divider
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -31,17 +25,9 @@ import com.example.petepath.ui.theme.HomepageIcon
 import com.example.petepath.ui.theme.ProfileIcon
 import com.example.petepath.ui.theme.ReportIcon
 
-class RoutePageActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            RoutePageScreen()
-        }
-    }
-}
-
 @Composable
-fun RoutePageScreen() {
+fun RutePage() {
+    Log.d("NavController", "Rute Page displayed")
     Scaffold(
         bottomBar = {
             BottomAppBar(
@@ -57,12 +43,12 @@ fun RoutePageScreen() {
             ProfileIcon()
         }
         }
-    ) { innerPadding -> // Gunakan parameter padding ini
+    ) { innerPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding) // Terapkan padding di sini
-                .padding(16.dp), // Tambahkan padding tambahan jika diperlukan
+                .padding(innerPadding)
+                .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
@@ -128,9 +114,9 @@ fun RouteList() {
                     // Garis biru vertikal
                     Divider(
                         modifier = Modifier
-                            .width(2.dp) // Lebar garis
-                            .fillMaxHeight() // Garis sepanjang daftar
-                            .padding(vertical = if (index == 0) 12.dp else 0.dp) // Padding atas pada item pertama
+                            .width(2.dp)
+                            .fillMaxHeight()
+                            .padding(vertical = if (index == 0) 12.dp else 0.dp)
                             .align(Alignment.Center),
                         color = Color.Blue
                     )
@@ -144,7 +130,6 @@ fun RouteList() {
 
                 Spacer(modifier = Modifier.width(16.dp))
 
-                // Teks nama jalan
                 Text(
                     text = routes[index],
                     fontSize = 16.sp,
@@ -162,5 +147,5 @@ fun RouteList() {
 @Preview(showBackground = true)
 @Composable
 fun PreviewRoutePageScreen() {
-    RoutePageScreen()
+    RutePage()
 }

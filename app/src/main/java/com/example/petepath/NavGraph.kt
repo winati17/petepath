@@ -1,10 +1,52 @@
-//package com.example.petepath
-//
+package com.example.petepath
+
+import android.util.Log
+import androidx.compose.runtime.Composable
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import com.example.petepath.pages.features.HomePage
+import com.example.petepath.pages.features.RutePage
+
+@Composable
+fun SetupNavGraph(navController: NavHostController){
+    NavHost(
+        navController= navController,
+        startDestination= Screen.Home.route
+    ){
+        composable(route = Screen.Home.route){
+            Log.d("NavController", "Navigating to Home Page")
+            HomePage(userName = "Wina", navController = navController)
+        }
+        composable(route = Screen.Rute.route){
+            Log.d("NavController", "Navigating to Rute Page")
+            RutePage()
+        }
+    }
+}
+
+sealed class Screen(val route: String) {
+    object Home: Screen(route= "home_page")
+    object Rute: Screen(route= "route_page")
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 //import user.UserViewModel
 //import androidx.compose.runtime.Composable
 //import androidx.lifecycle.viewmodel.compose.viewModel
 //import androidx.navigation.NavHostController
-//import androidx.navigation.compose.NavHost
 //import androidx.navigation.compose.composable
 //import features.auth.SignInScreen
 //import features.auth.SignUpScreen
