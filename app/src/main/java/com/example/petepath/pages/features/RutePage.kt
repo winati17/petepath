@@ -28,7 +28,6 @@ import com.example.petepath.ui.theme.ReportIcon
 @Composable
 fun RutePage() {
     Log.d("NavController", "Rute Page displayed")
-
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -58,7 +57,6 @@ fun RutePage() {
         BottomAppBar(
             modifier = Modifier.align(Alignment.BottomCenter),
             contentColor = Color(0xFF007BFF),
-            containerColor = Color.White
         ) {
             HomepageIcon(active = true)
             Spacer(modifier = Modifier.weight(1f))

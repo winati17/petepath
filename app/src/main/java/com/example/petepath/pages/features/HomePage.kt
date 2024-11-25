@@ -5,6 +5,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
@@ -34,8 +35,7 @@ fun HomePage(userName : String, navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(20.dp)
-            .background(Color.White),
+            .padding(20.dp),
     ) {
         // Welcome Message
         Text(
@@ -101,13 +101,12 @@ fun HomePage(userName : String, navController: NavController) {
                     Triple("04", "Pettarani", "Rp3.500")
                 )
             ) { route ->
-                AllRoute(routeNumber = route.first, routeName = route.second, price = route.third)
+                AllRoute(routeNumber = route.first, routeName = route.second, price = route.third, navController = navController)
             }
         }
 
         BottomAppBar(
             contentColor = Color(0xFF007BFF),
-            containerColor = Color.White
         ) {
             HomepageIcon(active = true)
             Spacer(modifier = Modifier.weight(1f))
@@ -119,6 +118,7 @@ fun HomePage(userName : String, navController: NavController) {
         }
     }
 }
+
 
 @Composable
 fun RecentRoute(routeName: String, navController: NavController) {
@@ -156,22 +156,23 @@ fun RecentRoute(routeName: String, navController: NavController) {
 }
 
 @Composable
-fun AllRoute(routeNumber: String, routeName: String, price: String,
+fun AllRoute(routeNumber: String, routeName: String, price: String, navController: NavController
 ) {
     Card(
-        modifier = Modifier
-            .width(160.dp)
-            .padding(8.dp),
+        modifier = Modifier.width(160.dp).padding(8.dp)
+            .clickable {
+                navController.navigate(Screen.Rute.route)
+            },
         shape = RoundedCornerShape(8.dp),
         border = BorderStroke(1.dp, Color(0xFF007BFF)),
         colors = CardDefaults.cardColors(containerColor = Color.White)
     ) {
         Column(
             modifier = Modifier
-                .fillMaxSize() // Make the Column fill the entire card
+                .fillMaxSize()
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center // Center the content vertically
+            verticalArrangement = Arrangement.Center
         ) {
             Pete2Icon() // Your icon composable
             Spacer(modifier = Modifier.height(8.dp))
