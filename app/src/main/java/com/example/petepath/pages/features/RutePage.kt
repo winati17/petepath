@@ -28,32 +28,20 @@ import com.example.petepath.ui.theme.ReportIcon
 @Composable
 fun RutePage() {
     Log.d("NavController", "Rute Page displayed")
-    Scaffold(
-        bottomBar = {
-            BottomAppBar(
-            contentColor = Color(0xFF007BFF),
-            containerColor = Color.White
-        ) {
-            HomepageIcon(active = true)
-            Spacer(modifier = Modifier.weight(1f))
-            HistoryIcon()
-            Spacer(modifier = Modifier.weight(1f))
-            ReportIcon()
-            Spacer(modifier = Modifier.weight(1f))
-            ProfileIcon()
-        }
-        }
-    ) { innerPadding ->
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(20.dp)
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding)
-                .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .padding(bottom = 56.dp)
         ) {
             Text(
                 text = "Rute 01 | Sudiang",
-                color = Color.Blue,
+                color = Color(0xFF007BFF),
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold
             )
@@ -66,9 +54,22 @@ fun RutePage() {
 
             RouteList()
         }
+
+        BottomAppBar(
+            modifier = Modifier.align(Alignment.BottomCenter),
+            contentColor = Color(0xFF007BFF),
+            containerColor = Color.White
+        ) {
+            HomepageIcon(active = true)
+            Spacer(modifier = Modifier.weight(1f))
+            HistoryIcon()
+            Spacer(modifier = Modifier.weight(1f))
+            ReportIcon()
+            Spacer(modifier = Modifier.weight(1f))
+            ProfileIcon()
+        }
     }
 }
-
 
 //@Composable
 //fun MapView() {
@@ -118,13 +119,13 @@ fun RouteList() {
                             .fillMaxHeight()
                             .padding(vertical = if (index == 0) 12.dp else 0.dp)
                             .align(Alignment.Center),
-                        color = Color.Blue
+                        color = Color(0xFF007BFF)
                     )
                     // Titik biru
                     Box(
                         modifier = Modifier
                             .size(12.dp)
-                            .background(color = Color.Blue, shape = CircleShape)
+                            .background(color = Color(0xFF007BFF), shape = CircleShape)
                     )
                 }
 
@@ -139,10 +140,6 @@ fun RouteList() {
         }
     }
 }
-
-
-
-
 
 @Preview(showBackground = true)
 @Composable
