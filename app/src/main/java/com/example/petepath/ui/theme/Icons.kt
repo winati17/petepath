@@ -17,7 +17,7 @@ fun Pete2Icon() {
     Image(
         painter = painterResource(id = R.drawable.vector_pete2),
         contentDescription = "Pete-pete",
-        modifier = Modifier.size(48.dp)
+        modifier = Modifier.size(60.dp)
     )
 }
 

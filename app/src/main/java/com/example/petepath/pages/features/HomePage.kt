@@ -24,6 +24,7 @@ import com.example.petepath.ui.theme.ReportIcon
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.*
 import androidx.compose.foundation.lazy.items
+import androidx.compose.ui.text.style.TextOverflow
 
 @Composable
 fun HomePage(userName : String) {
@@ -56,8 +57,7 @@ fun HomePage(userName : String) {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 4.dp, bottom = 16.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp), // Adds spacing between items
-            contentPadding = PaddingValues(horizontal = 16.dp) // Adds padding at the edges
+            horizontalArrangement = Arrangement.spacedBy(0.dp)
         ) {
             // Add your items
             items(listOf(
@@ -90,13 +90,15 @@ fun HomePage(userName : String) {
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             // Add your routes as grid items
-            items(listOf(
-                Pair("Route 01\nSudiang", "Rp2.500"),
-                Pair("Route 02\nUnhas", "Rp3.000"),
-                Pair("Route 03\nBTP", "Rp3.000"),
-                Pair("Route 04\nPettarani", "Rp3.500")
-            )) { route ->
-                AllRoute(routeName = route.first, price = route.second)
+            items(
+                listOf(
+                    Triple("01", "Sudiang", "Rp2.500"),
+                    Triple("02", "Unhas", "Rp3.000"),
+                    Triple("03", "BTP", "Rp3.000"),
+                    Triple("04", "Pettarani", "Rp3.500")
+                )
+            ) { route ->
+                AllRoute(routeNumber = route.first, routeName = route.second, price = route.third)
             }
         }
 
@@ -119,7 +121,7 @@ fun HomePage(userName : String) {
 fun RecentRoute(routeName: String) {
     Card(
         modifier = Modifier
-            .width(160.dp)
+            .width(184.dp)
             .padding(8.dp),
         shape = RoundedCornerShape(8.dp),
         border = BorderStroke(1.dp, Color(0xFF007BFF)),
@@ -132,8 +134,11 @@ fun RecentRoute(routeName: String) {
             Text(
                 text = routeName,
                 fontSize = 16.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color(0xFF007BFF)
+                fontWeight = FontWeight.Normal,
+                color = Color.Black,
+                maxLines = 1,
+                textAlign = TextAlign.Center,
+                overflow = TextOverflow.Ellipsis
             )
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -147,9 +152,7 @@ fun RecentRoute(routeName: String) {
 }
 
 @Composable
-fun AllRoute(
-    routeName: String,
-    price: String,
+fun AllRoute(routeNumber: String, routeName: String, price: String,
 ) {
     Card(
         modifier = Modifier
@@ -170,7 +173,7 @@ fun AllRoute(
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(
-                text = routeName,
+                text = "Route $routeNumber",
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color(0xFF007BFF),
@@ -178,10 +181,18 @@ fun AllRoute(
             )
 
             Text(
+                text = routeName,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Normal,
+                color = Color.Black,
+                textAlign = TextAlign.Center
+            )
+
+            Text(
                 text = price,
                 fontSize = 10.sp,
                 fontWeight = FontWeight.Normal,
-                color = Color(0xFF007BFF)
+                color = Color.Gray
             )
 
             Spacer(modifier = Modifier.height(8.dp))
