@@ -11,7 +11,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val navController = rememberNavController()
-            Log.d("NavController", "Navigation Graph set up. Current destination: ${navController.currentDestination?.route}")
             SetupNavGraph(navController = navController)
         }
     }

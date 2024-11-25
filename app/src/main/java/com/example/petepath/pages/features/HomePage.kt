@@ -108,13 +108,13 @@ fun HomePage(userName : String, navController: NavController) {
         BottomAppBar(
             contentColor = Color(0xFF007BFF),
         ) {
-            HomepageIcon(active = true)
+            HomepageIcon(active = true, navController = navController)
             Spacer(modifier = Modifier.weight(1f))
-            HistoryIcon()
+            HistoryIcon(navController = navController)
             Spacer(modifier = Modifier.weight(1f))
-            ReportIcon()
+            ReportIcon(navController = navController)
             Spacer(modifier = Modifier.weight(1f))
-            ProfileIcon()
+            ProfileIcon(navController = navController)
         }
     }
 }

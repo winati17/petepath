@@ -1,6 +1,7 @@
 package com.example.petepath.ui.theme
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -10,7 +11,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.petepath.R
+import com.example.petepath.Screen
 
 @Composable
 fun Pete2Icon() {
@@ -22,71 +26,64 @@ fun Pete2Icon() {
 }
 
 @Composable
-fun HomepageIcon(active : Boolean = false) {
-    if (active) {
-        Image(
-            painter = painterResource(id = R.drawable.vector_homepage),
-            contentDescription = "Homepage",
-            modifier = Modifier.size(24.dp)
-        )
-    } else{
-        Image(
-            painter = painterResource(id = R.drawable.unactive_homepage),
-            contentDescription = "Homepage",
-            modifier = Modifier.size(24.dp)
-        )
-    }
+fun HomepageIcon(active: Boolean = false, navController: NavController) {
+    Image(
+        painter = painterResource(
+            id = if (active) R.drawable.vector_homepage else R.drawable.unactive_homepage
+        ),
+        contentDescription = "Homepage",
+        modifier = Modifier
+            .size(24.dp)
+            .clickable {
+                navController.navigate(Screen.Home.route)
+            }
+    )
+}
+@Composable
+fun HistoryIcon(active: Boolean = false, navController: NavController) {
+    Image(
+        painter = painterResource(
+            id = if (active) R.drawable.vector_history else R.drawable.unactive_history
+        ),
+        contentDescription = "History",
+        modifier = Modifier
+            .size(if (active) 48.dp else 24.dp)
+            .clickable {
+                navController.navigate(Screen.History.route)
+            }
+    )
 }
 
 @Composable
-fun HistoryIcon(active : Boolean = false) {
-    if (active) {
-        Image(
-            painter = painterResource(id = R.drawable.vector_history),
-            contentDescription = "History",
-            modifier = Modifier.size(48.dp)
-        )
-    } else{
-        Image(
-            painter = painterResource(id = R.drawable.unactive_history),
-            contentDescription = "History",
-            modifier = Modifier.size(24.dp)
-        )
-    }
+fun ReportIcon(active: Boolean = false, navController: NavController) {
+    Image(
+        painter = painterResource(
+            id = if (active) R.drawable.vector_report else R.drawable.unactive_report
+        ),
+        contentDescription = "Report",
+        modifier = Modifier
+            .size(if (active) 48.dp else 24.dp)
+            .clickable {
+                // Navigasi ke halaman Report
+                navController.navigate(Screen.Report.route)
+            }
+    )
 }
 
 @Composable
-fun ReportIcon(active : Boolean = false) {
-    if (active) {
-        Image(
-            painter = painterResource(id = R.drawable.vector_report),
-            contentDescription = "Report",
-            modifier = Modifier.size(48.dp)
-        )
-    } else{
-        Image(
-            painter = painterResource(id = R.drawable.unactive_report),
-            contentDescription = "Report",
-            modifier = Modifier.size(24.dp)
-        )
-    }
-}
-
-@Composable
-fun ProfileIcon(active : Boolean = false) {
-    if (active) {
-        Image(
-            painter = painterResource(id = R.drawable.vector_profile),
-            contentDescription = "Profile",
-            modifier = Modifier.size(48.dp)
-        )
-    } else{
-        Image(
-            painter = painterResource(id = R.drawable.unactive_profile),
-            contentDescription = "Profile",
-            modifier = Modifier.size(24.dp)
-        )
-    }
+fun ProfileIcon(active: Boolean = false, navController: NavController) {
+    Image(
+        painter = painterResource(
+            id = if (active) R.drawable.vector_profile else R.drawable.unactive_profile
+        ),
+        contentDescription = "Profile",
+        modifier = Modifier
+            .size(if (active) 48.dp else 24.dp)
+            .clickable {
+                // Navigasi ke halaman Profile
+                navController.navigate(Screen.Profile.route)
+            }
+    )
 }
 
 @Preview(showBackground = true)
@@ -96,12 +93,12 @@ fun PreviewPreviewPeteIcon() {
         Spacer(modifier = Modifier.height(16.dp))
         Pete2Icon()
         Spacer(modifier = Modifier.height(16.dp))
-        HomepageIcon(active = false)
+        HomepageIcon(active = false, navController = rememberNavController())
         Spacer(modifier = Modifier.height(16.dp))
-        HistoryIcon(active = true)
+        HistoryIcon(active = true, navController = rememberNavController())
         Spacer(modifier = Modifier.height(16.dp))
-        ReportIcon(active = true)
+        ReportIcon(active = true, navController = rememberNavController())
         Spacer(modifier = Modifier.height(16.dp))
-        ProfileIcon(active = true)
+        ProfileIcon(active = true, navController = rememberNavController())
     }
 }

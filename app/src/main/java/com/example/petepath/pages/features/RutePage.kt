@@ -20,13 +20,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.petepath.ui.theme.HistoryIcon
 import com.example.petepath.ui.theme.HomepageIcon
 import com.example.petepath.ui.theme.ProfileIcon
 import com.example.petepath.ui.theme.ReportIcon
 
 @Composable
-fun RutePage() {
+fun RutePage(navController: NavController) {
     Log.d("NavController", "Rute Page displayed")
     Box(
         modifier = Modifier
@@ -58,13 +60,13 @@ fun RutePage() {
             modifier = Modifier.align(Alignment.BottomCenter),
             contentColor = Color(0xFF007BFF),
         ) {
-            HomepageIcon(active = true)
+            HomepageIcon(active = true, navController = navController)
             Spacer(modifier = Modifier.weight(1f))
-            HistoryIcon()
+            HistoryIcon(navController = navController)
             Spacer(modifier = Modifier.weight(1f))
-            ReportIcon()
+            ReportIcon(navController = navController)
             Spacer(modifier = Modifier.weight(1f))
-            ProfileIcon()
+            ProfileIcon(navController = navController)
         }
     }
 }
@@ -142,5 +144,5 @@ fun RouteList() {
 @Preview(showBackground = true)
 @Composable
 fun PreviewRoutePageScreen() {
-    RutePage()
+    RutePage(navController = rememberNavController())
 }
