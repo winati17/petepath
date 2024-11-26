@@ -1,7 +1,6 @@
 package com.example.petepath.pages.features
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -54,13 +53,9 @@ fun Profile(){
             modifier = Modifier
                 .width(300.dp)
                 .height(200.dp)
+                .clip(RoundedCornerShape(8.dp))
                 .background(Color(0xFFF0EFEF))
                 .padding(16.dp)
-                .border(
-                    3.dp,
-                    color = Color(0xFFF0EFEF),
-                    shape = RoundedCornerShape(16.dp)
-                )
                 .fillMaxSize()
         ){
             Column(
