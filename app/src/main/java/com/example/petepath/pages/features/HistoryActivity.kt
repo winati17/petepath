@@ -185,7 +185,10 @@ fun HistoryActivity(){
 //    bottomappbar di sini...
 }
 
-@Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    showSystemUi = true
+)
 @Composable
 fun HistoryActivityPreview(){
     HistoryActivity()
