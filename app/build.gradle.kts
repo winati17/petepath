@@ -85,4 +85,16 @@ dependencies {
     implementation (libs.androidx.material.icons.core)
     implementation (libs.androidx.material.icons.extended)
 
+    implementation(libs.androidx.navigation.compose.v284)
+
+    // Views/Fragments integration
+    implementation(libs.androidx.navigation.fragment)
+    implementation(libs.androidx.navigation.ui)
+
+    // Feature module support for Fragments
+    implementation(libs.androidx.navigation.dynamic.features.fragment)
+
+    // Testing Navigation
+    androidTestImplementation(libs.androidx.navigation.testing)
+
 }

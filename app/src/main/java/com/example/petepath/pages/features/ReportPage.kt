@@ -17,11 +17,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.ArrowDropDown
 
-
 @Composable
-fun ReportPage() {
+fun ReportPage(onBackClick: () -> Unit) {
     var route by remember { mutableStateOf("") }
     var violationCategory by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
@@ -35,17 +35,34 @@ fun ReportPage() {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {
-        Text(
-            text = "Laporan",
-            style = TextStyle(
-                fontSize = 30.sp,
-                fontWeight = FontWeight.Bold,
-                color = outlineColor // Blue color for title
-            ),
+        Row(
             modifier = Modifier
-                .padding(bottom = 5.dp, top = 30.dp)
-                .align(Alignment.Start),
-        )
+                .fillMaxWidth()
+                .padding(bottom = 15.dp, top = 30.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            IconButton(
+                onClick = onBackClick
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.ArrowBackIosNew,
+                    contentDescription = "Back",
+                    tint = MaterialTheme.colorScheme.onBackground,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(end = 12.dp)
+                )
+            }
+            Text(
+                text = "Laporan",
+                style = MaterialTheme.typography.headlineSmall.copy(
+                    color = outlineColor,
+                    fontWeight = FontWeight.Bold
+                ),
+                modifier = Modifier.padding(start = 2.dp)
+            )
+        }
+
         Spacer(modifier = Modifier.height(15.dp))
         DropdownMenuField(
             label = "Pilih Rute",
@@ -58,7 +75,6 @@ fun ReportPage() {
             selectedOption = route,
             onOptionSelected = { route = it }
         )
-
         Spacer(modifier = Modifier.height(16.dp))
 
         DropdownMenuField(
@@ -81,7 +97,8 @@ fun ReportPage() {
             label = { Text("Deskripsi Pelanggaran") },
             modifier = Modifier
                 .fillMaxWidth()
-                .height(240.dp),
+                .height(240.dp)
+                .padding(horizontal = 10.dp),
             singleLine = false,
             colors = OutlinedTextFieldDefaults.colors(
                 focusedContainerColor = Color.Transparent,  // Transparent background
@@ -104,7 +121,9 @@ fun ReportPage() {
             value = vehiclePlate,
             onValueChange = { vehiclePlate = it },
             label = { Text("Plat Kendaraan") },
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(10.dp),
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Text,
                 imeAction = ImeAction.Done
@@ -126,7 +145,8 @@ fun ReportPage() {
             colors = ButtonDefaults.buttonColors(containerColor = Color.Red),
             modifier = Modifier
                 .fillMaxWidth()
-                .height(50.dp),
+                .height(50.dp)
+                .padding(horizontal = 10.dp),
             shape = RoundedCornerShape(11.dp)
         ) {
             Text(
@@ -137,6 +157,7 @@ fun ReportPage() {
         }
     }
 }
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DropdownMenuField(
@@ -155,7 +176,7 @@ fun DropdownMenuField(
             label = { Text(label) },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 4.dp),
+                .padding(vertical = 4.dp, horizontal = 10.dp),
             trailingIcon = {
                 IconButton(onClick = { expanded = !expanded }) {
                     Icon(
@@ -181,10 +202,11 @@ fun DropdownMenuField(
             expanded = expanded,
             onDismissRequest = { expanded = false },
             modifier = Modifier
-                .fillMaxWidth(0.9f) // Membatasi lebar menjadi 90% dari layar
-                .background(Color.White, shape = RoundedCornerShape(8.dp)) // Bentuk dan warna background
+                .fillMaxWidth(0.9f)
+                .background(Color.White, shape = RoundedCornerShape(16.dp))
+                .padding(start = 8.dp, end = 8.dp, top = 8.dp) // Remove bottom padding
         ) {
-            options.forEach { option ->
+            options.forEachIndexed { index, option ->
                 DropdownMenuItem(
                     onClick = {
                         onOptionSelected(option)
@@ -192,18 +214,21 @@ fun DropdownMenuField(
                     },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 10.dp),
-                    text = { Text(option, style = TextStyle(color = Color.Black)) },
+                        .padding(horizontal = 12.dp),
+                    text = { Text(option, style = TextStyle(color = Color.Black, fontSize = 14.sp)) },
                 )
-                HorizontalDivider(color = Color.LightGray, thickness = 1.dp)
+                if (index != options.lastIndex) {
+                    HorizontalDivider(color = Color.Gray, thickness = 1.dp) // Divider for all items except the last one
+                }
             }
         }
+
     }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun PreviewReportPage() {
-    // Preview the ReportPage composable
-    ReportPage()
+    // Tambahkan lambda kosong untuk onBackClick
+    ReportPage(onBackClick = {})
 }
