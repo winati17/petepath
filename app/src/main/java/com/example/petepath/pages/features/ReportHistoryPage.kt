@@ -61,7 +61,7 @@ fun ReportHistoryPage(navController: NavController) {
             Text(
                 text = "Riwayat Laporan",
                 style = TextStyle(
-                    fontSize = 30.sp,
+                    fontSize = 24.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color(0xFF007BFF)
                 ),

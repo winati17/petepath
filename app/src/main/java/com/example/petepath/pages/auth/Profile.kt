@@ -82,7 +82,7 @@ fun Profile(navController: NavController, context: Context) {
             Text(
                 text = "Profil",
                 color = mainColor,
-                fontSize = 25.sp,
+                fontSize = 24.sp,
                 fontWeight = FontWeight.ExtraBold,
                 modifier = Modifier
                     .align(Alignment.Start)

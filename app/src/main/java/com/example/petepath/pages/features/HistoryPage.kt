@@ -81,7 +81,7 @@ fun HistoryPage(navController: NavController,
             Text(
                 text = "Riwayat Kegiatan",
                 color = mainColor,
-                fontSize = 25.sp,
+                fontSize = 24.sp,
                 fontWeight = FontWeight.ExtraBold,
                 modifier = Modifier.padding(16.dp)
             )
@@ -131,40 +131,36 @@ fun HistoryItem(
             .border(3.dp, color = mainColor, shape = RoundedCornerShape(16.dp))
             .width(300.dp)
             .height(120.dp)
-            .padding(horizontal = 16.dp)
+            .padding(24.dp)
     ) {
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.SpaceBetween
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Image(
-                    painter = painter,
-                    contentDescription = "Pete-Pete",
-                    modifier = Modifier
-                        .size(90.dp)
-                        .padding(start = 16.dp),
-                )
-                Column {
-                    Text(
-                        text = "Rute $routeNumber | $routeName",
-                        color = mainColor,
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold,
-                    )
-                }
-            }
-            Text(
-                text = date,
-                fontSize = 10.sp,
-                color = Color.Gray,
-                modifier = Modifier.align(Alignment.End).padding(end = 16.dp)
+            Image(
+                painter = painter,
+                contentDescription = "Pete-Pete",
+                modifier = Modifier.size(90.dp)
             )
+            Column (
+                verticalArrangement = Arrangement.Center
+            ){
+                Text(
+                    text = "Rute $routeNumber | $routeName",
+                    color = mainColor,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                )
+
+                Text(
+                    text = date,
+                    fontSize = 10.sp,
+                    color = Color.Black,
+                )
+            }
         }
+
     }
 }
 
