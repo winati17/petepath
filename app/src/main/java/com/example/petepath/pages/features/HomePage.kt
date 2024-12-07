@@ -1,6 +1,7 @@
 package com.example.petepath.pages.features
 
 import android.content.Context
+import android.content.res.Configuration
 import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.runtime.Composable
@@ -38,6 +39,7 @@ import com.example.petepath.UserViewModel
 import com.example.petepath.data.UserViewModelFactory
 import kotlinx.coroutines.launch
 import com.example.petepath.data.DataHistoryItem
+import com.example.petepath.ui.theme.PetePathTheme
 
 @Composable
 fun HomePage(
@@ -314,5 +316,9 @@ fun AllRoute(
 @Preview (showBackground = true)
 @Composable
 fun PreviewHomePage() {
-    HomePage(navController = rememberNavController())
+    PetePathTheme {
+        HomePage(navController = rememberNavController())
+    }
 }
+
+

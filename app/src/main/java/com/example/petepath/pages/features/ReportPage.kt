@@ -22,6 +22,7 @@ import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.petepath.Screen
+import com.example.petepath.ui.theme.PetePathTheme
 
 @Composable
 fun ReportPage(navController: NavController) {
@@ -234,5 +235,7 @@ fun DropdownMenuField(
 @Preview(showBackground = true)
 @Composable
 fun PreviewReportPage() {
-    ReportPage(navController = rememberNavController())
+    PetePathTheme {
+        ReportPage(navController = rememberNavController())
+    }
 }

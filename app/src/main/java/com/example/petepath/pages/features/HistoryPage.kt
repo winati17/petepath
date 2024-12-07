@@ -42,6 +42,7 @@ import com.example.petepath.UserViewModel
 import com.example.petepath.data.UserViewModelFactory
 import com.example.petepath.ui.theme.HistoryIcon
 import com.example.petepath.ui.theme.HomepageIcon
+import com.example.petepath.ui.theme.PetePathTheme
 import com.example.petepath.ui.theme.ProfileIcon
 import com.example.petepath.ui.theme.ReportIcon
 
@@ -171,5 +172,7 @@ fun HistoryItem(
 )
 @Composable
 fun HistoryActivityPreview(){
-    HistoryPage(navController = rememberNavController())
+    PetePathTheme {
+        HistoryPage(navController = rememberNavController())
+    }
 }

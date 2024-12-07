@@ -38,6 +38,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.petepath.Screen
 import com.example.petepath.UserViewModel
 import com.example.petepath.data.UserViewModelFactory
+import com.example.petepath.ui.theme.PetePathTheme
 import kotlinx.coroutines.launch
 
 @Composable
@@ -157,5 +158,7 @@ fun SignupPage(
 @Preview(showBackground = true)
 @Composable
 fun PreviewSignupPage() {
-    SignupPage(navController = rememberNavController(), context = LocalContext.current)
+    PetePathTheme {
+        SignupPage(navController = rememberNavController(), context = LocalContext.current)
+    }
 }

@@ -5,13 +5,16 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.navigation.compose.rememberNavController
+import com.example.petepath.ui.theme.PetePathTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val navController = rememberNavController()
-            SetupNavGraph(navController = navController, context = this)
+            PetePathTheme {
+                val navController = rememberNavController()
+                SetupNavGraph(navController = navController, context = this)
+            }
         }
     }
 }
