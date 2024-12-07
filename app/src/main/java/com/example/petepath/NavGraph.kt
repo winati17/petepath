@@ -1,8 +1,8 @@
 package com.example.petepath
 
-import android.util.Log
+//import android.util.Log
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavController
+//import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -28,6 +28,7 @@ fun SetupNavGraph(navController: NavHostController){
             HistoryPage(navController = navController)
         }
         composable(route = Screen.Report.route){
+
             ReportHistoryPage(navController = navController)
         }
         composable(route = Screen.Profile.route){
