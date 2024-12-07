@@ -144,6 +144,7 @@ fun Profile(navController: NavController, context: Context) {
                                 navController.navigate(Screen.Login.route) {
                                     popUpTo(Screen.Profile.route) { inclusive = true }
                                 }
+                                viewModel.clearHistory()
                             }
                         },
                         modifier = Modifier.width(230.dp),
