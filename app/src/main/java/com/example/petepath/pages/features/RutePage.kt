@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.petepath.RuteViewModel
+import com.example.petepath.data.RuteViewModel
 import com.example.petepath.ui.theme.HistoryIcon
 import com.example.petepath.ui.theme.HomepageIcon
 import com.example.petepath.ui.theme.ProfileIcon

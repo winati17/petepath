@@ -1,5 +1,6 @@
 package com.example.petepath.pages.auth
 
+import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -16,10 +17,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -28,22 +31,29 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.petepath.Screen
+import com.example.petepath.UserViewModel
+import com.example.petepath.data.UserViewModelFactory
+import kotlinx.coroutines.launch
 
 @Composable
-fun SignupPage(modifier: Modifier = Modifier, navController: NavController) {
-    var nama by remember {
-        mutableStateOf("")
-    }
-    var email by remember {
-        mutableStateOf("")
-    }
-    var password by remember {
-        mutableStateOf("")
-    }
+fun SignupPage(
+    modifier: Modifier = Modifier,
+    navController: NavController,
+    context: Context = LocalContext.current
+) {
+    var nama by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+
     val outlineColor = Color(0xFF007BFF)
+    val viewModel: UserViewModel = viewModel(
+        factory = UserViewModelFactory(context)
+    )
+    val coroutineScope = rememberCoroutineScope()
 
     Column(
         modifier = modifier.fillMaxSize(),
@@ -52,14 +62,10 @@ fun SignupPage(modifier: Modifier = Modifier, navController: NavController) {
     ) {
         Text(
             buildAnnotatedString {
-                withStyle(style = SpanStyle(
-                    color = Color.Black,
-                    fontWeight = FontWeight.SemiBold)) {
+                withStyle(style = SpanStyle(color = Color.Black, fontWeight = FontWeight.SemiBold)) {
                     append("Mari Bergabung \nBersama ")
                 }
-                withStyle(style = SpanStyle(
-                    color = Color(0xFF007BFF),
-                    fontWeight = FontWeight.SemiBold)) {
+                withStyle(style = SpanStyle(color = outlineColor, fontWeight = FontWeight.SemiBold)) {
                     append("PetePath")
                 }
             },
@@ -72,9 +78,7 @@ fun SignupPage(modifier: Modifier = Modifier, navController: NavController) {
         OutlinedTextField(
             value = nama,
             onValueChange = { nama = it },
-            label = {
-                Text(text = "Nama")
-            },
+            label = { Text(text = "Nama") },
             colors = OutlinedTextFieldDefaults.colors(
                 focusedContainerColor = Color.Transparent,  // Transparent background
                 unfocusedContainerColor = Color.Transparent,
@@ -88,9 +92,7 @@ fun SignupPage(modifier: Modifier = Modifier, navController: NavController) {
         OutlinedTextField(
             value = email,
             onValueChange = { email = it },
-            label = {
-                Text(text = "Email")
-            },
+            label = { Text(text = "Email") },
             colors = OutlinedTextFieldDefaults.colors(
                 focusedContainerColor = Color.Transparent,  // Transparent background
                 unfocusedContainerColor = Color.Transparent,
@@ -119,7 +121,20 @@ fun SignupPage(modifier: Modifier = Modifier, navController: NavController) {
 
         Button(
             onClick = {
-                navController.navigate(Screen.Login.route)
+                // Validasi input sebelum menyimpan
+                if (nama.isNotBlank() && email.isNotBlank() && password.isNotBlank()) {
+                    coroutineScope.launch {
+                        viewModel.saveUserData(nama, email, password)
+                        // Setelah menyimpan, navigasi ke Login
+                        navController.navigate(Screen.Login.route) {
+                            // Menghapus history agar user tidak kembali ke halaman signup
+                            popUpTo(Screen.Home.route) { inclusive = false }
+                        }
+                    }
+                } else {
+                    // Tampilkan pesan error jika input tidak lengkap
+                    // Bisa menggunakan Snackbar atau Toast
+                }
             },
             modifier = Modifier
                 .width(275.dp)

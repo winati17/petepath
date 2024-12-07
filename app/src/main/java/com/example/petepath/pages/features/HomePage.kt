@@ -1,5 +1,6 @@
 package com.example.petepath.pages.features
 
+import android.content.Context
 import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.runtime.Composable
@@ -27,13 +28,31 @@ import androidx.compose.foundation.lazy.grid.*
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.petepath.Screen
+import com.example.petepath.UserViewModel
+import com.example.petepath.data.UserViewModelFactory
 
 @Composable
-fun HomePage(userName: String, navController: NavController) {
+fun HomePage(
+    userName: String,
+    navController: NavController,
+    context: Context = LocalContext.current
+)  {
+    val viewModel: UserViewModel = viewModel(
+        factory = UserViewModelFactory(context)
+    )
+    val userPreferences by viewModel.userPreferences.collectAsState()
+
+    val displayName = userPreferences.username ?: userName
+
     Scaffold(
         bottomBar = {
             Row(
@@ -59,7 +78,7 @@ fun HomePage(userName: String, navController: NavController) {
                 // Header
                 item {
                     Text(
-                        text = "Halo, $userName! \uD83D\uDC4B",
+                        text = "Halo, $displayName! \uD83D\uDC4B",
                         fontSize = 24.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color(0xFF007BFF)
@@ -247,5 +266,5 @@ fun AllRoute(
 @Preview (showBackground = true)
 @Composable
 fun PreviewHomePage() {
-    HomePage(userName = "Wina", navController = rememberNavController())
+    HomePage(userName="eka", navController = rememberNavController())
 }

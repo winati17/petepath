@@ -1,5 +1,6 @@
 package com.example.petepath
 
+import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -7,6 +8,8 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.example.petepath.data.RuteViewModel
+import com.example.petepath.data.RuteViewModelFactory
 import com.example.petepath.pages.auth.LoginPage
 import com.example.petepath.pages.auth.SignupPage
 import com.example.petepath.pages.features.HomePage
@@ -17,13 +20,13 @@ import com.example.petepath.pages.features.RutePage
 import com.example.petepath.pages.features.ReportPage
 
 @Composable
-fun SetupNavGraph(navController: NavHostController){
+fun SetupNavGraph(navController: NavHostController, context: Context){
     NavHost(
         navController= navController,
         startDestination= Screen.Home.route
     ){
         composable(route = Screen.Home.route){
-            HomePage(userName = "Eka", navController = navController)
+            HomePage(userName = "eka", navController = navController, context= context)
         }
         composable(
             route = Screen.Rute.route,

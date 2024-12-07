@@ -1,6 +1,8 @@
 
 package com.example.petepath.pages.auth
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -25,30 +27,39 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.petepath.Screen
+import com.example.petepath.UserViewModel
+import com.example.petepath.data.UserViewModelFactory
+import kotlinx.coroutines.launch
 
 @Composable
-fun LoginPage(navController: NavController){
-    val mainColor = Color(0xFF007BFF)
+fun LoginPage(
+    navController: NavController,
+    context: Context = LocalContext.current
+) {
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+    val viewModel: UserViewModel = viewModel(
+        factory = UserViewModelFactory(context)
+    )
+    val coroutineScope = rememberCoroutineScope()
 
-    var email by remember {
-        mutableStateOf("")
-    }
-    var password by remember {
-        mutableStateOf("")
-    }
+    val mainColor = Color(0xFF007BFF)
 
     Column(
         Modifier.fillMaxSize(),
@@ -84,7 +95,23 @@ fun LoginPage(navController: NavController){
         Spacer(modifier = Modifier.height(40.dp))
 
         Button(
-            onClick = {navController.navigate(Screen.Home.route)},
+            onClick = {
+                // Implementasikan logika login
+                coroutineScope.launch {
+                    // Contoh: verifikasi email dan password dengan data di DataStore
+                    viewModel.userPreferences.collect { userPreferences ->
+                        if (email == userPreferences.email && password == userPreferences.password) {
+                            // Navigasi ke Home jika login berhasil
+                            navController.navigate(Screen.Home.route) {
+                                popUpTo(Screen.Login.route) { inclusive = true }
+                            }
+                            Toast.makeText(context, "Login berhasil", Toast.LENGTH_SHORT).show()
+                        } else {
+                            Toast.makeText(context, "Email atau password salah", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+            },
             colors = ButtonDefaults.buttonColors(
                 containerColor = mainColor,
                 contentColor = Color.White

@@ -1,4 +1,4 @@
-package com.example.petepath
+package com.example.petepath.data
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
