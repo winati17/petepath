@@ -45,6 +45,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.petepath.Screen
 import com.example.petepath.UserViewModel
 import com.example.petepath.data.UserViewModelFactory
+import com.example.petepath.ui.theme.PetePathTheme
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
@@ -53,8 +54,8 @@ fun LoginPage(
     navController: NavController,
     context: Context
 ) {
-    var nama by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
+    var nama by remember { mutableStateOf("user") }
+    var password by remember { mutableStateOf("user123") }
     val viewModel: UserViewModel = viewModel(
         factory = UserViewModelFactory(context)
     )
@@ -67,7 +68,9 @@ fun LoginPage(
         Arrangement.Center,
         Alignment.CenterHorizontally
     ) {
-        Text(text = "Selamat Datang \ndi Petepath! 👋", fontWeight = FontWeight.Bold, fontSize = 30.sp)
+        Text(text = "Selamat Datang \ndi Petepath! 👋",
+            fontWeight = FontWeight.Bold,
+            fontSize = 30.sp)
 
         Spacer(modifier = Modifier.height(20.dp))
 
@@ -162,6 +165,8 @@ fun PasswordTextField(
 @Preview(showBackground = true)
 @Composable
 fun LoginPagePreview(){
-    LoginPage(context = LocalContext.current, navController = rememberNavController())
+    PetePathTheme {
+        LoginPage(context = LocalContext.current, navController = rememberNavController())
+    }
 }
 
