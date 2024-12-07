@@ -1,7 +1,8 @@
-package com.example.petepath.pages.features
+package com.example.petepath.pages.auth
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,25 +21,40 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.petepath.Screen
+import com.example.petepath.UserViewModel
+import com.example.petepath.data.UserViewModelFactory
 import com.example.petepath.ui.theme.HomepageIcon
 import com.example.petepath.ui.theme.HistoryIcon
 import com.example.petepath.ui.theme.ProfileIcon
 import com.example.petepath.ui.theme.ReportIcon
+import kotlinx.coroutines.launch
 
 @Composable
-fun Profile(navController: NavController) {
+fun Profile(navController: NavController, context: Context) {
     val mainColor = Color(0xFF007BFF)
+    val viewModel: UserViewModel = viewModel(
+        factory = UserViewModelFactory(context)
+    )
+    val userPreferences by viewModel.userPreferences.collectAsState()
+    val coroutineScope = rememberCoroutineScope()
+    val displayName = userPreferences.username ?: "Unknown"
+    val email = userPreferences.email ?: "Unknown"
 
     Scaffold(
         bottomBar = {
@@ -68,7 +84,9 @@ fun Profile(navController: NavController) {
                 color = mainColor,
                 fontSize = 25.sp,
                 fontWeight = FontWeight.ExtraBold,
-                modifier = Modifier.align(Alignment.Start).padding(start = 45.dp)
+                modifier = Modifier
+                    .align(Alignment.Start)
+                    .padding(start = 45.dp)
             )
 
             Spacer(modifier = Modifier.height(45.dp))
@@ -105,19 +123,30 @@ fun Profile(navController: NavController) {
                             modifier = Modifier.padding(start = 24.dp, end = 16.dp)
                         ) {
                             Text(
-                                text = "Eka Putri",
+                                text = displayName,
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 20.sp
                             )
                             Text(
-                                text = "eka@gmail.com",
+                                text = email,
+                                color = Color.Gray,
+                                fontSize = 16.sp
                             )
                         }
                     }
 
                     Button(
                         onClick = {
-                                navController.navigate(Screen.Login.route)
+                            coroutineScope.launch {
+                                // Hapus data pengguna dari DataStore
+                                viewModel.logout()
+                                // Tampilkan Toast berhasil logout
+                                Toast.makeText(context, "Logout berhasil", Toast.LENGTH_SHORT).show()
+                                // Navigasi ke halaman Login
+                                navController.navigate(Screen.Login.route) {
+                                    popUpTo(Screen.Profile.route) { inclusive = true }
+                                }
+                            }
                         },
                         modifier = Modifier.width(230.dp),
                         shape = RoundedCornerShape(8.dp),
@@ -143,5 +172,5 @@ fun Profile(navController: NavController) {
 )
 @Composable
 fun ProfilePreview(){
-    Profile(navController = rememberNavController())
+    Profile(navController = rememberNavController(), context = LocalContext.current)
 }

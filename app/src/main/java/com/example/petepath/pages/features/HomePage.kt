@@ -42,7 +42,6 @@ import com.example.petepath.data.UserViewModelFactory
 
 @Composable
 fun HomePage(
-    userName: String,
     navController: NavController,
     context: Context = LocalContext.current
 )  {
@@ -51,7 +50,7 @@ fun HomePage(
     )
     val userPreferences by viewModel.userPreferences.collectAsState()
 
-    val displayName = userPreferences.username ?: userName
+    val displayName = userPreferences.username ?: "User"
 
     Scaffold(
         bottomBar = {
@@ -266,5 +265,5 @@ fun AllRoute(
 @Preview (showBackground = true)
 @Composable
 fun PreviewHomePage() {
-    HomePage(userName="eka", navController = rememberNavController())
+    HomePage(navController = rememberNavController())
 }

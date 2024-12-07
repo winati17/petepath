@@ -1,6 +1,7 @@
 package com.example.petepath.pages.auth
 
 import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -43,7 +44,7 @@ import kotlinx.coroutines.launch
 fun SignupPage(
     modifier: Modifier = Modifier,
     navController: NavController,
-    context: Context = LocalContext.current
+    context: Context
 ) {
     var nama by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
@@ -126,6 +127,7 @@ fun SignupPage(
                     coroutineScope.launch {
                         viewModel.saveUserData(nama, email, password)
                         // Setelah menyimpan, navigasi ke Login
+                        Toast.makeText(context, "Data berhasil ditambah", Toast.LENGTH_SHORT).show()
                         navController.navigate(Screen.Login.route) {
                             // Menghapus history agar user tidak kembali ke halaman signup
                             popUpTo(Screen.Home.route) { inclusive = false }
@@ -133,7 +135,7 @@ fun SignupPage(
                     }
                 } else {
                     // Tampilkan pesan error jika input tidak lengkap
-                    // Bisa menggunakan Snackbar atau Toast
+                    Toast.makeText(context, "Silakan lengkapi semua field", Toast.LENGTH_SHORT).show()
                 }
             },
             modifier = Modifier
@@ -155,5 +157,5 @@ fun SignupPage(
 @Preview(showBackground = true)
 @Composable
 fun PreviewSignupPage() {
-    SignupPage(navController = rememberNavController())
+    SignupPage(navController = rememberNavController(), context = LocalContext.current)
 }

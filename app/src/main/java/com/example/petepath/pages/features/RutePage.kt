@@ -59,21 +59,17 @@ fun RutePage(navController: NavController, viewModel: RuteViewModel) {
 
     Scaffold(
         bottomBar = {
-            BottomAppBar(
-                contentColor = Color(0xFF007BFF)
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(24.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 8.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    HomepageIcon(active = false, navController = navController)
-                    HistoryIcon(navController = navController)
-                    ReportIcon(navController = navController)
-                    ProfileIcon(navController = navController)
-                }
+                HomepageIcon(active = true, navController = navController)
+                HistoryIcon(navController = navController)
+                ReportIcon(navController = navController)
+                ProfileIcon(navController = navController)
             }
         }
     ) { paddingValues ->

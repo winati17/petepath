@@ -12,12 +12,20 @@ data class UserPreferences(
 )
 
 class UserPreferencesRepository(private val context: Context) {
+
     // Fungsi untuk menyimpan data user
     suspend fun saveUserData(username: String, email: String, password: String) {
         context.dataStore.edit { preferences ->
             preferences[USERNAME_KEY] = username
             preferences[EMAIL_KEY] = email
             preferences[PASSWORD_KEY] = password
+        }
+    }
+
+    // Fungsi untuk menghapus data user
+    suspend fun clearUserData() {
+        context.dataStore.edit { preferences ->
+            preferences.clear()
         }
     }
 

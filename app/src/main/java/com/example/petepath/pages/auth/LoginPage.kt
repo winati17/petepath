@@ -45,12 +45,13 @@ import androidx.navigation.compose.rememberNavController
 import com.example.petepath.Screen
 import com.example.petepath.UserViewModel
 import com.example.petepath.data.UserViewModelFactory
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 @Composable
 fun LoginPage(
     navController: NavController,
-    context: Context = LocalContext.current
+    context: Context
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -58,7 +59,7 @@ fun LoginPage(
         factory = UserViewModelFactory(context)
     )
     val coroutineScope = rememberCoroutineScope()
-
+    val contextLocal = LocalContext.current
     val mainColor = Color(0xFF007BFF)
 
     Column(
@@ -66,7 +67,7 @@ fun LoginPage(
         Arrangement.Center,
         Alignment.CenterHorizontally
     ) {
-        Text(text = "Halo, Selamat Datang! 👋", fontWeight = FontWeight.Bold, fontSize = 30.sp)
+        Text(text = "Selamat Datang \ndi Petepath! 👋", fontWeight = FontWeight.Bold, fontSize = 30.sp)
 
         Spacer(modifier = Modifier.height(20.dp))
 
@@ -96,19 +97,15 @@ fun LoginPage(
 
         Button(
             onClick = {
-                // Implementasikan logika login
                 coroutineScope.launch {
-                    // Contoh: verifikasi email dan password dengan data di DataStore
-                    viewModel.userPreferences.collect { userPreferences ->
-                        if (email == userPreferences.email && password == userPreferences.password) {
-                            // Navigasi ke Home jika login berhasil
-                            navController.navigate(Screen.Home.route) {
-                                popUpTo(Screen.Login.route) { inclusive = true }
-                            }
-                            Toast.makeText(context, "Login berhasil", Toast.LENGTH_SHORT).show()
-                        } else {
-                            Toast.makeText(context, "Email atau password salah", Toast.LENGTH_SHORT).show()
+                    val isSuccess = viewModel.login(email, password)
+                    if (isSuccess) {
+                        Toast.makeText(contextLocal, "Login berhasil", Toast.LENGTH_SHORT).show()
+                        navController.navigate(Screen.Home.route) {
+                            popUpTo(Screen.Login.route) { inclusive = true }
                         }
+                    } else {
+                        Toast.makeText(contextLocal, "Email atau password salah", Toast.LENGTH_SHORT).show()
                     }
                 }
             },
@@ -165,6 +162,6 @@ fun PasswordTextField(
 @Preview(showBackground = true)
 @Composable
 fun LoginPagePreview(){
-    LoginPage(navController = rememberNavController())
+    LoginPage(context = LocalContext.current, navController = rememberNavController())
 }
 

@@ -14,7 +14,7 @@ import com.example.petepath.pages.auth.LoginPage
 import com.example.petepath.pages.auth.SignupPage
 import com.example.petepath.pages.features.HomePage
 import com.example.petepath.pages.features.HistoryPage
-import com.example.petepath.pages.features.Profile
+import com.example.petepath.pages.auth.Profile
 import com.example.petepath.pages.features.ReportHistoryPage
 import com.example.petepath.pages.features.RutePage
 import com.example.petepath.pages.features.ReportPage
@@ -23,10 +23,10 @@ import com.example.petepath.pages.features.ReportPage
 fun SetupNavGraph(navController: NavHostController, context: Context){
     NavHost(
         navController= navController,
-        startDestination= Screen.Home.route
+        startDestination= Screen.Login.route
     ){
         composable(route = Screen.Home.route){
-            HomePage(userName = "eka", navController = navController, context= context)
+            HomePage(navController = navController, context= context)
         }
         composable(
             route = Screen.Rute.route,
@@ -48,13 +48,13 @@ fun SetupNavGraph(navController: NavHostController, context: Context){
             ReportPage(navController = navController)
         }
         composable(route = Screen.Profile.route){
-            Profile(navController = navController)
+            Profile(navController = navController, context = context)
         }
-        composable(route = Screen.Login.route){
-            LoginPage(navController = navController)
+        composable(route = Screen.Login.route) {
+            LoginPage(navController = navController, context = context)
         }
-        composable(route = Screen.Signup.route){
-            SignupPage(navController = navController)
+        composable(route = Screen.Signup.route) {
+            SignupPage(navController = navController, context = context)
         }
     }
 }
