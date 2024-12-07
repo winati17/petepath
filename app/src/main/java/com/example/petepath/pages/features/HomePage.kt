@@ -54,7 +54,7 @@ fun HomePage(userName: String, navController: NavController) {
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(20.dp)
-                    .padding(innerPadding) // Menghindari konten tertutup oleh BottomAppBar
+                    .padding(innerPadding) // Avoid content being overlapped by BottomAppBar
             ) {
                 // Header
                 item {
@@ -84,13 +84,17 @@ fun HomePage(userName: String, navController: NavController) {
                     ) {
                         items(
                             listOf(
-                                "Route 01 | Sudiang",
-                                "Route 02 | Unhas",
-                                "Route 03 | BTP",
-                                "Route 04 | Pettarani"
+                                Pair("01", "Sudiang"),
+                                Pair("02", "Unhas"),
+                                Pair("03", "BTP"),
+                                Pair("04", "Pettarani")
                             )
-                        ) { routeName ->
-                            RecentRoute(routeName = routeName, navController = navController)
+                        ) { route ->
+                            RecentRoute(
+                                ruteNumber = route.first,
+                                ruteName = route.second,
+                                navController = navController
+                            )
                         }
                     }
                 }
@@ -122,7 +126,7 @@ fun HomePage(userName: String, navController: NavController) {
                                 modifier = Modifier.weight(1f)
                             )
                         }
-                        // Jika jumlah route tidak genap, tambahkan Spacer
+                        // If the number of routes is odd, add a Spacer
                         if (rowRoutes.size < 2) {
                             Spacer(modifier = Modifier.weight(1f))
                         }
@@ -146,7 +150,7 @@ private fun chunkedAllRoutes(): List<List<Triple<String, String, String>>> {
 }
 
 @Composable
-fun RecentRoute(routeName: String, navController: NavController) {
+fun RecentRoute(ruteNumber: String, ruteName: String, navController: NavController) {
     Card(
         modifier = Modifier
             .width(184.dp)
@@ -161,7 +165,7 @@ fun RecentRoute(routeName: String, navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = routeName,
+                text = "Rute $ruteNumber | $ruteName",
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Normal,
                 color = Color.Black,
@@ -174,13 +178,14 @@ fun RecentRoute(routeName: String, navController: NavController) {
 
             PrimaryButton(
                 onClick = {
-                    navController.navigate(Screen.Rute.route)
+                    navController.navigate(Screen.Rute.createRoute(ruteNumber))
                 },
                 text = "Lihat Rute"
             )
         }
     }
 }
+
 
 @Composable
 fun AllRoute(
@@ -192,9 +197,9 @@ fun AllRoute(
 ) {
     Card(
         modifier = modifier
-            .height(200.dp) // Sesuaikan tinggi sesuai kebutuhan
+            .height(200.dp)
             .clickable {
-                navController.navigate(Screen.Rute.route)
+                navController.navigate(Screen.Rute.createRoute(routeNumber))
             },
         shape = RoundedCornerShape(8.dp),
         border = BorderStroke(1.dp, Color(0xFF007BFF)),
@@ -242,5 +247,5 @@ fun AllRoute(
 @Preview (showBackground = true)
 @Composable
 fun PreviewHomePage() {
-    HomePage(userName = "Cantik", navController = rememberNavController())
+    HomePage(userName = "Wina", navController = rememberNavController())
 }
