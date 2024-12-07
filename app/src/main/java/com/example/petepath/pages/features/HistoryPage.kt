@@ -29,11 +29,8 @@ import androidx.compose.ui.unit.sp
 import com.example.petepath.R
 
 @Composable
-fun HistoryActivity(){
+fun HistoryPage(){
     val mainColor = Color(0xFF007BFF)
-//    val customFontFamily = FontFamily(
-//        Font(R.font.inter)
-//    )
     val petepete: Painter = painterResource(id = R.drawable.vector_pete2)
 
     //Header Text
@@ -191,5 +188,5 @@ fun HistoryActivity(){
 )
 @Composable
 fun HistoryActivityPreview(){
-    HistoryActivity()
+    HistoryPage()
 }

@@ -7,7 +7,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.petepath.pages.features.HomePage
-import com.example.petepath.pages.features.ReportPage
+import com.example.petepath.pages.features.HistoryPage
+import com.example.petepath.pages.features.Profile
 import com.example.petepath.pages.features.ReportHistoryPage
 import com.example.petepath.pages.features.RutePage
 
@@ -23,15 +24,15 @@ fun SetupNavGraph(navController: NavHostController){
         composable(route = Screen.Rute.route){
             RutePage(navController = navController)
         }
-//        composable(route = Screen.History.route){
-//            HistoryPage()
-//        }
+        composable(route = Screen.History.route){
+            HistoryPage()
+        }
         composable(route = Screen.Report.route){
             ReportHistoryPage()
         }
-//        composable(route = Screen.Profile.route){
-//            Profile()
-//        }
+        composable(route = Screen.Profile.route){
+            Profile()
+        }
     }
 }
 

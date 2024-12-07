@@ -37,7 +37,6 @@ fun HomePage(userName : String, navController: NavController) {
             .fillMaxSize()
             .padding(20.dp),
     ) {
-        // Welcome Message
         Text(
             text = "Halo, $userName! \uD83D\uDC4B",
             fontSize = 24.sp,
@@ -47,7 +46,6 @@ fun HomePage(userName : String, navController: NavController) {
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        // Section Header
         Text(
             text = "Terakhir Dikunjungi",
             fontSize = 16.sp,
@@ -55,14 +53,12 @@ fun HomePage(userName : String, navController: NavController) {
             color = Color.Black
         )
 
-        // Recently Visited Routes
         LazyRow(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 4.dp, bottom = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(0.dp)
         ) {
-            // Add your items
             items(listOf(
                 "Route 01 | Sudiang",
                 "Route 02 | Unhas",
@@ -75,7 +71,6 @@ fun HomePage(userName : String, navController: NavController) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Second Section Header
         Text(
             text = "Pilih Rute Pete-Pete",
             fontSize = 16.sp,
@@ -83,7 +78,6 @@ fun HomePage(userName : String, navController: NavController) {
             color = Color.Black
         )
 
-        // Available Routes
         LazyVerticalGrid(
             columns = GridCells.Fixed(2), // Create a 2-column grid
             modifier = Modifier
@@ -92,7 +86,6 @@ fun HomePage(userName : String, navController: NavController) {
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            // Add your routes as grid items
             items(
                 listOf(
                     Triple("01", "Sudiang", "Rp2.500"),
