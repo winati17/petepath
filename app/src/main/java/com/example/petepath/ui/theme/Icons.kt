@@ -47,7 +47,7 @@ fun HistoryIcon(active: Boolean = false, navController: NavController) {
         ),
         contentDescription = "History",
         modifier = Modifier
-            .size(if (active) 48.dp else 24.dp)
+            .size(24.dp)
             .clickable {
                 navController.navigate(Screen.History.route)
             }
@@ -62,7 +62,7 @@ fun ReportIcon(active: Boolean = false, navController: NavController) {
         ),
         contentDescription = "Report",
         modifier = Modifier
-            .size(if (active) 48.dp else 24.dp)
+            .size(24.dp)
             .clickable {
                 // Navigasi ke halaman Report
                 navController.navigate(Screen.Report.route)
@@ -78,7 +78,7 @@ fun ProfileIcon(active: Boolean = false, navController: NavController) {
         ),
         contentDescription = "Profile",
         modifier = Modifier
-            .size(if (active) 48.dp else 24.dp)
+            .size(24.dp)
             .clickable {
                 // Navigasi ke halaman Profile
                 navController.navigate(Screen.Profile.route)

@@ -17,10 +17,12 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.Start
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -28,100 +30,110 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.petepath.ui.theme.HomepageIcon
+import com.example.petepath.ui.theme.HistoryIcon
+import com.example.petepath.ui.theme.ProfileIcon
+import com.example.petepath.ui.theme.ReportIcon
 
 @Composable
-fun Profile(){
+fun Profile(navController: NavController) {
     val mainColor = Color(0xFF007BFF)
 
-    Column(
-        modifier = Modifier
-            .fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        Spacer(modifier = Modifier.height(45.dp))
-
-        Text(
-            text = "Profil",
-            color = mainColor,
-            fontSize = 25.sp,
-            fontWeight = FontWeight.ExtraBold,
-            modifier = Modifier.align(Start).padding(start = 45.dp)
-        )
-        Spacer(modifier = Modifier.height(45.dp))
-
-        Box(
-            modifier = Modifier
-                .width(300.dp)
-                .height(200.dp)
-                .clip(RoundedCornerShape(8.dp))
-                .background(Color(0xFFF0EFEF))
-                .padding(16.dp)
-                .fillMaxSize()
-        ){
-            Column(
-//                di sini isi dari box (profile & text, tombol logout)...
+    Scaffold(
+        bottomBar = {
+            Row(
                 modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.SpaceBetween
-            ){
-                Row(
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically
-                ){
-//                    di sini profile & text...
-                    Box(
-                        modifier = Modifier
-                            .clip(CircleShape)
-                            .size(80.dp)
-                            .background(Color(0xFFD8D8D8))
-                    ){}
-//                di sini isi dari box (profile & text, tombol logout)...
-
-                    Column(
-                        modifier = Modifier
-                            .padding(start = 24.dp, end = 16.dp)
-                    ){
-//                        di sini text....
-                        Text(
-                            text = "Eka Puteri",
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 20.sp
-                        )
-                        Text(
-                            text = "eka@gmail.com",
-                            Modifier.clickable {  }
-                        )
-                    }
-                }
-                Button(
-                    onClick ={},
-                    modifier = Modifier
-                        .width(230.dp),
-                    shape = RoundedCornerShape(8.dp), // Ensures the button follows the same corner radius
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = mainColor,
-                        contentColor = Color.White
-                    )
-                ){
-                    Text(text = "Logout")
-                }
+                    .fillMaxWidth()
+                    .padding(24.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                HomepageIcon(navController = navController)
+                HistoryIcon(navController = navController)
+                ReportIcon(navController = navController)
+                ProfileIcon(active = true, navController = navController)
             }
         }
-
-        Spacer(modifier = Modifier.height(24.dp))
-
-        Row{
-//            icon instagram di sini
-
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+                .padding(top = 45.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
             Text(
-                text = "Follow us on Instagram"
+                text = "Profil",
+                color = mainColor,
+                fontSize = 25.sp,
+                fontWeight = FontWeight.ExtraBold,
+                modifier = Modifier.align(Alignment.Start).padding(start = 45.dp)
             )
+
+            Spacer(modifier = Modifier.height(45.dp))
+
+            // Box dengan informasi profil
+            Box(
+                modifier = Modifier
+                    .width(300.dp)
+                    .height(200.dp)
+                    .clip(RoundedCornerShape(8.dp))
+                    .background(Color(0xFFF0EFEF))
+                    .padding(16.dp)
+            ) {
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .padding(16.dp)
+                            .fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        // Avatar Box
+                        Box(
+                            modifier = Modifier
+                                .clip(CircleShape)
+                                .size(80.dp)
+                                .background(Color(0xFFD8D8D8))
+                        )
+
+                        Column(
+                            modifier = Modifier.padding(start = 24.dp, end = 16.dp)
+                        ) {
+                            Text(
+                                text = "Eka Puteri",
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 20.sp
+                            )
+                            Text(
+                                text = "eka@gmail.com",
+                                modifier = Modifier.clickable { }
+                            )
+                        }
+                    }
+
+                    Button(
+                        onClick = {},
+                        modifier = Modifier.width(230.dp),
+                        shape = RoundedCornerShape(8.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = mainColor,
+                            contentColor = Color.White
+                        )
+                    ) {
+                        Text(text = "Logout")
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(24.dp))
         }
     }
 }
+
 
 @Preview(
     showBackground = true,
@@ -129,5 +141,5 @@ fun Profile(){
 )
 @Composable
 fun ProfilePreview(){
-    Profile()
+    Profile(navController = rememberNavController())
 }
