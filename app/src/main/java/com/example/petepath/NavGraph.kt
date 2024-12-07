@@ -25,13 +25,13 @@ fun SetupNavGraph(navController: NavHostController){
             RutePage(navController = navController)
         }
         composable(route = Screen.History.route){
-            HistoryPage()
+            HistoryPage(navController = navController)
         }
         composable(route = Screen.Report.route){
-            ReportHistoryPage()
+            ReportHistoryPage(navController = navController)
         }
         composable(route = Screen.Profile.route){
-            Profile()
+            Profile(navController = navController)
         }
     }
 }

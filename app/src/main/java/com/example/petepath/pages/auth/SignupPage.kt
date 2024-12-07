@@ -29,8 +29,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-//import com.example.petepath.AuthViewModel
-
 
 @Composable
 fun SignupPage(modifier: Modifier = Modifier, navController: NavController? = null) {
@@ -138,6 +136,5 @@ fun SignupPage(modifier: Modifier = Modifier, navController: NavController? = nu
 @Preview(showBackground = true)
 @Composable
 fun PreviewSignupPage() {
-    // Preview the SignupPage composable
     SignupPage()
 }
