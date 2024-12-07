@@ -138,8 +138,6 @@ fun Profile(navController: NavController, context: Context) {
                     Button(
                         onClick = {
                             coroutineScope.launch {
-                                // Hapus data pengguna dari DataStore
-                                viewModel.logout()
                                 // Tampilkan Toast berhasil logout
                                 Toast.makeText(context, "Logout berhasil", Toast.LENGTH_SHORT).show()
                                 // Navigasi ke halaman Login

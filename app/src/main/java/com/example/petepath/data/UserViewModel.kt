@@ -2,6 +2,7 @@ package com.example.petepath
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.petepath.data.DataHistoryItem
 import com.example.petepath.data.UserPreferences
 import com.example.petepath.data.UserPreferencesRepository
 import kotlinx.coroutines.flow.SharingStarted
@@ -15,6 +16,9 @@ class UserViewModel(private val repository: UserPreferencesRepository) : ViewMod
     val userPreferences: StateFlow<UserPreferences> = repository.userPreferencesFlow
         .stateIn(viewModelScope, SharingStarted.Lazily, UserPreferences(null, null, null))
 
+    val userHistory: StateFlow<List<DataHistoryItem>> = repository.userHistoryFlow
+        .stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
+
     fun saveUserData(username: String, email: String, password: String) {
         viewModelScope.launch {
             repository.saveUserData(username, email, password)
@@ -26,9 +30,24 @@ class UserViewModel(private val repository: UserPreferencesRepository) : ViewMod
         return emailInput == userPreferences.email && passwordInput == userPreferences.password
     }
 
-    fun logout() {
+    // Fungsi logout untuk menghapus data pengguna
+    fun clearUser() {
         viewModelScope.launch {
             repository.clearUserData()
+        }
+    }
+
+    // Fungsi untuk menambahkan history item
+    fun addHistoryItem(item: DataHistoryItem) {
+        viewModelScope.launch {
+            repository.addHistoryItem(item)
+        }
+    }
+
+    // Fungsi untuk menghapus history
+    fun clearHistory() {
+        viewModelScope.launch {
+            repository.clearHistory()
         }
     }
 }

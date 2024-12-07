@@ -12,3 +12,6 @@ val Context.dataStore: androidx.datastore.core.DataStore<Preferences> by prefere
 val USERNAME_KEY = stringPreferencesKey("username")
 val EMAIL_KEY = stringPreferencesKey("email")
 val PASSWORD_KEY = stringPreferencesKey("password")
+
+// New key untuk history
+val USER_HISTORY_KEY = stringPreferencesKey("user_history")

@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.org.jetbrains.kotlin.serialization)
 }
 
 android {
@@ -97,7 +98,11 @@ dependencies {
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.androidx.datastore)
 
+    implementation(libs.kotlinx.serialization.json)
+
     // Testing Navigation
     androidTestImplementation(libs.androidx.navigation.testing)
+
+    implementation(libs.serialization)
 
 }

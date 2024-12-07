@@ -24,13 +24,10 @@ import com.example.petepath.ui.theme.Pete2Icon
 import com.example.petepath.ui.theme.ProfileIcon
 import com.example.petepath.ui.theme.ReportIcon
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.grid.*
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -39,6 +36,8 @@ import androidx.navigation.compose.rememberNavController
 import com.example.petepath.Screen
 import com.example.petepath.UserViewModel
 import com.example.petepath.data.UserViewModelFactory
+import kotlinx.coroutines.launch
+import com.example.petepath.data.DataHistoryItem
 
 @Composable
 fun HomePage(
@@ -49,6 +48,7 @@ fun HomePage(
         factory = UserViewModelFactory(context)
     )
     val userPreferences by viewModel.userPreferences.collectAsState()
+    val userHistory by viewModel.userHistory.collectAsState()
 
     val displayName = userPreferences.username ?: "User"
 
@@ -88,7 +88,7 @@ fun HomePage(
                 // Recent Routes Section
                 item {
                     Text(
-                        text = "Terakhir Dikunjungi",
+                        text = "Terakhir Dilihat",
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color.Black
@@ -100,18 +100,13 @@ fun HomePage(
                             .padding(bottom = 16.dp),
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        items(
-                            listOf(
-                                Pair("01", "Sudiang"),
-                                Pair("02", "Unhas"),
-                                Pair("03", "BTP"),
-                                Pair("04", "Pettarani")
-                            )
-                        ) { route ->
+                        // Tampilkan maksimal 4 riwayat terbaru
+                        items(userHistory.takeLast(4).reversed()) { historyItem ->
                             RecentRoute(
-                                ruteNumber = route.first,
-                                ruteName = route.second,
-                                navController = navController
+                                ruteNumber = historyItem.routeNumber,
+                                ruteName = historyItem.routeName,
+                                navController = navController,
+                                viewModel = viewModel
                             )
                         }
                     }
@@ -141,6 +136,7 @@ fun HomePage(
                                 routeName = route.second,
                                 price = route.third,
                                 navController = navController,
+                                viewModel = viewModel,
                                 modifier = Modifier.weight(1f)
                             )
                         }
@@ -168,7 +164,16 @@ private fun chunkedAllRoutes(): List<List<Triple<String, String, String>>> {
 }
 
 @Composable
-fun RecentRoute(ruteNumber: String, ruteName: String, navController: NavController) {
+fun RecentRoute(
+    ruteNumber: String,
+    ruteName: String,
+    navController: NavController,
+    viewModel: UserViewModel
+) {
+    val mainColor = Color(0xFF007BFF)
+    val coroutineScope = rememberCoroutineScope()
+    val context = LocalContext.current
+
     Card(
         modifier = Modifier
             .width(184.dp)
@@ -178,28 +183,52 @@ fun RecentRoute(ruteNumber: String, ruteName: String, navController: NavControll
         colors = CardDefaults.cardColors(containerColor = Color.White),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
-        Column(
-            modifier = Modifier.padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+        // Gunakan Box untuk memusatkan konten secara vertikal dan horizontal
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            contentAlignment = Alignment.Center
         ) {
-            Text(
-                text = "Rute $ruteNumber | $ruteName",
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Normal,
-                color = Color.Black,
-                maxLines = 1,
-                textAlign = TextAlign.Center,
-                overflow = TextOverflow.Ellipsis
-            )
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    text = "Rute $ruteNumber | $ruteName",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Normal,
+                    color = Color.Black,
+                    maxLines = 1,
+                    textAlign = TextAlign.Center,
+                    overflow = TextOverflow.Ellipsis
+                )
 
-            Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(8.dp))
 
-            PrimaryButton(
-                onClick = {
-                    navController.navigate(Screen.Rute.createRoute(ruteNumber))
-                },
-                text = "Lihat Rute"
-            )
+                PrimaryButton(
+                    onClick = {
+                        coroutineScope.launch {
+                            // Dapatkan tanggal dan waktu saat ini
+                            val currentDate = java.text.SimpleDateFormat("dd MMMM yyyy, HH:mm", java.util.Locale.getDefault()).format(java.util.Date())
+
+                            // Buat objek DataHistoryItem
+                            val historyItem = DataHistoryItem(
+                                routeNumber = ruteNumber,
+                                routeName = ruteName,
+                                date = currentDate
+                            )
+
+                            // Tambahkan ke riwayat
+                            viewModel.addHistoryItem(historyItem)
+
+                            // Navigasi ke halaman Rute
+                            navController.navigate(Screen.Rute.createRoute(ruteNumber))
+                        }
+                    },
+                    text = "Lihat Rute"
+                )
+            }
         }
     }
 }
@@ -211,13 +240,33 @@ fun AllRoute(
     routeName: String,
     price: String,
     navController: NavController,
+    viewModel: UserViewModel,
     modifier: Modifier = Modifier
 ) {
+    val mainColor = Color(0xFF007BFF)
+    val coroutineScope = rememberCoroutineScope()
+
     Card(
         modifier = modifier
             .height(200.dp)
             .clickable {
-                navController.navigate(Screen.Rute.createRoute(routeNumber))
+                coroutineScope.launch {
+                    // Dapatkan tanggal dan waktu saat ini
+                    val currentDate = java.text.SimpleDateFormat("dd MMMM yyyy, HH:mm", java.util.Locale.getDefault()).format(java.util.Date())
+
+                    // Buat objek DataHistoryItem
+                    val historyItem = DataHistoryItem(
+                        routeNumber = routeNumber,
+                        routeName = routeName,
+                        date = currentDate
+                    )
+
+                    // Tambahkan ke riwayat
+                    viewModel.addHistoryItem(historyItem)
+
+                    // Navigasi ke halaman Rute
+                    navController.navigate(Screen.Rute.createRoute(routeNumber))
+                }
             },
         shape = RoundedCornerShape(8.dp),
         border = BorderStroke(1.dp, Color(0xFF007BFF)),
