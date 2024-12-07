@@ -29,9 +29,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import com.example.petepath.Screen
 
 @Composable
-fun SignupPage(modifier: Modifier = Modifier, navController: NavController? = null) {
+fun SignupPage(modifier: Modifier = Modifier, navController: NavController) {
     var nama by remember {
         mutableStateOf("")
     }
@@ -116,14 +118,16 @@ fun SignupPage(modifier: Modifier = Modifier, navController: NavController? = nu
         Spacer(modifier = Modifier.height(20.dp))
 
         Button(
-            onClick = { /* Handle click */ },
+            onClick = {
+                navController.navigate(Screen.Login.route)
+            },
             modifier = Modifier
                 .width(275.dp)
-                .height(56.dp), // Atur border secara manual
+                .height(56.dp),
             shape = RoundedCornerShape(12.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = outlineColor, // Background putih
-                contentColor = Color.White // Warna teks biru
+                containerColor = outlineColor,
+                contentColor = Color.White
             )
         ) {
             Text(text = "Daftar")
@@ -136,5 +140,5 @@ fun SignupPage(modifier: Modifier = Modifier, navController: NavController? = nu
 @Preview(showBackground = true)
 @Composable
 fun PreviewSignupPage() {
-    SignupPage()
+    SignupPage(navController = rememberNavController())
 }

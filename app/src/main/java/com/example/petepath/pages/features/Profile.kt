@@ -111,14 +111,13 @@ fun Profile(navController: NavController) {
                             )
                             Text(
                                 text = "eka@gmail.com",
-                                modifier = Modifier.clickable { }
                             )
                         }
                     }
 
                     Button(
                         onClick = {
-                            TODO()
+                                navController.navigate(Screen.Login.route)
                         },
                         modifier = Modifier.width(230.dp),
                         shape = RoundedCornerShape(8.dp),

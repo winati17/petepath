@@ -4,12 +4,16 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.petepath.pages.auth.LoginPage
+import com.example.petepath.pages.auth.SignupPage
 import com.example.petepath.pages.features.HomePage
 import com.example.petepath.pages.features.HistoryPage
 import com.example.petepath.pages.features.Profile
 import com.example.petepath.pages.features.ReportHistoryPage
 import com.example.petepath.pages.features.RutePage
 import com.example.petepath.pages.features.ReportPage
+import com.example.petepath.pages.auth.SignupPage
+import com.example.petepath.pages.auth.LoginPage
 
 @Composable
 fun SetupNavGraph(navController: NavHostController){
@@ -35,6 +39,12 @@ fun SetupNavGraph(navController: NavHostController){
         composable(route = Screen.Profile.route){
             Profile(navController = navController)
         }
+        composable(route = Screen.Login.route){
+            LoginPage(navController = navController)
+        }
+        composable(route = Screen.Signup.route){
+            SignupPage(navController = navController)
+        }
     }
 }
 
@@ -45,6 +55,8 @@ sealed class Screen(val route: String) {
     object Report: Screen(route= "report_page")
     object ReportHistory: Screen(route= "reporthistory_page")
     object Profile: Screen(route= "profile")
+    object Login: Screen(route= "login")
+    object Signup: Screen(route= "signup")
 }
 
 

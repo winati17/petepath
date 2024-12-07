@@ -23,9 +23,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import com.example.petepath.Screen
 
 @Composable
-fun LoginPage(){
+fun LoginPage(modifier: Modifier = Modifier, navController: NavController){
     val mainColor = Color(0xFF007BFF)
     Column(
         Modifier.fillMaxSize(),
@@ -62,7 +65,8 @@ fun LoginPage(){
 
         Spacer(modifier = Modifier.height(40.dp))
 
-        Button(onClick = {},
+        Button(
+            onClick = {navController.navigate(Screen.Home.route)},
             colors = ButtonDefaults.buttonColors(
                 containerColor = mainColor,
                 contentColor = Color.White
@@ -77,7 +81,7 @@ fun LoginPage(){
 
         Row {
             Text(text = "Belum punya akun? ")
-            Text(text = "Daftar sekarang!", modifier = Modifier.clickable {  }, color = mainColor)
+            Text(text = "Daftar sekarang!", modifier = Modifier.clickable { navController.navigate(Screen.Signup.route) }, color = mainColor)
         }
     }
 }
@@ -86,6 +90,6 @@ fun LoginPage(){
 @Preview(showBackground = true)
 @Composable
 fun LoginPagePreview(){
-    LoginPage()
+    LoginPage(navController = rememberNavController())
 }
 
