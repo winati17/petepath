@@ -19,9 +19,12 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import com.example.petepath.Screen
 
 @Composable
-fun ReportPage(onBackClick: () -> Unit) {
+fun ReportPage(navController: NavController) {
     var route by remember { mutableStateOf("") }
     var violationCategory by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
@@ -42,7 +45,9 @@ fun ReportPage(onBackClick: () -> Unit) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(
-                onClick = onBackClick
+                onClick = {
+                    navController.navigate(Screen.ReportHistory.route)
+                }
             ) {
                 Icon(
                     imageVector = Icons.Filled.ArrowBackIosNew,
@@ -229,6 +234,5 @@ fun DropdownMenuField(
 @Preview(showBackground = true)
 @Composable
 fun PreviewReportPage() {
-    // Tambahkan lambda kosong untuk onBackClick
-    ReportPage(onBackClick = {})
+    ReportPage(navController = rememberNavController())
 }

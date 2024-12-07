@@ -30,6 +30,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.petepath.Screen
 import com.example.petepath.ui.theme.HomepageIcon
 import com.example.petepath.ui.theme.HistoryIcon
 import com.example.petepath.ui.theme.ProfileIcon
@@ -104,7 +105,7 @@ fun Profile(navController: NavController) {
                             modifier = Modifier.padding(start = 24.dp, end = 16.dp)
                         ) {
                             Text(
-                                text = "Eka Puteri",
+                                text = "Eka Putri",
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 20.sp
                             )
@@ -116,7 +117,9 @@ fun Profile(navController: NavController) {
                     }
 
                     Button(
-                        onClick = {},
+                        onClick = {
+                            TODO()
+                        },
                         modifier = Modifier.width(230.dp),
                         shape = RoundedCornerShape(8.dp),
                         colors = ButtonDefaults.buttonColors(

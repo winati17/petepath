@@ -174,7 +174,6 @@ fun RecentRoute(routeName: String, navController: NavController) {
 
             PrimaryButton(
                 onClick = {
-                    Log.d("NavController", "Button clicked. Attempting to navigate to ${Screen.Rute.route}.")
                     navController.navigate(Screen.Rute.route)
                 },
                 text = "Lihat Rute"

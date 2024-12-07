@@ -64,8 +64,7 @@ fun ReportIcon(active: Boolean = false, navController: NavController) {
         modifier = Modifier
             .size(24.dp)
             .clickable {
-                // Navigasi ke halaman Report
-                navController.navigate(Screen.Report.route)
+                navController.navigate(Screen.ReportHistory.route)
             }
     )
 }
@@ -80,7 +79,6 @@ fun ProfileIcon(active: Boolean = false, navController: NavController) {
         modifier = Modifier
             .size(24.dp)
             .clickable {
-                // Navigasi ke halaman Profile
                 navController.navigate(Screen.Profile.route)
             }
     )

@@ -1,6 +1,5 @@
 package com.example.petepath.pages.features
 
-
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -30,6 +29,8 @@ import com.example.petepath.ui.theme.HomepageIcon
 import com.example.petepath.ui.theme.ProfileIcon
 import com.example.petepath.ui.theme.ReportIcon
 import com.example.petepath.ui.theme.HistoryIcon
+import com.example.petepath.R
+import com.example.petepath.Screen
 
 @Composable
 fun ReportHistoryPage(navController: NavController) {
@@ -69,9 +70,7 @@ fun ReportHistoryPage(navController: NavController) {
                     .align(Alignment.Start)
             )
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .align(Alignment.Center),
+            modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
@@ -95,7 +94,9 @@ fun ReportHistoryPage(navController: NavController) {
 
             )
             Button(
-                onClick = { /* Tambahkan logika klik */ },
+                onClick = {
+                    navController.navigate(Screen.Report.route)
+                },
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF007BFF)),
                 shape = RoundedCornerShape(11.dp),
                 modifier = Modifier.fillMaxWidth(0.6f)
@@ -106,6 +107,7 @@ fun ReportHistoryPage(navController: NavController) {
                     fontSize = 16.sp
                 )
             }
+        }
         }
     }
 }
