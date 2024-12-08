@@ -54,8 +54,8 @@ fun LoginPage(
     navController: NavController,
     context: Context
 ) {
-    var nama by remember { mutableStateOf("user") }
-    var password by remember { mutableStateOf("user123") }
+    var nama by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
     val viewModel: UserViewModel = viewModel(
         factory = UserViewModelFactory(context)
     )

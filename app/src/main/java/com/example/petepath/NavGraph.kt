@@ -13,11 +13,11 @@ import com.example.petepath.data.RuteViewModelFactory
 import com.example.petepath.pages.auth.LoginPage
 import com.example.petepath.pages.auth.SignupPage
 import com.example.petepath.pages.features.HomePage
-import com.example.petepath.pages.features.HistoryPage
 import com.example.petepath.pages.auth.Profile
 import com.example.petepath.pages.features.ReportHistoryPage
 import com.example.petepath.pages.features.RutePage
 import com.example.petepath.pages.features.ReportPage
+import com.example.petepath.pages.features.HistoryPage
 
 @Composable
 fun SetupNavGraph(navController: NavHostController, context: Context){
