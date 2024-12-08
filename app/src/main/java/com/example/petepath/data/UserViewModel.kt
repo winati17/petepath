@@ -3,6 +3,7 @@ package com.example.petepath
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.petepath.data.DataHistoryItem
+import com.example.petepath.data.ReportItem
 import com.example.petepath.data.UserPreferences
 import com.example.petepath.data.UserPreferencesRepository
 import kotlinx.coroutines.flow.Flow
@@ -30,6 +31,17 @@ class UserViewModel(private val repository: UserPreferencesRepository) : ViewMod
         .flatMapLatest { email ->
             if (email != null) {
                 repository.getUserHistoryFlow(email)
+            } else {
+                flowOf(emptyList())
+            }
+        }
+        .stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
+
+    // Alur laporan pengguna saat ini
+    val userReports: StateFlow<List<ReportItem>> = _currentUserEmail
+        .flatMapLatest { email ->
+            if (email != null) {
+                repository.getUserReportsFlow(email)
             } else {
                 flowOf(emptyList())
             }
@@ -76,12 +88,32 @@ class UserViewModel(private val repository: UserPreferencesRepository) : ViewMod
         }
     }
 
+    // Menambahkan laporan pengguna
+    fun addReport(report: ReportItem) {
+        viewModelScope.launch {
+            val email = _currentUserEmail.value
+            if (email != null) {
+                repository.addReportItem(email, report)
+            }
+        }
+    }
+
     // Menghapus semua riwayat pengguna
     fun clearHistory() {
         viewModelScope.launch {
             val email = _currentUserEmail.value
             if (email != null) {
                 repository.clearHistory(email)
+            }
+        }
+    }
+
+    // Menghapus semua laporan pengguna
+    fun clearReports() {
+        viewModelScope.launch {
+            val email = _currentUserEmail.value
+            if (email != null) {
+                repository.clearReports(email)
             }
         }
     }
@@ -97,5 +129,10 @@ class UserViewModel(private val repository: UserPreferencesRepository) : ViewMod
             val user = repository.getUser(emailOrUsername, emailOrUsername)
             _currentUserEmail.value = user?.email
         }
+    }
+
+    // Mendapatkan semua laporan pengguna
+    fun getAllReports(): Flow<List<ReportItem>> {
+        return userReports
     }
 }

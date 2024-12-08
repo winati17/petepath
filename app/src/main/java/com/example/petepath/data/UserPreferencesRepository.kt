@@ -124,4 +124,65 @@ class UserPreferencesRepository(private val context: Context) {
             }
         }
     }
+
+    // Fungsi untuk mengambil riwayat laporan pengguna berdasarkan email
+    private fun getUserReportsKey(email: String): Preferences.Key<String> {
+        return stringPreferencesKey("user_reports_$email")
+    }
+
+    fun getUserReportsFlow(email: String?): Flow<List<ReportItem>> {
+        return if (email != null) {
+            context.dataStore.data.map { preferences ->
+                val reportsJson = preferences[getUserReportsKey(email)]
+                if (reportsJson != null) {
+                    try {
+                        json.decodeFromString<List<ReportItem>>(reportsJson)
+                    } catch (e: Exception) {
+                        emptyList()
+                    }
+                } else {
+                    emptyList()
+                }
+            }
+        } else {
+            flowOf(emptyList())
+        }
+    }
+
+    suspend fun addReportItem(email: String, report: ReportItem) {
+        context.dataStore.edit { preferences ->
+            if (email.isNotEmpty()) {
+                val reportsKey = getUserReportsKey(email)
+                val currentReportsJson = preferences[reportsKey]
+                val currentReports: MutableList<ReportItem> = if (currentReportsJson != null) {
+                    try {
+                        json.decodeFromString<List<ReportItem>>(currentReportsJson).toMutableList()
+                    } catch (e: Exception) {
+                        mutableListOf()
+                    }
+                } else {
+                    mutableListOf()
+                }
+                currentReports.add(report)
+                // Batasi jumlah laporan menjadi maksimal 50
+                if (currentReports.size > 50) {
+                    currentReports.removeAt(0)
+                }
+                preferences[reportsKey] = json.encodeToString(currentReports)
+            }
+        }
+    }
+
+    suspend fun clearReports(email: String) {
+        context.dataStore.edit { preferences ->
+            if (email.isNotEmpty()) {
+                preferences.remove(getUserReportsKey(email))
+            }
+        }
+    }
+
+    // Fungsi untuk mendapatkan semua laporan untuk pengguna
+    suspend fun getAllReports(email: String): List<ReportItem> {
+        return getUserReportsFlow(email).first()
+    }
 }

@@ -36,3 +36,13 @@ data class Route(
     val name: String,
     val price: String
 )
+
+@Serializable
+data class ReportItem(
+    val routeNumber: String,
+    val routeName: String,
+    val violationCategory: String,
+    val description: String,
+    val vehiclePlate: String,
+    val date: String
+)
