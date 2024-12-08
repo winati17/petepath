@@ -5,24 +5,75 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.Json.Default.decodeFromString
 
-
 class UserPreferencesRepository(private val context: Context) {
 
-    // Membuat instance Json dengan konfigurasi yang diperlukan
     private val json = Json { ignoreUnknownKeys = true }
 
-    // Fungsi untuk menghasilkan kunci riwayat berdasarkan email pengguna
+    private val USERS_KEY = stringPreferencesKey("users_list")
+
+    // Fungsi untuk mengambil alur daftar pengguna
+    val usersFlow: Flow<List<UserPreferences>> = context.dataStore.data.map { preferences ->
+        val usersJson = preferences[USERS_KEY]
+        if (usersJson != null) {
+            try {
+                json.decodeFromString<List<UserPreferences>>(usersJson)
+            } catch (e: Exception) {
+                emptyList()
+            }
+        } else {
+            emptyList()
+        }
+    }
+
+    // Fungsi untuk menambahkan pengguna baru
+    suspend fun addUser(user: UserPreferences) {
+        context.dataStore.edit { preferences ->
+            val currentUsersJson = preferences[USERS_KEY]
+            val currentUsers: MutableList<UserPreferences> = if (currentUsersJson != null) {
+                try {
+                    json.decodeFromString<List<UserPreferences>>(currentUsersJson).toMutableList()
+                } catch (e: Exception) {
+                    mutableListOf()
+                }
+            } else {
+                mutableListOf()
+            }
+
+            currentUsers.add(user)
+            preferences[USERS_KEY] = json.encodeToString(currentUsers)
+        }
+    }
+
+    // Fungsi untuk mengambil pengguna berdasarkan username atau email
+    suspend fun getUser(username: String?, email: String?): UserPreferences? {
+        val users = usersFlow.first()
+        return users.find { it.username.equals(username, ignoreCase = true) || it.email.equals(email, ignoreCase = true) }
+    }
+
+    // Fungsi untuk mendapatkan semua pengguna
+    suspend fun getAllUsers(): List<UserPreferences> {
+        return usersFlow.first()
+    }
+
+    // Fungsi untuk menghapus semua pengguna (opsional)
+    suspend fun clearAllUsers() {
+        context.dataStore.edit { preferences ->
+            preferences.remove(USERS_KEY)
+        }
+    }
+
+    // Fungsi untuk mengambil riwayat pengguna berdasarkan email
     private fun getUserHistoryKey(email: String): Preferences.Key<String> {
         return stringPreferencesKey("user_history_$email")
     }
 
-    // Fungsi untuk mendapatkan alur riwayat pengguna berdasarkan email
     fun getUserHistoryFlow(email: String?): Flow<List<DataHistoryItem>> {
         return if (email != null) {
             context.dataStore.data.map { preferences ->
@@ -42,45 +93,6 @@ class UserPreferencesRepository(private val context: Context) {
         }
     }
 
-    // Fungsi untuk menyimpan data user
-    suspend fun saveUserData(username: String, email: String, password: String) {
-        context.dataStore.edit { preferences ->
-            preferences[USERNAME_KEY] = username
-            preferences[EMAIL_KEY] = email
-            preferences[PASSWORD_KEY] = password
-        }
-    }
-
-    // Fungsi untuk menghapus data user
-    suspend fun clearUserData() {
-        context.dataStore.edit { preferences ->
-            preferences.clear()
-        }
-    }
-
-    // Fungsi untuk mengambil data user
-    val userPreferencesFlow: Flow<UserPreferences> = context.dataStore.data.map { preferences ->
-        val username = preferences[USERNAME_KEY]
-        val email = preferences[EMAIL_KEY]
-        val password = preferences[PASSWORD_KEY]
-        UserPreferences(username, email, password)
-    }
-
-    // Fungsi untuk mengambil riwayat pengguna
-    val userHistoryFlow: Flow<List<DataHistoryItem>> = context.dataStore.data.map { preferences ->
-        val historyJson = preferences[USER_HISTORY_KEY]
-        if (historyJson != null) {
-            try {
-                decodeFromString<List<DataHistoryItem>>(historyJson)
-            } catch (e: Exception) {
-                emptyList()
-            }
-        } else {
-            emptyList()
-        }
-    }
-
-    // Fungsi untuk menambahkan item riwayat berdasarkan email
     suspend fun addHistoryItem(email: String, item: DataHistoryItem) {
         context.dataStore.edit { preferences ->
             if (email.isNotEmpty()) {
@@ -105,7 +117,6 @@ class UserPreferencesRepository(private val context: Context) {
         }
     }
 
-    // Fungsi untuk menghapus riwayat berdasarkan email
     suspend fun clearHistory(email: String) {
         context.dataStore.edit { preferences ->
             if (email.isNotEmpty()) {

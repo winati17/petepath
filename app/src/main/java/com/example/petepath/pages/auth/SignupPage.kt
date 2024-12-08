@@ -39,6 +39,7 @@ import com.example.petepath.Screen
 import com.example.petepath.UserViewModel
 import com.example.petepath.data.UserViewModelFactory
 import com.example.petepath.ui.theme.PetePathTheme
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 @Composable
@@ -126,12 +127,25 @@ fun SignupPage(
                 // Validasi input sebelum menyimpan
                 if (username.isNotBlank() && email.isNotBlank() && password.isNotBlank()) {
                     coroutineScope.launch {
-                        viewModel.saveUserData(username, email, password)
-                        // Setelah menyimpan, navigasi ke Login
-                        Toast.makeText(context, "Data berhasil ditambah", Toast.LENGTH_SHORT).show()
-                        navController.navigate(Screen.Login.route) {
-                            // Menghapus history agar user tidak kembali ke halaman signup
-                            popUpTo(Screen.Home.route) { inclusive = false }
+                        // Cek apakah email atau username sudah digunakan
+                        val existingUser = viewModel.getAllUsers().first().find {
+                            it.email.equals(email, ignoreCase = true) || it.username.equals(username, ignoreCase = true)
+                        }
+
+                        if (existingUser != null) {
+                            // Tampilkan pesan error jika email atau username sudah digunakan
+                            Toast.makeText(context, "Username atau Email sudah digunakan", Toast.LENGTH_SHORT).show()
+                        } else {
+                            // Simpan data pengguna baru
+                            viewModel.saveUserData(username, email, password)
+                            // Set pengguna saat ini
+                            viewModel.setCurrentUser(email)
+                            // Setelah menyimpan, navigasi ke Login
+                            Toast.makeText(context, "Data berhasil ditambahkan", Toast.LENGTH_SHORT).show()
+                            navController.navigate(Screen.Login.route) {
+                                // Menghapus history agar user tidak kembali ke halaman signup
+                                popUpTo(Screen.Home.route) { inclusive = false }
+                            }
                         }
                     }
                 } else {

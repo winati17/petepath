@@ -1,8 +1,6 @@
 package com.example.petepath.pages.features
 
 import android.content.Context
-import android.content.res.Configuration
-import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -49,10 +47,9 @@ fun HomePage(
     val viewModel: UserViewModel = viewModel(
         factory = UserViewModelFactory(context)
     )
-    val userPreferences by viewModel.userPreferences.collectAsState()
+    val currentUserEmail by viewModel.currentUserEmail.collectAsState()
     val userHistory by viewModel.userHistory.collectAsState()
-
-    val displayName = userPreferences.username ?: "User"
+    val displayName = viewModel.users.collectAsState(initial = emptyList()).value.find { it.email == currentUserEmail }?.username ?: "User"
 
     Scaffold(
         bottomBar = {
@@ -174,7 +171,6 @@ fun RecentRoute(
 ) {
     val mainColor = Color(0xFF007BFF)
     val coroutineScope = rememberCoroutineScope()
-    val context = LocalContext.current
 
     Card(
         modifier = Modifier

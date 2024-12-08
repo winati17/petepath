@@ -23,3 +23,10 @@ data class UserPreferences(
     val email: String?,
     val password: String?
 )
+
+@Serializable
+data class DataHistoryItem(
+    val routeNumber: String,
+    val routeName: String,
+    val date: String
+)

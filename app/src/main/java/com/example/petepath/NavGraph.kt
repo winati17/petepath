@@ -18,6 +18,7 @@ import com.example.petepath.pages.features.ReportHistoryPage
 import com.example.petepath.pages.features.RutePage
 import com.example.petepath.pages.features.ReportPage
 import com.example.petepath.pages.features.HistoryPage
+import com.example.petepath.pages.features.UserListPage
 
 @Composable
 fun SetupNavGraph(navController: NavHostController, context: Context){
@@ -56,6 +57,9 @@ fun SetupNavGraph(navController: NavHostController, context: Context){
         composable(route = Screen.Signup.route) {
             SignupPage(navController = navController, context = context)
         }
+        composable(route = Screen.UserList.route) {
+            UserListPage(navController = navController, context = context)
+        }
     }
 }
 
@@ -70,4 +74,5 @@ sealed class Screen(val route: String) {
     object Profile: Screen(route= "profile")
     object Login: Screen(route= "login")
     object Signup: Screen(route= "signup")
+    object UserList: Screen(route= "user_list")
 }

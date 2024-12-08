@@ -52,10 +52,10 @@ fun Profile(navController: NavController, context: Context) {
     val viewModel: UserViewModel = viewModel(
         factory = UserViewModelFactory(context)
     )
-    val userPreferences by viewModel.userPreferences.collectAsState()
+    val currentUserEmail by viewModel.currentUserEmail.collectAsState()
     val coroutineScope = rememberCoroutineScope()
-    val displayName = userPreferences.username ?: "Unknown"
-    val email = userPreferences.email ?: "Unknown"
+    val displayName = viewModel.users.collectAsState(initial = emptyList()).value.find { it.email == currentUserEmail }?.username ?: "Unknown"
+    val email = currentUserEmail ?: "Unknown"
 
     Scaffold(
         bottomBar = {
@@ -139,9 +139,8 @@ fun Profile(navController: NavController, context: Context) {
                     Button(
                         onClick = {
                             coroutineScope.launch {
-                                // Tampilkan Toast berhasil logout
+                                viewModel.logout()
                                 Toast.makeText(context, "Logout berhasil", Toast.LENGTH_SHORT).show()
-                                // Navigasi ke halaman Login
                                 navController.navigate(Screen.Login.route) {
                                     popUpTo(Screen.Profile.route) { inclusive = true }
                                 }
@@ -156,6 +155,21 @@ fun Profile(navController: NavController, context: Context) {
                         )
                     ) {
                         Text(text = "Logout")
+                    }
+
+                    Button(
+                        onClick = {
+                            navController.navigate(Screen.UserList.route)
+                        },
+                        modifier = Modifier
+                            .width(230.dp),
+                        shape = RoundedCornerShape(8.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color.Gray,
+                            contentColor = Color.White
+                        )
+                    ) {
+                        Text(text = "Lihat Daftar Akun")
                     }
                 }
             }

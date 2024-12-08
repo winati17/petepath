@@ -54,7 +54,7 @@ fun LoginPage(
     navController: NavController,
     context: Context
 ) {
-    var username by remember { mutableStateOf("") }
+    var usernameOrEmail by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     val viewModel: UserViewModel = viewModel(
         factory = UserViewModelFactory(context)
@@ -75,10 +75,10 @@ fun LoginPage(
         Spacer(modifier = Modifier.height(20.dp))
 
         OutlinedTextField(
-            value = username,
-            onValueChange = { username = it },
+            value = usernameOrEmail,
+            onValueChange = { usernameOrEmail = it },
             label = {
-                Text(text = "Username")
+                Text(text = "Username atau Email")
             },
             colors = OutlinedTextFieldDefaults.colors(
                 focusedContainerColor = Color.Transparent,
@@ -101,14 +101,15 @@ fun LoginPage(
         Button(
             onClick = {
                 coroutineScope.launch {
-                    val isSuccess = viewModel.login(username, password)
+                    val isSuccess = viewModel.login(usernameOrEmail, password)
                     if (isSuccess) {
+                        viewModel.setCurrentUser(usernameOrEmail)
                         Toast.makeText(contextLocal, "Login berhasil", Toast.LENGTH_SHORT).show()
                         navController.navigate(Screen.Home.route) {
                             popUpTo(Screen.Login.route) { inclusive = true }
                         }
                     } else {
-                        Toast.makeText(contextLocal, "Username atau password salah", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(contextLocal, "Username/Email atau password salah", Toast.LENGTH_SHORT).show()
                     }
                 }
             },
@@ -126,7 +127,12 @@ fun LoginPage(
 
         Row {
             Text(text = "Belum punya akun? ")
-            Text(text = "Daftar sekarang!", modifier = Modifier.clickable { navController.navigate(Screen.Signup.route) }, color = mainColor)
+            Text(
+                text = "Daftar sekarang!",
+                modifier = Modifier.clickable { navController.navigate(Screen.Signup.route) },
+                color = mainColor,
+                fontWeight = FontWeight.SemiBold
+            )
         }
     }
 }
