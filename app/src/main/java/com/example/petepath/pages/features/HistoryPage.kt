@@ -56,20 +56,17 @@ fun HistoryPage(navController: NavController, context: Context = LocalContext.cu
 
     Scaffold(
         bottomBar = {
-            BottomAppBar(
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(24.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(24.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    HomepageIcon(navController = navController)
-                    HistoryIcon(active = true, navController = navController)
-                    ReportIcon(navController = navController)
-                    ProfileIcon(navController = navController)
-                }
+                HomepageIcon(navController = navController)
+                HistoryIcon(navController = navController)
+                ReportIcon(active = true, navController = navController)
+                ProfileIcon(navController = navController)
             }
         }
     ) { paddingValues ->
