@@ -100,7 +100,7 @@ fun HistoryPage(navController: NavController, context: Context = LocalContext.cu
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    items(userHistory) { historyItem ->
+                    items(userHistory.reversed()) { historyItem ->
                         HistoryItem(
                             painter = petepete,
                             routeNumber = historyItem.routeNumber,

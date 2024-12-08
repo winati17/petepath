@@ -47,7 +47,7 @@ fun SignupPage(
     navController: NavController,
     context: Context
 ) {
-    var nama by remember { mutableStateOf("") }
+    var username by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
@@ -78,9 +78,9 @@ fun SignupPage(
         Spacer(modifier = Modifier.height(20.dp))
 
         OutlinedTextField(
-            value = nama,
-            onValueChange = { nama = it },
-            label = { Text(text = "Nama") },
+            value = username,
+            onValueChange = { username = it },
+            label = { Text(text = "Username") },
             colors = OutlinedTextFieldDefaults.colors(
                 focusedContainerColor = Color.Transparent,  // Transparent background
                 unfocusedContainerColor = Color.Transparent,
@@ -124,9 +124,9 @@ fun SignupPage(
         Button(
             onClick = {
                 // Validasi input sebelum menyimpan
-                if (nama.isNotBlank() && email.isNotBlank() && password.isNotBlank()) {
+                if (username.isNotBlank() && email.isNotBlank() && password.isNotBlank()) {
                     coroutineScope.launch {
-                        viewModel.saveUserData(nama, email, password)
+                        viewModel.saveUserData(username, email, password)
                         // Setelah menyimpan, navigasi ke Login
                         Toast.makeText(context, "Data berhasil ditambah", Toast.LENGTH_SHORT).show()
                         navController.navigate(Screen.Login.route) {

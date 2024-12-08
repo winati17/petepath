@@ -54,7 +54,7 @@ fun LoginPage(
     navController: NavController,
     context: Context
 ) {
-    var nama by remember { mutableStateOf("") }
+    var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     val viewModel: UserViewModel = viewModel(
         factory = UserViewModelFactory(context)
@@ -75,10 +75,10 @@ fun LoginPage(
         Spacer(modifier = Modifier.height(20.dp))
 
         OutlinedTextField(
-            value = nama,
-            onValueChange = { nama = it },
+            value = username,
+            onValueChange = { username = it },
             label = {
-                Text(text = "Nama")
+                Text(text = "Username")
             },
             colors = OutlinedTextFieldDefaults.colors(
                 focusedContainerColor = Color.Transparent,
@@ -101,14 +101,14 @@ fun LoginPage(
         Button(
             onClick = {
                 coroutineScope.launch {
-                    val isSuccess = viewModel.login(nama, password)
+                    val isSuccess = viewModel.login(username, password)
                     if (isSuccess) {
                         Toast.makeText(contextLocal, "Login berhasil", Toast.LENGTH_SHORT).show()
                         navController.navigate(Screen.Home.route) {
                             popUpTo(Screen.Login.route) { inclusive = true }
                         }
                     } else {
-                        Toast.makeText(contextLocal, "Nama atau password salah", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(contextLocal, "Username atau password salah", Toast.LENGTH_SHORT).show()
                     }
                 }
             },

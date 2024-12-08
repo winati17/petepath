@@ -10,13 +10,18 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flatMapLatest
 
 class UserViewModel(private val repository: UserPreferencesRepository) : ViewModel() {
 
     val userPreferences: StateFlow<UserPreferences> = repository.userPreferencesFlow
         .stateIn(viewModelScope, SharingStarted.Lazily, UserPreferences(null, null, null))
 
-    val userHistory: StateFlow<List<DataHistoryItem>> = repository.userHistoryFlow
+    // Mengambil riwayat pengguna berdasarkan email dari preferensi
+    val userHistory: StateFlow<List<DataHistoryItem>> = userPreferences
+        .flatMapLatest { prefs ->
+            repository.getUserHistoryFlow(prefs.email)
+        }
         .stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
 
     fun saveUserData(username: String, email: String, password: String) {
@@ -25,9 +30,9 @@ class UserViewModel(private val repository: UserPreferencesRepository) : ViewMod
         }
     }
 
-    suspend fun login(emailInput: String, passwordInput: String): Boolean {
+    suspend fun login(usernameInput: String, passwordInput: String): Boolean {
         val userPreferences = userPreferences.first()
-        return emailInput == userPreferences.email && passwordInput == userPreferences.password
+        return usernameInput == userPreferences.username && passwordInput == userPreferences.password
     }
 
     // Fungsi logout untuk menghapus data pengguna
@@ -37,17 +42,23 @@ class UserViewModel(private val repository: UserPreferencesRepository) : ViewMod
         }
     }
 
-    // Fungsi untuk menambahkan history item
+    // Fungsi untuk menambahkan riwayat
     fun addHistoryItem(item: DataHistoryItem) {
         viewModelScope.launch {
-            repository.addHistoryItem(item)
+            val email = userPreferences.value.email
+            if (email != null) {
+                repository.addHistoryItem(email, item)
+            }
         }
     }
 
     // Fungsi untuk menghapus history
     fun clearHistory() {
         viewModelScope.launch {
-            repository.clearHistory()
+            val email = userPreferences.value.email
+            if (email != null) {
+                repository.clearHistory(email)
+            }
         }
     }
 }
