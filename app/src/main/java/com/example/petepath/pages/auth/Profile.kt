@@ -47,14 +47,13 @@ import com.example.petepath.ui.theme.ReportIcon
 import kotlinx.coroutines.launch
 
 @Composable
-fun Profile(navController: NavController, context: Context) {
+fun Profile(navController: NavController, context: Context, viewModel: UserViewModel) {
     val mainColor = Color(0xFF007BFF)
-    val viewModel: UserViewModel = viewModel(
-        factory = UserViewModelFactory(context)
-    )
     val currentUserEmail by viewModel.currentUserEmail.collectAsState()
     val coroutineScope = rememberCoroutineScope()
-    val displayName = viewModel.users.collectAsState(initial = emptyList()).value.find { it.email == currentUserEmail }?.username ?: "Unknown"
+    val users by viewModel.users.collectAsState(initial = emptyList())
+
+    val displayName = users.find { it.email == currentUserEmail }?.username ?: "Unknown"
     val email = currentUserEmail ?: "Unknown"
 
     Scaffold(
@@ -180,13 +179,13 @@ fun Profile(navController: NavController, context: Context) {
 }
 
 
-@Preview(
-    showBackground = true,
-    showSystemUi = true
-)
-@Composable
-fun ProfilePreview(){
-    PetePathTheme {
-        Profile(navController = rememberNavController(), context = LocalContext.current)
-    }
-}
+//@Preview(
+//    showBackground = true,
+//    showSystemUi = true
+//)
+//@Composable
+//fun ProfilePreview(){
+//    PetePathTheme {
+//        Profile(navController = rememberNavController(), context = LocalContext.current)
+//    }
+//}

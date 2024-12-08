@@ -52,13 +52,11 @@ import kotlinx.coroutines.launch
 @Composable
 fun LoginPage(
     navController: NavController,
-    context: Context
+    context: Context,
+    viewModel: UserViewModel
 ) {
     var usernameOrEmail by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    val viewModel: UserViewModel = viewModel(
-        factory = UserViewModelFactory(context)
-    )
     val coroutineScope = rememberCoroutineScope()
     val contextLocal = LocalContext.current
     val mainColor = Color(0xFF007BFF)
@@ -103,7 +101,6 @@ fun LoginPage(
                 coroutineScope.launch {
                     val isSuccess = viewModel.login(usernameOrEmail, password)
                     if (isSuccess) {
-                        viewModel.setCurrentUser(usernameOrEmail)
                         Toast.makeText(contextLocal, "Login berhasil", Toast.LENGTH_SHORT).show()
                         navController.navigate(Screen.Home.route) {
                             popUpTo(Screen.Login.route) { inclusive = true }
@@ -168,11 +165,11 @@ fun PasswordTextField(
     )
 }
 
-@Preview(showBackground = true)
-@Composable
-fun LoginPagePreview(){
-    PetePathTheme {
-        LoginPage(context = LocalContext.current, navController = rememberNavController())
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun LoginPagePreview(){
+//    PetePathTheme {
+//        LoginPage(context = LocalContext.current, navController = rememberNavController())
+//    }
+//}
 

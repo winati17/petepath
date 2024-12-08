@@ -29,10 +29,7 @@ import androidx.compose.ui.unit.sp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun UserListPage(navController: NavController, context: Context) {
-    val viewModel: UserViewModel = viewModel(
-        factory = UserViewModelFactory(context)
-    )
+fun UserListPage(navController: NavController, context: Context, viewModel: UserViewModel) {
     val users by viewModel.getAllUsers().collectAsState(initial = emptyList())
 
     Scaffold(

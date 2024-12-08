@@ -42,14 +42,14 @@ import com.example.petepath.ui.theme.PetePathTheme
 @Composable
 fun HomePage(
     navController: NavController,
-    context: Context = LocalContext.current
+    context: Context = LocalContext.current,
+    viewModel: UserViewModel
 )  {
-    val viewModel: UserViewModel = viewModel(
-        factory = UserViewModelFactory(context)
-    )
     val currentUserEmail by viewModel.currentUserEmail.collectAsState()
     val userHistory by viewModel.userHistory.collectAsState()
-    val displayName = viewModel.users.collectAsState(initial = emptyList()).value.find { it.email == currentUserEmail }?.username ?: "User"
+    val users by viewModel.users.collectAsState(initial = emptyList())
+
+    val displayName = users.find { it.email == currentUserEmail }?.username ?: "User"
 
     Scaffold(
         bottomBar = {
@@ -309,12 +309,12 @@ fun AllRoute(
     }
 }
 
-@Preview (showBackground = true)
-@Composable
-fun PreviewHomePage() {
-    PetePathTheme {
-        HomePage(navController = rememberNavController())
-    }
-}
+//@Preview (showBackground = true)
+//@Composable
+//fun PreviewHomePage() {
+//    PetePathTheme {
+//        HomePage(navController = rememberNavController())
+//    }
+//}
 
 

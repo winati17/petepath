@@ -46,16 +46,14 @@ import kotlinx.coroutines.launch
 fun SignupPage(
     modifier: Modifier = Modifier,
     navController: NavController,
-    context: Context
+    context: Context,
+    viewModel: UserViewModel
 ) {
     var username by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
     val outlineColor = Color(0xFF007BFF)
-    val viewModel: UserViewModel = viewModel(
-        factory = UserViewModelFactory(context)
-    )
     val coroutineScope = rememberCoroutineScope()
 
     Column(
@@ -138,8 +136,6 @@ fun SignupPage(
                         } else {
                             // Simpan data pengguna baru
                             viewModel.saveUserData(username, email, password)
-                            // Set pengguna saat ini
-                            viewModel.setCurrentUser(email)
                             // Setelah menyimpan, navigasi ke Login
                             Toast.makeText(context, "Data berhasil ditambahkan", Toast.LENGTH_SHORT).show()
                             navController.navigate(Screen.Login.route) {
@@ -169,10 +165,10 @@ fun SignupPage(
 }
 
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewSignupPage() {
-    PetePathTheme {
-        SignupPage(navController = rememberNavController(), context = LocalContext.current)
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun PreviewSignupPage() {
+//    PetePathTheme {
+//        SignupPage(navController = rememberNavController(), context = LocalContext.current)
+//    }
+//}

@@ -30,3 +30,9 @@ data class DataHistoryItem(
     val routeName: String,
     val date: String
 )
+
+data class Route(
+    val id: String,
+    val name: String,
+    val price: String
+)

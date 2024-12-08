@@ -8,8 +8,6 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.example.petepath.data.RuteViewModel
-import com.example.petepath.data.RuteViewModelFactory
 import com.example.petepath.pages.auth.LoginPage
 import com.example.petepath.pages.auth.SignupPage
 import com.example.petepath.pages.features.HomePage
@@ -21,44 +19,45 @@ import com.example.petepath.pages.features.HistoryPage
 import com.example.petepath.pages.features.UserListPage
 
 @Composable
-fun SetupNavGraph(navController: NavHostController, context: Context){
+fun SetupNavGraph(
+    navController: NavHostController,
+    viewModel: UserViewModel,
+    context: Context
+){
     NavHost(
         navController= navController,
         startDestination= Screen.Login.route
     ){
         composable(route = Screen.Home.route){
-            HomePage(navController = navController, context= context)
+            HomePage(navController = navController, context= context, viewModel = viewModel)
         }
         composable(
             route = Screen.Rute.route,
             arguments = listOf(navArgument("ruteId") { type = NavType.StringType })
         ) { backStackEntry ->
             val ruteId = backStackEntry.arguments?.getString("ruteId") ?: "default"
-            val viewModel: RuteViewModel = viewModel(
-                factory = RuteViewModelFactory(ruteId)
-            )
-            RutePage(navController = navController, viewModel = viewModel)
+            RutePage(ruteId = ruteId, navController = navController, context = context, viewModel = viewModel)
         }
         composable(route = Screen.History.route){
-            HistoryPage(navController = navController)
+            HistoryPage(navController = navController, viewModel = viewModel)
         }
         composable(route = Screen.ReportHistory.route){
-            ReportHistoryPage(navController = navController)
+            ReportHistoryPage(navController = navController, viewModel = viewModel)
         }
         composable(route = Screen.Report.route){
-            ReportPage(navController = navController)
+            ReportPage(navController = navController, viewModel = viewModel)
         }
         composable(route = Screen.Profile.route){
-            Profile(navController = navController, context = context)
+            Profile(navController = navController, context = context, viewModel = viewModel)
         }
         composable(route = Screen.Login.route) {
-            LoginPage(navController = navController, context = context)
+            LoginPage(navController = navController, context = context, viewModel = viewModel)
         }
         composable(route = Screen.Signup.route) {
-            SignupPage(navController = navController, context = context)
+            SignupPage(navController = navController, context = context, viewModel = viewModel)
         }
         composable(route = Screen.UserList.route) {
-            UserListPage(navController = navController, context = context)
+            UserListPage(navController = navController, context = context, viewModel = viewModel)
         }
     }
 }

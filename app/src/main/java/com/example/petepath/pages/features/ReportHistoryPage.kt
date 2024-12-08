@@ -31,10 +31,11 @@ import com.example.petepath.ui.theme.ReportIcon
 import com.example.petepath.ui.theme.HistoryIcon
 import com.example.petepath.R
 import com.example.petepath.Screen
+import com.example.petepath.UserViewModel
 import com.example.petepath.ui.theme.PetePathTheme
 
 @Composable
-fun ReportHistoryPage(navController: NavController) {
+fun ReportHistoryPage(navController: NavController, viewModel: UserViewModel) {
     Scaffold(
         bottomBar = {
             Row(
@@ -113,10 +114,10 @@ fun ReportHistoryPage(navController: NavController) {
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewReportHistory(){
-    PetePathTheme {
-        ReportHistoryPage(navController = rememberNavController())
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun PreviewReportHistory(){
+//    PetePathTheme {
+//        ReportHistoryPage(navController = rememberNavController())
+//    }
+//}

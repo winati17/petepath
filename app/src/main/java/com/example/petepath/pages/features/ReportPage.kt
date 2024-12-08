@@ -22,10 +22,11 @@ import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.petepath.Screen
+import com.example.petepath.UserViewModel
 import com.example.petepath.ui.theme.PetePathTheme
 
 @Composable
-fun ReportPage(navController: NavController) {
+fun ReportPage(navController: NavController, viewModel: UserViewModel) {
     var route by remember { mutableStateOf("") }
     var violationCategory by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
@@ -232,10 +233,10 @@ fun DropdownMenuField(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewReportPage() {
-    PetePathTheme {
-        ReportPage(navController = rememberNavController())
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun PreviewReportPage() {
+//    PetePathTheme {
+//        ReportPage(navController = rememberNavController())
+//    }
+//}
