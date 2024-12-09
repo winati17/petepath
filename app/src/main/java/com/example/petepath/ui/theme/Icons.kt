@@ -49,7 +49,7 @@ fun HistoryIcon(active: Boolean = false, navController: NavController) {
         modifier = Modifier
             .size(24.dp)
             .clickable {
-                navController.navigate(Screen.History.route)
+                navController.navigate(Screen.RouteHistory.route)
             }
     )
 }

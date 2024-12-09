@@ -114,9 +114,9 @@ fun ReportPage(navController: NavController, viewModel: UserViewModel) {
                 .padding(horizontal = 10.dp),
             singleLine = false,
             colors = OutlinedTextFieldDefaults.colors(
-                focusedContainerColor = Color.Transparent,  // Transparent background
+                focusedContainerColor = Color.Transparent,
                 unfocusedContainerColor = Color.Transparent,
-                focusedBorderColor = outlineColor,          // Use outlineColor here
+                focusedBorderColor = outlineColor,
                 unfocusedBorderColor = outlineColor,
                 focusedLabelColor = outlineColor,
                 unfocusedLabelColor = Color.Gray
@@ -142,9 +142,9 @@ fun ReportPage(navController: NavController, viewModel: UserViewModel) {
                 imeAction = ImeAction.Done
             ),
             colors = OutlinedTextFieldDefaults.colors(
-                focusedContainerColor = Color.Transparent,  // Transparent background
+                focusedContainerColor = Color.Transparent,
                 unfocusedContainerColor = Color.Transparent,
-                focusedBorderColor = outlineColor,          // Use outlineColor here
+                focusedBorderColor = outlineColor,
                 unfocusedBorderColor = outlineColor,
                 focusedLabelColor = outlineColor,
                 unfocusedLabelColor = Color.Gray
@@ -157,7 +157,6 @@ fun ReportPage(navController: NavController, viewModel: UserViewModel) {
             onClick = {
                 coroutineScope.launch {
                     if (route.isNotBlank() && violationCategory.isNotBlank() && description.isNotBlank() && vehiclePlate.isNotBlank()) {
-                        // Parse routeNumber and routeName from route
                         val routeParts = route.split(" | ")
                         if (routeParts.size >= 2) {
                             val routeNumber = routeParts[0].removePrefix("Rute ").trim()
@@ -243,7 +242,7 @@ fun DropdownMenuField(
                 unfocusedBorderColor = Color(0xFF007BFF),
                 cursorColor = Color.Transparent
             ),
-            shape = RoundedCornerShape(8.dp) // Rounded corners for the outlined field
+            shape = RoundedCornerShape(8.dp)
         )
         DropdownMenu(
             expanded = expanded,
@@ -251,7 +250,7 @@ fun DropdownMenuField(
             modifier = Modifier
                 .fillMaxWidth(0.9f)
                 .background(Color.White, shape = RoundedCornerShape(16.dp))
-                .padding(start = 8.dp, end = 8.dp, top = 8.dp) // Remove bottom padding
+                .padding(start = 8.dp, end = 8.dp, top = 8.dp)
         ) {
             options.forEachIndexed { index, option ->
                 DropdownMenuItem(

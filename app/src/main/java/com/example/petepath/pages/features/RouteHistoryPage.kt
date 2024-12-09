@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
@@ -29,12 +28,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.petepath.ui.theme.HomepageIcon
 import com.example.petepath.ui.theme.ProfileIcon
 import com.example.petepath.ui.theme.ReportIcon
@@ -42,11 +39,9 @@ import com.example.petepath.ui.theme.HistoryIcon
 import com.example.petepath.R
 import com.example.petepath.Screen
 import com.example.petepath.UserViewModel
-import com.example.petepath.data.UserViewModelFactory
-import com.example.petepath.ui.theme.PetePathTheme
 
 @Composable
-fun HistoryPage(navController: NavController, context: Context = LocalContext.current, viewModel: UserViewModel) {
+fun RouteHistoryPage(navController: NavController, context: Context = LocalContext.current, viewModel: UserViewModel) {
     val mainColor = Color(0xFF007BFF)
     val petepete: Painter = painterResource(id = R.drawable.vector_pete2)
     val userHistory by viewModel.userHistory.collectAsState()
@@ -106,8 +101,7 @@ fun HistoryPage(navController: NavController, context: Context = LocalContext.cu
                 }
             }
         } else {
-            // Tampilan ketika tidak ada riwayat
-            AddActivityView(navController = navController, paddingValues = paddingValues)
+            NoHistory(navController = navController, paddingValues = paddingValues)
         }
     }
 }
@@ -130,7 +124,7 @@ fun HistoryItem(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
+            horizontalArrangement = Arrangement.spacedBy(24.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
@@ -159,7 +153,7 @@ fun HistoryItem(
 }
 
 @Composable
-fun AddActivityView(navController: NavController, paddingValues: PaddingValues) {
+fun NoHistory(navController: NavController, paddingValues: PaddingValues) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -225,6 +219,6 @@ fun AddActivityView(navController: NavController, paddingValues: PaddingValues) 
 //@Composable
 //fun PreviewActivityHistory(){
 //    PetePathTheme {
-//        AddActivityView(navController = rememberNavController(), paddingValues =padding)
+//        HistoryRoutePage(navController = rememberNavController(), paddingValues =padding)
 //    }
 //}

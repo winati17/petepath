@@ -40,16 +40,13 @@ fun RutePage(
     context: Context,
     viewModel: UserViewModel
 ){
-    // Mengambil data rute menggunakan RouteRepository
     val route = RouteRepository.getRouteById(ruteId)
     val routeName = route?.name ?: "Unknown"
     val routesForRute = getRoutesByRuteId(ruteId)
 
-    // Mengambil email pengguna saat ini
     val currentUserEmail by viewModel.currentUserEmail.collectAsState()
 
     if (routeName == "Unknown") {
-        // Tampilkan pesan error jika rute tidak ditemukan
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -108,7 +105,6 @@ fun RutePage(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Menampilkan daftar rute
             routesForRute.forEach { route ->
                 RouteItem(route = route)
             }

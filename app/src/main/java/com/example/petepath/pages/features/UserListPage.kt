@@ -45,7 +45,6 @@ fun UserListPage(navController: NavController, context: Context, viewModel: User
             )
         },
         content = { paddingValues ->
-            // Bungkus Button dan LazyColumn di dalam Column
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -75,7 +74,6 @@ fun UserListPage(navController: NavController, context: Context, viewModel: User
                     }
                 }
 
-                // Button ditempatkan di bawah LazyColumn
                 Button(
                     onClick = {
                         viewModel.clearUser()

@@ -122,7 +122,6 @@ fun SignupPage(
 
         Button(
             onClick = {
-                // Validasi input sebelum menyimpan
                 if (username.isNotBlank() && email.isNotBlank() && password.isNotBlank()) {
                     coroutineScope.launch {
                         // Cek apakah email atau username sudah digunakan
@@ -131,21 +130,16 @@ fun SignupPage(
                         }
 
                         if (existingUser != null) {
-                            // Tampilkan pesan error jika email atau username sudah digunakan
                             Toast.makeText(context, "Username atau Email sudah digunakan", Toast.LENGTH_SHORT).show()
                         } else {
-                            // Simpan data pengguna baru
                             viewModel.saveUserData(username, email, password)
-                            // Setelah menyimpan, navigasi ke Login
                             Toast.makeText(context, "Data berhasil ditambahkan", Toast.LENGTH_SHORT).show()
                             navController.navigate(Screen.Login.route) {
-                                // Menghapus history agar user tidak kembali ke halaman signup
                                 popUpTo(Screen.Home.route) { inclusive = false }
                             }
                         }
                     }
                 } else {
-                    // Tampilkan pesan error jika input tidak lengkap
                     Toast.makeText(context, "Silakan lengkapi semua field", Toast.LENGTH_SHORT).show()
                 }
             },

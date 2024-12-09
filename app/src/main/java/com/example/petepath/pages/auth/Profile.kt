@@ -91,7 +91,6 @@ fun Profile(navController: NavController, context: Context, viewModel: UserViewM
 
             Spacer(modifier = Modifier.height(45.dp))
 
-            // Box dengan informasi profil
             Box(
                 modifier = Modifier
                     .width(300.dp)
@@ -110,7 +109,6 @@ fun Profile(navController: NavController, context: Context, viewModel: UserViewM
                             .fillMaxWidth(),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        // Avatar Box
                         Box(
                             modifier = Modifier
                                 .clip(CircleShape)

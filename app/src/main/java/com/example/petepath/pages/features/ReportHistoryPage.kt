@@ -66,7 +66,6 @@ fun ReportHistoryPage(navController: NavController, viewModel: UserViewModel) {
         }
     ) { paddingValues ->
         if (userReports.isEmpty()) {
-            // Tampilan ketika tidak ada laporan
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -89,7 +88,7 @@ fun ReportHistoryPage(navController: NavController, viewModel: UserViewModel) {
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .weight(1f), // Tambahkan weight agar konten berikutnya terpusat
+                        .weight(1f),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ){
@@ -152,13 +151,13 @@ fun ReportHistoryPage(navController: NavController, viewModel: UserViewModel) {
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .weight(1f) // Ganti fillMaxSize dengan weight
+                        .weight(1f)
                 ) {
                     items(userReports) { report ->
                         ReportItemCard(report = report)
                     }
                 }
-                Spacer(modifier = Modifier.height(16.dp)) // Tambahkan jarak sebelum tombol
+                Spacer(modifier = Modifier.height(16.dp))
                 Button(
                     onClick = {
                         navController.navigate(Screen.Report.route)

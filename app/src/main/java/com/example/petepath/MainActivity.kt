@@ -12,7 +12,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Inisialisasi UserViewModel menggunakan ViewModelProvider
         val userViewModel: UserViewModel = ViewModelProvider(
             this,
             UserViewModelFactory(this)

@@ -72,7 +72,7 @@ fun HomePage(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(20.dp)
-                    .padding(innerPadding) // Avoid content being overlapped by BottomAppBar
+                    .padding(innerPadding)
             ) {
                 // Header
                 item {
@@ -123,7 +123,6 @@ fun HomePage(
                     Spacer(modifier = Modifier.height(4.dp))
                 }
 
-                // Grid of All Routes
                 items(chunkedAllRoutes()) { rowRoutes ->
                     Row(
                         modifier = Modifier
@@ -140,7 +139,6 @@ fun HomePage(
                                 modifier = Modifier.weight(1f)
                             )
                         }
-                        // If the number of routes is odd, add a Spacer
                         if (rowRoutes.size < 2) {
                             Spacer(modifier = Modifier.weight(1f))
                         }
@@ -152,7 +150,6 @@ fun HomePage(
     )
 }
 
-// Fungsi untuk mengelompokkan daftar route menjadi pasangan (chunked)
 private fun chunkedAllRoutes(): List<List<Triple<String, String, String>>> {
     val allRoutes = listOf(
         Triple("02", "Veteran", "Rp5.000"),
@@ -181,7 +178,6 @@ fun RecentRoute(
         colors = CardDefaults.cardColors(containerColor = Color.White),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
-        // Gunakan Box untuk memusatkan konten secara vertikal dan horizontal
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -207,20 +203,16 @@ fun RecentRoute(
                 PrimaryButton(
                     onClick = {
                         coroutineScope.launch {
-                            // Dapatkan tanggal dan waktu saat ini
                             val currentDate = java.text.SimpleDateFormat("dd MMMM yyyy, HH:mm", java.util.Locale.getDefault()).format(java.util.Date())
 
-                            // Buat objek DataHistoryItem
                             val historyItem = DataHistoryItem(
                                 routeNumber = ruteNumber,
                                 routeName = ruteName,
                                 date = currentDate
                             )
 
-                            // Tambahkan ke riwayat
                             viewModel.addHistoryItem(historyItem)
 
-                            // Navigasi ke halaman Rute
                             navController.navigate(Screen.Rute.createRoute(ruteNumber))
                         }
                     },
@@ -249,20 +241,16 @@ fun AllRoute(
             .height(220.dp)
             .clickable {
                 coroutineScope.launch {
-                    // Dapatkan tanggal dan waktu saat ini
                     val currentDate = java.text.SimpleDateFormat("dd MMMM yyyy, HH:mm", java.util.Locale.getDefault()).format(java.util.Date())
 
-                    // Buat objek DataHistoryItem
                     val historyItem = DataHistoryItem(
                         routeNumber = routeNumber,
                         routeName = routeName,
                         date = currentDate
                     )
 
-                    // Tambahkan ke riwayat
                     viewModel.addHistoryItem(historyItem)
 
-                    // Navigasi ke halaman Rute
                     navController.navigate(Screen.Rute.createRoute(routeNumber))
                 }
             },

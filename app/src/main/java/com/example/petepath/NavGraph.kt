@@ -14,7 +14,7 @@ import com.example.petepath.pages.auth.Profile
 import com.example.petepath.pages.features.ReportHistoryPage
 import com.example.petepath.pages.features.RutePage
 import com.example.petepath.pages.features.ReportPage
-import com.example.petepath.pages.features.HistoryPage
+import com.example.petepath.pages.features.RouteHistoryPage
 import com.example.petepath.pages.features.UserListPage
 
 @Composable
@@ -37,8 +37,8 @@ fun SetupNavGraph(
             val ruteId = backStackEntry.arguments?.getString("ruteId") ?: "default"
             RutePage(ruteId = ruteId, navController = navController, context = context, viewModel = viewModel)
         }
-        composable(route = Screen.History.route){
-            HistoryPage(navController = navController, viewModel = viewModel)
+        composable(route = Screen.RouteHistory.route){
+            RouteHistoryPage(navController = navController, viewModel = viewModel)
         }
         composable(route = Screen.ReportHistory.route){
             ReportHistoryPage(navController = navController, viewModel = viewModel)
@@ -66,7 +66,7 @@ sealed class Screen(val route: String) {
     object Rute : Screen("rute/{ruteId}") {
         fun createRoute(ruteId: String) = "rute/$ruteId"
     }
-    object History: Screen(route= "history_page")
+    object RouteHistory: Screen(route= "routehistory_page")
     object Report: Screen(route= "report_page")
     object ReportHistory: Screen(route= "reporthistory_page")
     object Profile: Screen(route= "profile")
