@@ -1,6 +1,5 @@
 package com.example.petepath.pages.features
 
-import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,13 +23,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.petepath.ui.theme.HomepageIcon
 import com.example.petepath.ui.theme.ProfileIcon
@@ -41,7 +38,10 @@ import com.example.petepath.Screen
 import com.example.petepath.UserViewModel
 
 @Composable
-fun RouteHistoryPage(navController: NavController, context: Context = LocalContext.current, viewModel: UserViewModel) {
+fun RouteHistoryPage(
+    navController: NavController,
+    viewModel: UserViewModel
+) {
     val mainColor = Color(0xFF007BFF)
     val petepete: Painter = painterResource(id = R.drawable.vector_pete2)
     val userHistory by viewModel.userHistory.collectAsState()

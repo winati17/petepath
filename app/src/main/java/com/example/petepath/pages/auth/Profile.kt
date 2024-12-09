@@ -1,6 +1,5 @@
 package com.example.petepath.pages.auth
 
-import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -26,33 +25,31 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.petepath.Screen
 import com.example.petepath.UserViewModel
-import com.example.petepath.data.UserViewModelFactory
 import com.example.petepath.ui.theme.HomepageIcon
 import com.example.petepath.ui.theme.HistoryIcon
-import com.example.petepath.ui.theme.PetePathTheme
 import com.example.petepath.ui.theme.ProfileIcon
 import com.example.petepath.ui.theme.ReportIcon
 import kotlinx.coroutines.launch
 
 @Composable
-fun Profile(navController: NavController, context: Context, viewModel: UserViewModel) {
+fun Profile(
+    navController: NavController,
+    viewModel: UserViewModel
+) {
     val mainColor = Color(0xFF007BFF)
     val currentUserEmail by viewModel.currentUserEmail.collectAsState()
     val coroutineScope = rememberCoroutineScope()
     val users by viewModel.users.collectAsState(initial = emptyList())
-
+    val context = LocalContext.current
     val displayName = users.find { it.email == currentUserEmail }?.username ?: "Unknown"
     val email = currentUserEmail ?: "Unknown"
 

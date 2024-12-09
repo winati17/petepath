@@ -1,6 +1,5 @@
 package com.example.petepath.pages.features
 
-import android.content.Context
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -15,7 +14,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.tooling.preview.Preview
 import com.example.petepath.ui.theme.HistoryIcon
 import com.example.petepath.ui.theme.HomepageIcon
 import com.example.petepath.ui.theme.PrimaryButton
@@ -27,23 +25,16 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.petepath.Screen
 import com.example.petepath.UserViewModel
-import com.example.petepath.data.UserViewModelFactory
 import kotlinx.coroutines.launch
 import com.example.petepath.data.DataHistoryItem
-import com.example.petepath.data.Route
-import com.example.petepath.ui.theme.PetePathTheme
 
 @Composable
 fun HomePage(
     navController: NavController,
-    context: Context = LocalContext.current,
     viewModel: UserViewModel
 )  {
     val currentUserEmail by viewModel.currentUserEmail.collectAsState()

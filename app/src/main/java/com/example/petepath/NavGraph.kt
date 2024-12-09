@@ -28,14 +28,14 @@ fun SetupNavGraph(
         startDestination= Screen.Login.route
     ){
         composable(route = Screen.Home.route){
-            HomePage(navController = navController, context= context, viewModel = viewModel)
+            HomePage(navController = navController, viewModel = viewModel)
         }
         composable(
             route = Screen.Rute.route,
             arguments = listOf(navArgument("ruteId") { type = NavType.StringType })
         ) { backStackEntry ->
             val ruteId = backStackEntry.arguments?.getString("ruteId") ?: "default"
-            RutePage(ruteId = ruteId, navController = navController, context = context, viewModel = viewModel)
+            RutePage(ruteId = ruteId, navController = navController, viewModel = viewModel)
         }
         composable(route = Screen.RouteHistory.route){
             RouteHistoryPage(navController = navController, viewModel = viewModel)
@@ -47,16 +47,16 @@ fun SetupNavGraph(
             ReportPage(navController = navController, viewModel = viewModel)
         }
         composable(route = Screen.Profile.route){
-            Profile(navController = navController, context = context, viewModel = viewModel)
+            Profile(navController = navController, viewModel = viewModel)
         }
         composable(route = Screen.Login.route) {
-            LoginPage(navController = navController, context = context, viewModel = viewModel)
+            LoginPage(navController = navController, viewModel = viewModel)
         }
         composable(route = Screen.Signup.route) {
-            SignupPage(navController = navController, context = context, viewModel = viewModel)
+            SignupPage(navController = navController, viewModel = viewModel)
         }
         composable(route = Screen.UserList.route) {
-            UserListPage(navController = navController, context = context, viewModel = viewModel)
+            UserListPage(navController = navController, viewModel = viewModel)
         }
     }
 }

@@ -14,7 +14,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.material.icons.Icons
@@ -22,16 +21,16 @@ import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.petepath.Screen
 import com.example.petepath.UserViewModel
 import com.example.petepath.data.ReportItem
-import com.example.petepath.data.Route
-import com.example.petepath.ui.theme.PetePathTheme
 import kotlinx.coroutines.launch
 
 @Composable
-fun ReportPage(navController: NavController, viewModel: UserViewModel) {
+fun ReportPage(
+    navController: NavController,
+    viewModel: UserViewModel
+) {
     var route by remember { mutableStateOf("") }
     var violationCategory by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
