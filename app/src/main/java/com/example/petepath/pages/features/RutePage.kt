@@ -1,5 +1,6 @@
 package com.example.petepath.pages.features
 
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -8,35 +9,47 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.petepath.data.RuteViewModel
+import com.example.petepath.UserViewModel
+import com.example.petepath.data.DataHistoryItem
+import com.example.petepath.data.Route
+import com.example.petepath.data.UserPreferencesRepository
 import com.example.petepath.ui.theme.HistoryIcon
 import com.example.petepath.ui.theme.HomepageIcon
 import com.example.petepath.ui.theme.PetePathTheme
 import com.example.petepath.ui.theme.ProfileIcon
 import com.example.petepath.ui.theme.ReportIcon
 
-data class Route(
-    val id: String,
-    val name: String,
-    val price: String
-)
-
 @Composable
-fun RutePage(navController: NavController, viewModel: RuteViewModel) {
-    val routeName = viewModel.routeName
-    val routesForRute = viewModel.routesForRute
+fun RutePage(
+    ruteId: String,
+    navController: NavController,
+    context: Context,
+    viewModel: UserViewModel
+){
+    // Mengambil data rute menggunakan RouteRepository
+    val route = RouteRepository.getRouteById(ruteId)
+    val routeName = route?.name ?: "Unknown"
+    val routesForRute = getRoutesByRuteId(ruteId)
+
+    // Mengambil email pengguna saat ini
+    val currentUserEmail by viewModel.currentUserEmail.collectAsState()
 
     if (routeName == "Unknown") {
-        // Display an error message or navigate back
+        // Tampilkan pesan error jika rute tidak ditemukan
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -67,10 +80,10 @@ fun RutePage(navController: NavController, viewModel: RuteViewModel) {
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                HomepageIcon(active = true, navController = navController)
-                HistoryIcon(navController = navController)
-                ReportIcon(navController = navController)
-                ProfileIcon(navController = navController)
+                HomepageIcon(active = false, navController = navController)
+                HistoryIcon(active = false, navController = navController)
+                ReportIcon(active = false, navController = navController)
+                ProfileIcon(active = false, navController = navController)
             }
         }
     ) { paddingValues ->
@@ -78,10 +91,10 @@ fun RutePage(navController: NavController, viewModel: RuteViewModel) {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .padding(16.dp) // Add additional padding if needed
+                .padding(16.dp) // Tambahkan padding sesuai kebutuhan
         ) {
             Text(
-                text = "Rute ${viewModel.ruteId} | $routeName",
+                text = "Rute $ruteId | $routeName",
                 color = Color(0xFF007BFF),
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold
@@ -89,12 +102,13 @@ fun RutePage(navController: NavController, viewModel: RuteViewModel) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Placeholder for MapView or other UI elements
+            // Placeholder untuk MapView atau elemen UI lainnya
+            // Contoh:
             // MapView()
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Display the list of routes
+            // Menampilkan daftar rute
             routesForRute.forEach { route ->
                 RouteItem(route = route)
             }
@@ -138,19 +152,19 @@ fun getRoutesByRuteId(ruteId: String): List<String> {
             "Jl. Unhas 1",
             "Jl. Unhas 2",
             "Jl. Unhas 3",
-            // Add more routes for Unhas
+            // Tambahkan rute lainnya untuk Unhas
         )
         "03" -> listOf(
             "Jl. BTP 1",
             "Jl. BTP 2",
             "Jl. BTP 3",
-            // Add more routes for BTP
+            // Tambahkan rute lainnya untuk BTP
         )
         "04" -> listOf(
             "Jl. Pettarani 1",
             "Jl. Pettarani 2",
             "Jl. Pettarani 3",
-            // Add more routes for Pettarani
+            // Tambahkan rute lainnya untuk Pettarani
         )
         else -> listOf("No routes available")
     }
@@ -180,11 +194,28 @@ fun RouteItem(route: String) {
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewRoutePageScreen() {
-    PetePathTheme {
-        val fakeViewModel = RuteViewModel("01")
-        RutePage(navController = rememberNavController(), viewModel = fakeViewModel)
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun PreviewRoutePageScreen() {
+//    // Mock NavController untuk preview
+//    val navController = rememberNavController()
+//
+//    // Mock UserViewModel untuk preview
+//    val context = LocalContext.current
+//    val repository = UserPreferencesRepository(context = context)
+//    val viewModel = remember {
+//        UserViewModel(repository = repository).apply {
+//            // Tambahkan pengguna palsu untuk preview
+//            saveUserData(username = "TestUser", email = "test@example.com", password = "password")
+//            _currentUserEmail.value = "test@example.com"
+//        }
+//    }
+//
+//    // Preview RutePage dengan ruteId "01"
+//    RutePage(
+//        ruteId = "01",
+//        navController = navController,
+//        context = context,
+//        viewModel = viewModel
+//    )
+//}

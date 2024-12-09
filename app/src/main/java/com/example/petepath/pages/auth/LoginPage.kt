@@ -52,13 +52,11 @@ import kotlinx.coroutines.launch
 @Composable
 fun LoginPage(
     navController: NavController,
-    context: Context
+    context: Context,
+    viewModel: UserViewModel
 ) {
-    var nama by remember { mutableStateOf("") }
+    var usernameOrEmail by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    val viewModel: UserViewModel = viewModel(
-        factory = UserViewModelFactory(context)
-    )
     val coroutineScope = rememberCoroutineScope()
     val contextLocal = LocalContext.current
     val mainColor = Color(0xFF007BFF)
@@ -75,10 +73,10 @@ fun LoginPage(
         Spacer(modifier = Modifier.height(20.dp))
 
         OutlinedTextField(
-            value = nama,
-            onValueChange = { nama = it },
+            value = usernameOrEmail,
+            onValueChange = { usernameOrEmail = it },
             label = {
-                Text(text = "Nama")
+                Text(text = "Username atau Email")
             },
             colors = OutlinedTextFieldDefaults.colors(
                 focusedContainerColor = Color.Transparent,
@@ -101,14 +99,14 @@ fun LoginPage(
         Button(
             onClick = {
                 coroutineScope.launch {
-                    val isSuccess = viewModel.login(nama, password)
+                    val isSuccess = viewModel.login(usernameOrEmail, password)
                     if (isSuccess) {
                         Toast.makeText(contextLocal, "Login berhasil", Toast.LENGTH_SHORT).show()
                         navController.navigate(Screen.Home.route) {
                             popUpTo(Screen.Login.route) { inclusive = true }
                         }
                     } else {
-                        Toast.makeText(contextLocal, "Nama atau password salah", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(contextLocal, "Username/Email atau password salah", Toast.LENGTH_SHORT).show()
                     }
                 }
             },
@@ -126,7 +124,12 @@ fun LoginPage(
 
         Row {
             Text(text = "Belum punya akun? ")
-            Text(text = "Daftar sekarang!", modifier = Modifier.clickable { navController.navigate(Screen.Signup.route) }, color = mainColor)
+            Text(
+                text = "Daftar sekarang!",
+                modifier = Modifier.clickable { navController.navigate(Screen.Signup.route) },
+                color = mainColor,
+                fontWeight = FontWeight.SemiBold
+            )
         }
     }
 }
@@ -162,11 +165,11 @@ fun PasswordTextField(
     )
 }
 
-@Preview(showBackground = true)
-@Composable
-fun LoginPagePreview(){
-    PetePathTheme {
-        LoginPage(context = LocalContext.current, navController = rememberNavController())
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun LoginPagePreview(){
+//    PetePathTheme {
+//        LoginPage(context = LocalContext.current, navController = rememberNavController())
+//    }
+//}
 

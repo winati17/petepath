@@ -46,12 +46,9 @@ import com.example.petepath.data.UserViewModelFactory
 import com.example.petepath.ui.theme.PetePathTheme
 
 @Composable
-fun HistoryPage(navController: NavController, context: Context = LocalContext.current) {
+fun HistoryPage(navController: NavController, context: Context = LocalContext.current, viewModel: UserViewModel) {
     val mainColor = Color(0xFF007BFF)
     val petepete: Painter = painterResource(id = R.drawable.vector_pete2)
-    val viewModel: UserViewModel = viewModel(
-        factory = UserViewModelFactory(context)
-    )
     val userHistory by viewModel.userHistory.collectAsState()
 
     Scaffold(
@@ -97,7 +94,7 @@ fun HistoryPage(navController: NavController, context: Context = LocalContext.cu
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    items(userHistory) { historyItem ->
+                    items(userHistory.reversed()) { historyItem ->
                         HistoryItem(
                             painter = petepete,
                             routeNumber = historyItem.routeNumber,
@@ -224,10 +221,10 @@ fun AddActivityView(navController: NavController, paddingValues: PaddingValues) 
 }
 
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewActivityHistory(){
-    PetePathTheme {
-        HistoryPage(navController = rememberNavController())
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun PreviewActivityHistory(){
+//    PetePathTheme {
+//        HistoryPage(navController = rememberNavController())
+//    }
+//}

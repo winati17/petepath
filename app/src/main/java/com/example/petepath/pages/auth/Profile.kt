@@ -47,15 +47,14 @@ import com.example.petepath.ui.theme.ReportIcon
 import kotlinx.coroutines.launch
 
 @Composable
-fun Profile(navController: NavController, context: Context) {
+fun Profile(navController: NavController, context: Context, viewModel: UserViewModel) {
     val mainColor = Color(0xFF007BFF)
-    val viewModel: UserViewModel = viewModel(
-        factory = UserViewModelFactory(context)
-    )
-    val userPreferences by viewModel.userPreferences.collectAsState()
+    val currentUserEmail by viewModel.currentUserEmail.collectAsState()
     val coroutineScope = rememberCoroutineScope()
-    val displayName = userPreferences.username ?: "Unknown"
-    val email = userPreferences.email ?: "Unknown"
+    val users by viewModel.users.collectAsState(initial = emptyList())
+
+    val displayName = users.find { it.email == currentUserEmail }?.username ?: "Unknown"
+    val email = currentUserEmail ?: "Unknown"
 
     Scaffold(
         bottomBar = {
@@ -139,13 +138,12 @@ fun Profile(navController: NavController, context: Context) {
                     Button(
                         onClick = {
                             coroutineScope.launch {
-                                // Tampilkan Toast berhasil logout
+                                viewModel.logout()
                                 Toast.makeText(context, "Logout berhasil", Toast.LENGTH_SHORT).show()
-                                // Navigasi ke halaman Login
                                 navController.navigate(Screen.Login.route) {
                                     popUpTo(Screen.Profile.route) { inclusive = true }
                                 }
-                                viewModel.clearHistory()
+//                                viewModel.clearHistory()
                             }
                         },
                         modifier = Modifier.width(230.dp),
@@ -157,6 +155,21 @@ fun Profile(navController: NavController, context: Context) {
                     ) {
                         Text(text = "Logout")
                     }
+
+                    Button(
+                        onClick = {
+                            navController.navigate(Screen.UserList.route)
+                        },
+                        modifier = Modifier
+                            .width(230.dp),
+                        shape = RoundedCornerShape(8.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color.Gray,
+                            contentColor = Color.White
+                        )
+                    ) {
+                        Text(text = "Lihat Daftar Akun")
+                    }
                 }
             }
 
@@ -166,13 +179,13 @@ fun Profile(navController: NavController, context: Context) {
 }
 
 
-@Preview(
-    showBackground = true,
-    showSystemUi = true
-)
-@Composable
-fun ProfilePreview(){
-    PetePathTheme {
-        Profile(navController = rememberNavController(), context = LocalContext.current)
-    }
-}
+//@Preview(
+//    showBackground = true,
+//    showSystemUi = true
+//)
+//@Composable
+//fun ProfilePreview(){
+//    PetePathTheme {
+//        Profile(navController = rememberNavController(), context = LocalContext.current)
+//    }
+//}
