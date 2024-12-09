@@ -50,9 +50,9 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun SignupPage(
-    modifier: Modifier = Modifier,
     navController: NavController,
-    context: Context
+    context: Context,
+    viewModel: UserViewModel
 ) {
     var nama by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
@@ -67,7 +67,7 @@ fun SignupPage(
     val coroutineScope = rememberCoroutineScope()
 
     Column(
-        modifier = modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -170,10 +170,10 @@ fun SignupPage(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewSignupPage() {
-    PetePathTheme {
-        SignupPage(navController = rememberNavController(), context = LocalContext.current)
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun PreviewSignupPage() {
+//    PetePathTheme {
+//        SignupPage(navController = rememberNavController(), context = LocalContext.current)
+//    }
+//}

@@ -73,7 +73,7 @@ fun ReportHistoryPage(navController: NavController, viewModel: UserViewModel) {
                     .padding(paddingValues)
                     .padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
+                verticalArrangement = Arrangement.Top
             ) {
                 Text(
                     text = "Riwayat Laporan",
@@ -86,37 +86,43 @@ fun ReportHistoryPage(navController: NavController, viewModel: UserViewModel) {
                         .padding(bottom = 5.dp, top = 30.dp)
                         .align(Alignment.Start)
                 )
-                Image(
-                    painter = painterResource(id = R.drawable.leaf),
-                    contentDescription = "Vector Image",
-                    modifier = Modifier
-                        .size(250.dp)
-                        .padding(bottom = 16.dp)
-                )
-
-                Text(
-                    text = "Tidak ada laporan terbaru.",
-                    style = TextStyle(
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Medium,
-                        color = Color.Gray
-                    ),
-                    modifier = Modifier
-                        .padding(bottom = 20.dp)
-                )
-                Button(
-                    onClick = {
-                        navController.navigate(Screen.Report.route)
-                    },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF007BFF)),
-                    shape = RoundedCornerShape(11.dp),
-                    modifier = Modifier.fillMaxWidth(0.6f)
-                ) {
-                    Text(
-                        text = "+ Tambah Laporan",
-                        color = Color.White,
-                        fontSize = 16.sp
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ){
+                    Image(
+                        painter = painterResource(id = R.drawable.leaf),
+                        contentDescription = "Vector Image",
+                        modifier = Modifier
+                            .size(250.dp)
+                            .padding(bottom = 16.dp)
                     )
+
+                    Text(
+                        text = "Tidak ada laporan terbaru.",
+                        style = TextStyle(
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Medium,
+                            color = Color.Gray
+                        ),
+                        modifier = Modifier
+                            .padding(bottom = 20.dp)
+                    )
+                    Button(
+                        onClick = {
+                            navController.navigate(Screen.Report.route)
+                        },
+                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF007BFF)),
+                        shape = RoundedCornerShape(11.dp),
+                        modifier = Modifier.fillMaxWidth(0.6f)
+                    ) {
+                        Text(
+                            text = "+ Tambah Laporan",
+                            color = Color.White,
+                            fontSize = 16.sp
+                        )
+                    }
                 }
             }
         } else {
@@ -204,7 +210,7 @@ fun ReportItemCard(report: ReportItem) {
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = "Tanggal: ${report.date}",
+                text = "Waktu laporan: ${report.date}",
                 style = TextStyle(
                     fontSize = 12.sp,
                     fontWeight = FontWeight.Light,

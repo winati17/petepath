@@ -80,10 +80,10 @@ fun RutePage(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                HomepageIcon(active = false, navController = navController)
-                HistoryIcon(active = false, navController = navController)
-                ReportIcon(active = false, navController = navController)
-                ProfileIcon(active = false, navController = navController)
+                HomepageIcon(navController = navController)
+                HistoryIcon(active = true, navController = navController)
+                ReportIcon(navController = navController)
+                ProfileIcon(navController = navController)
             }
         }
     ) { paddingValues ->

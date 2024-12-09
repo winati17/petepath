@@ -61,8 +61,8 @@ fun HistoryPage(navController: NavController, context: Context = LocalContext.cu
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 HomepageIcon(navController = navController)
-                HistoryIcon(navController = navController)
-                ReportIcon(active = true, navController = navController)
+                HistoryIcon(active = true, navController = navController)
+                ReportIcon(navController = navController)
                 ProfileIcon(navController = navController)
             }
         }
@@ -225,6 +225,6 @@ fun AddActivityView(navController: NavController, paddingValues: PaddingValues) 
 //@Composable
 //fun PreviewActivityHistory(){
 //    PetePathTheme {
-//        HistoryPage(navController = rememberNavController())
+//        AddActivityView(navController = rememberNavController(), paddingValues =padding)
 //    }
 //}

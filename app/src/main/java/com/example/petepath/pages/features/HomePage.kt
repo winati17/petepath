@@ -1,8 +1,6 @@
 package com.example.petepath.pages.features
 
 import android.content.Context
-import android.content.res.Configuration
-import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -40,30 +38,25 @@ import com.example.petepath.data.UserViewModelFactory
 import kotlinx.coroutines.launch
 import com.example.petepath.data.DataHistoryItem
 import com.example.petepath.ui.theme.PetePathTheme
-import kotlinx.coroutines.coroutineScope
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 @Composable
 fun HomePage(
     navController: NavController,
-    context: Context = LocalContext.current
+    context: Context = LocalContext.current,
+    viewModel: UserViewModel
 )  {
-    val viewModel: UserViewModel = viewModel(
-        factory = UserViewModelFactory(context)
-    )
-    val userPreferences by viewModel.userPreferences.collectAsState()
+    val currentUserEmail by viewModel.currentUserEmail.collectAsState()
     val userHistory by viewModel.userHistory.collectAsState()
+    val users by viewModel.users.collectAsState(initial = emptyList())
 
-    val displayName = userPreferences.username ?: "User"
+    val displayName = users.find { it.email == currentUserEmail }?.username ?: "User"
 
     Scaffold(
         bottomBar = {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(24.dp), 
+                    .padding(24.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -103,15 +96,14 @@ fun HomePage(
                     LazyRow(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(bottom = 20.dp)
+                            .padding(bottom = 16.dp),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         // Tampilkan maksimal 4 riwayat terbaru
                         items(userHistory.takeLast(4).reversed()) { historyItem ->
-                            Log.d("HomePage", "Memproses item: $historyItem")
                             RecentRoute(
-                                routeNumber = historyItem.routeNumber,
-                                routeName = historyItem.routeName,
-                                timestamp = historyItem.date,
+                                ruteNumber = historyItem.routeNumber,
+                                ruteName = historyItem.routeName,
                                 navController = navController,
                                 viewModel = viewModel
                             )
@@ -135,7 +127,7 @@ fun HomePage(
                     Row(
                         modifier = Modifier
                             .fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(15.dp)
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         for (route in rowRoutes) {
                             AllRoute(
@@ -152,7 +144,7 @@ fun HomePage(
                             Spacer(modifier = Modifier.weight(1f))
                         }
                     }
-                    Spacer(modifier = Modifier.height(12.dp))
+                    Spacer(modifier = Modifier.height(8.dp))
                 }
             }
         }
@@ -172,69 +164,68 @@ private fun chunkedAllRoutes(): List<List<Triple<String, String, String>>> {
 
 @Composable
 fun RecentRoute(
-    routeNumber: String,
-    routeName: String,
-    timestamp: String,
+    ruteNumber: String,
+    ruteName: String,
     navController: NavController,
     viewModel: UserViewModel
 ) {
-val coroutineScope = rememberCoroutineScope()
+    val mainColor = Color(0xFF007BFF)
+    val coroutineScope = rememberCoroutineScope()
 
     Card(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 8.dp, horizontal = 4.dp)
-            .clickable {
-                coroutineScope.launch {
-                    val currentDate = SimpleDateFormat("dd MMMM yyyy, HH:mm", Locale.getDefault()).format(
-                        Date()
-                    )
-                    val historyItem = DataHistoryItem(
-                        routeName = routeName,
-                        routeNumber = routeNumber,
-                        date = currentDate
-                    )
-                    viewModel.addHistoryItem(historyItem)
-                    navController.navigate(Screen.Rute.createRoute((routeNumber)))
-                }
-            },
-        shape = RoundedCornerShape(12.dp),
+            .width(184.dp)
+            .padding(8.dp),
+        shape = RoundedCornerShape(8.dp),
         border = BorderStroke(1.dp, Color(0xFF007BFF)),
         colors = CardDefaults.cardColors(containerColor = Color.White),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
-        Row(
+        // Gunakan Box untuk memusatkan konten secara vertikal dan horizontal
+        Box(
             modifier = Modifier
-                .padding(16.dp)
-                .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
+                .fillMaxSize()
+                .padding(16.dp),
+            contentAlignment = Alignment.Center
         ) {
-            Column {
-                Text(
-                    text = "Rute $routeNumber | $routeName",
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.Black
-                )
-                Spacer(modifier = Modifier.height(4.dp))
-                Text(
-                    text = "Terakhir dikunjungi: $timestamp",
-                    fontSize = 12.sp,
-                    color = Color.Gray
-                )
-                Button(
-                    onClick = {
-                    navController.navigate(Screen.Rute.createRoute(routeNumber))
-                },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF007BFF))
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = "Lihat Rute",
-                    color = Color.White,
-                    fontSize = 14.sp
+                    text = "Rute $ruteNumber | $ruteName",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Normal,
+                    color = Color.Black,
+                    maxLines = 1,
+                    textAlign = TextAlign.Center,
+                    overflow = TextOverflow.Ellipsis
                 )
-                }
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                PrimaryButton(
+                    onClick = {
+                        coroutineScope.launch {
+                            // Dapatkan tanggal dan waktu saat ini
+                            val currentDate = java.text.SimpleDateFormat("dd MMMM yyyy, HH:mm", java.util.Locale.getDefault()).format(java.util.Date())
+
+                            // Buat objek DataHistoryItem
+                            val historyItem = DataHistoryItem(
+                                routeNumber = ruteNumber,
+                                routeName = ruteName,
+                                date = currentDate
+                            )
+
+                            // Tambahkan ke riwayat
+                            viewModel.addHistoryItem(historyItem)
+
+                            // Navigasi ke halaman Rute
+                            navController.navigate(Screen.Rute.createRoute(ruteNumber))
+                        }
+                    },
+                    text = "Lihat Rute"
+                )
             }
         }
     }
@@ -259,9 +250,18 @@ fun AllRoute(
             .clickable {
                 coroutineScope.launch {
                     // Dapatkan tanggal dan waktu saat ini
-                    val currentDate = SimpleDateFormat("dd MMMM yyyy, HH:mm", Locale.getDefault()).format(
-                        Date()
+                    val currentDate = java.text.SimpleDateFormat("dd MMMM yyyy, HH:mm", java.util.Locale.getDefault()).format(java.util.Date())
+
+                    // Buat objek DataHistoryItem
+                    val historyItem = DataHistoryItem(
+                        routeNumber = routeNumber,
+                        routeName = routeName,
+                        date = currentDate
                     )
+
+                    // Tambahkan ke riwayat
+                    viewModel.addHistoryItem(historyItem)
+
                     // Navigasi ke halaman Rute
                     navController.navigate(Screen.Rute.createRoute(routeNumber))
                 }
@@ -281,17 +281,16 @@ fun AllRoute(
             Pete2Icon()
             Spacer(modifier = Modifier.height(1.dp))
 
-
             Text(
-                text = routeName,
-                fontSize = 25.sp,
-                fontWeight = FontWeight.ExtraBold,
+                text = "Route $routeNumber",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
                 color = Color(0xFF007BFF),
                 textAlign = TextAlign.Center
             )
 
             Text(
-                text = "Rute $routeNumber",
+                text = routeName,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Normal,
                 color = Color.Black,
@@ -305,23 +304,15 @@ fun AllRoute(
                 color = Color.Gray
             )
 
-            Spacer(modifier = Modifier.height(50.dp))
+            Spacer(modifier = Modifier.height(8.dp))
         }
     }
 }
 
-@Preview (showBackground = true, showSystemUi = true)
-@Composable
-fun PreviewHomePage() {
-    PetePathTheme {
-        
-        val navController = rememberNavController()
-        val context = LocalContext.current
-        val viewModel: UserViewModel = viewModel(factory = UserViewModelFactory(context))
-
-
-        HomePage(navController = rememberNavController(), context = context)
-    }
-}
-
-
+//@Preview (showBackground = true)
+//@Composable
+//fun PreviewHomePage() {
+//    PetePathTheme {
+//        HomePage(navController = rememberNavController())
+//    }
+//}
