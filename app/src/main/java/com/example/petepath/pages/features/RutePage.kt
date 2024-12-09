@@ -118,10 +118,10 @@ fun RutePage(
 
 object RouteRepository {
     private val routes = listOf(
-        Route("01", "Sudiang", "Rp2.500"),
-        Route("02", "Unhas", "Rp3.000"),
-        Route("03", "BTP", "Rp3.000"),
-        Route("04", "Pettarani", "Rp3.500")
+        Route("02", "Unhas-Cendrawasih", "Rp5.000"),
+        Route("05", "Unhas-Pettarani", "Rp5.000"),
+        Route("07", "BTP", "Rp5.000"),
+//        Route("04", "Pettarani", "Rp3.500")
     )
 
     fun getRouteById(ruteId: String): Route? {
