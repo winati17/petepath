@@ -29,10 +29,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.petepath.ui.theme.HomepageIcon
-import com.example.petepath.ui.theme.ProfileIcon
-import com.example.petepath.ui.theme.ReportIcon
-import com.example.petepath.ui.theme.HistoryIcon
 import com.example.petepath.R
 import com.example.petepath.Screen
 import com.example.petepath.UserViewModel
@@ -58,7 +54,6 @@ fun RouteHistoryPage(
         },
     ) { paddingValues ->
         if (userHistory.isNotEmpty()) {
-            // Tampilan ketika ada riwayat
             Column(
                 modifier = Modifier
                     .fillMaxSize()

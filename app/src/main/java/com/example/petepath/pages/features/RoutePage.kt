@@ -21,10 +21,6 @@ import com.example.petepath.data.RouteRepository
 import com.example.petepath.data.getRoutesByRuteId
 import com.example.petepath.ui.theme.BottomBar
 import com.example.petepath.ui.theme.BottomBarScreen
-import com.example.petepath.ui.theme.HistoryIcon
-import com.example.petepath.ui.theme.HomepageIcon
-import com.example.petepath.ui.theme.ProfileIcon
-import com.example.petepath.ui.theme.ReportIcon
 
 @Composable
 fun RoutePage(

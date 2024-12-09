@@ -34,10 +34,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.petepath.Screen
 import com.example.petepath.UserViewModel
-import com.example.petepath.ui.theme.HomepageIcon
-import com.example.petepath.ui.theme.HistoryIcon
-import com.example.petepath.ui.theme.ProfileIcon
-import com.example.petepath.ui.theme.ReportIcon
+import com.example.petepath.ui.theme.BottomBar
+import com.example.petepath.ui.theme.BottomBarScreen
 import kotlinx.coroutines.launch
 
 @Composable
@@ -53,22 +51,16 @@ fun Profile(
     val displayName = users.find { it.email == currentUserEmail }?.username ?: "Unknown"
     val email = currentUserEmail ?: "Unknown"
 
+    val currentScreen = BottomBarScreen.Profile
+
     Scaffold(
         bottomBar = {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(24.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                HomepageIcon(navController = navController)
-                HistoryIcon(navController = navController)
-                ReportIcon(navController = navController)
-                ProfileIcon(active = true, navController = navController)
-            }
+            BottomBar(
+                currentScreen = currentScreen,
+                navController = navController
+            )
         }
-    ) { paddingValues ->
+    ){ paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()

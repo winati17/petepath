@@ -71,6 +71,7 @@ fun SignupPage(
         OutlinedTextField(
             value = username,
             onValueChange = { username = it },
+            shape = RoundedCornerShape(8.dp),
             label = { Text(text = "Username") },
             colors = OutlinedTextFieldDefaults.colors(
                 focusedContainerColor = Color.Transparent,
@@ -85,6 +86,7 @@ fun SignupPage(
         OutlinedTextField(
             value = email,
             onValueChange = { email = it },
+            shape = RoundedCornerShape(8.dp),
             label = { Text(text = "Email") },
             colors = OutlinedTextFieldDefaults.colors(
                 focusedContainerColor = Color.Transparent,
@@ -128,7 +130,7 @@ fun SignupPage(
                 }
             },
             modifier = Modifier
-                .width(275.dp)
+                .width(280.dp)
                 .height(56.dp),
             shape = RoundedCornerShape(8.dp),
             colors = ButtonDefaults.buttonColors(

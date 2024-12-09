@@ -67,9 +67,8 @@ fun LoginPage(
         OutlinedTextField(
             value = usernameOrEmail,
             onValueChange = { usernameOrEmail = it },
-            label = {
-                Text(text = "Username atau Email")
-            },
+            shape = RoundedCornerShape(8.dp),
+            label = { Text(text = "Username atau Email") },
             colors = OutlinedTextFieldDefaults.colors(
                 focusedContainerColor = Color.Transparent,
                 unfocusedContainerColor = Color.Transparent,
@@ -102,8 +101,7 @@ fun LoginPage(
                     }
                 }
             },
-            modifier = Modifier.width(275.dp).height(50.dp).
-            border(width = 10.dp, color = mainColor),
+            modifier = Modifier.width(280.dp).height(56.dp),
             shape = RoundedCornerShape(8.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = mainColor,
@@ -149,6 +147,7 @@ fun PasswordTextField(
                 Icon(imageVector = image, contentDescription = if (showPassword) "Hide password" else "Show password")
             }
         },
+        shape = RoundedCornerShape(8.dp),
         colors = OutlinedTextFieldDefaults.colors(
             focusedContainerColor = Color.Transparent,
             unfocusedContainerColor = Color.Transparent,

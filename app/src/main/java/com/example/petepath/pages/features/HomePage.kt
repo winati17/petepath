@@ -15,15 +15,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.petepath.ui.theme.HistoryIcon
-import com.example.petepath.ui.theme.HomepageIcon
 import com.example.petepath.ui.theme.PrimaryButton
-import com.example.petepath.ui.theme.Pete2Icon
-import com.example.petepath.ui.theme.ProfileIcon
-import com.example.petepath.ui.theme.ReportIcon
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -79,30 +72,31 @@ fun HomePage(
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                 }
-
-                // Recent Routes Section
-                item {
-                    Text(
-                        text = "Terakhir Dilihat",
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.Black
-                    )
-                    Spacer(modifier = Modifier.height(4.dp))
-                    LazyRow(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(bottom = 16.dp),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        // Tampilkan maksimal 4 riwayat terbaru
-                        items(userHistory.takeLast(4).reversed()) { historyItem ->
-                            RecentRoute(
-                                ruteNumber = historyItem.routeNumber,
-                                ruteName = historyItem.routeName,
-                                navController = navController,
-                                viewModel = viewModel
-                            )
+                if (userHistory.isNotEmpty()){
+                    // Recent Routes Section
+                    item {
+                        Text(
+                            text = "Terakhir Dilihat",
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.Black
+                        )
+                        Spacer(modifier = Modifier.height(4.dp))
+                        LazyRow(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(bottom = 16.dp),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            // Tampilkan maksimal 4 riwayat terbaru
+                            items(userHistory.takeLast(4).reversed()) { historyItem ->
+                                RecentRoute(
+                                    ruteNumber = historyItem.routeNumber,
+                                    ruteName = historyItem.routeName,
+                                    navController = navController,
+                                    viewModel = viewModel
+                                )
+                            }
                         }
                     }
                 }
@@ -264,7 +258,7 @@ fun AllRoute(
             Spacer(modifier = Modifier.height(1.dp))
 
             Text(
-                text = "Route $routeNumber",
+                text = "Rute $routeNumber",
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color(0xFF007BFF),
