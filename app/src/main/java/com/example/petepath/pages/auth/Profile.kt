@@ -95,7 +95,6 @@ fun Profile(navController: NavController, context: Context, viewModel: UserViewM
             Box(
                 modifier = Modifier
                     .width(300.dp)
-                    .height(200.dp)
                     .clip(RoundedCornerShape(8.dp))
                     .background(Color(0xFFF0EFEF))
                     .padding(16.dp)
@@ -143,7 +142,6 @@ fun Profile(navController: NavController, context: Context, viewModel: UserViewM
                                 navController.navigate(Screen.Login.route) {
                                     popUpTo(Screen.Profile.route) { inclusive = true }
                                 }
-//                                viewModel.clearHistory()
                             }
                         },
                         modifier = Modifier.width(230.dp),
@@ -155,7 +153,22 @@ fun Profile(navController: NavController, context: Context, viewModel: UserViewM
                     ) {
                         Text(text = "Logout")
                     }
+                }
+            }
 
+            Spacer(modifier = Modifier.height(24.dp))
+            Box(
+                modifier = Modifier
+                    .width(300.dp)
+                    .clip(RoundedCornerShape(8.dp))
+                    .background(Color(0xFFF0EFEF))
+                    .padding(16.dp)
+            ){
+                Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.SpaceBetween
+            ){
                     Button(
                         onClick = {
                             navController.navigate(Screen.UserList.route)
@@ -170,10 +183,23 @@ fun Profile(navController: NavController, context: Context, viewModel: UserViewM
                     ) {
                         Text(text = "Lihat Daftar Akun")
                     }
+
+                    Button(
+                        onClick = {
+                            viewModel.clearHistory()
+                        },
+                        modifier = Modifier
+                            .width(230.dp),
+                        shape = RoundedCornerShape(8.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color.Gray,
+                            contentColor = Color.White
+                        )
+                    ) {
+                        Text(text = "Hapus History Rute")
+                    }
                 }
             }
-
-            Spacer(modifier = Modifier.height(24.dp))
         }
     }
 }

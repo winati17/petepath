@@ -35,34 +35,61 @@ fun UserListPage(navController: NavController, context: Context, viewModel: User
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text ="Daftar Akun",
-                    fontWeight = FontWeight.SemiBold,
-                    color =Color(0xFF007BFF))},
+                title = {
+                    Text(
+                        text = "Daftar Akun",
+                        fontWeight = FontWeight.SemiBold,
+                        color = Color(0xFF007BFF)
+                    )
+                },
             )
         },
         content = { paddingValues ->
-            LazyColumn(
+            // Bungkus Button dan LazyColumn di dalam Column
+            Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues)
                     .padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                verticalArrangement = Arrangement.SpaceBetween
             ) {
-                items(users) { user ->
-                    Card(
-                        modifier = Modifier.fillMaxWidth(),
-                        shape = RoundedCornerShape(8.dp),
-                        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
-                    ) {
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(16.dp)
+                LazyColumn(
+                    modifier = Modifier.weight(1f),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    items(users) { user ->
+                        Card(
+                            modifier = Modifier.fillMaxWidth(),
+                            shape = RoundedCornerShape(8.dp),
+                            elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
                         ) {
-                            Text(text = "Username: ${user.username}", fontWeight = FontWeight.Bold)
-                            Text(text = "Email: ${user.email}", color = Color.Gray)
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(16.dp)
+                            ) {
+                                Text(text = "Username: ${user.username}", fontWeight = FontWeight.Bold)
+                                Text(text = "Email: ${user.email}", color = Color.Gray)
+                            }
                         }
                     }
+                }
+
+                // Button ditempatkan di bawah LazyColumn
+                Button(
+                    onClick = {
+                        viewModel.clearUser()
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(50.dp),
+                    shape = RoundedCornerShape(8.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.Gray,
+                        contentColor = Color.White
+                    )
+                ) {
+                    Text(text = "Hapus Seluruh Akun")
                 }
             }
         }

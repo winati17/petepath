@@ -118,6 +118,12 @@ class UserViewModel(private val repository: UserPreferencesRepository) : ViewMod
         }
     }
 
+    fun clearUser() {
+        viewModelScope.launch {
+            repository.clearUserData()
+        }
+    }
+
     // Mendapatkan semua pengguna
     fun getAllUsers(): Flow<List<UserPreferences>> {
         return repository.usersFlow

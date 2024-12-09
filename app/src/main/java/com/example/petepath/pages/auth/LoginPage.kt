@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
@@ -94,7 +95,7 @@ fun LoginPage(
             mainColor = mainColor
         )
 
-        Spacer(modifier = Modifier.height(40.dp))
+        Spacer(modifier = Modifier.height(20.dp))
 
         Button(
             onClick = {
@@ -110,12 +111,13 @@ fun LoginPage(
                     }
                 }
             },
+            modifier = Modifier.width(275.dp).height(50.dp).
+            border(width = 10.dp, color = mainColor),
+            shape = RoundedCornerShape(8.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = mainColor,
                 contentColor = Color.White
             ),
-            modifier = Modifier.width(275.dp).height(50.dp).
-            border(width = 10.dp, color = mainColor) // Atur ketebalan dan warna border
         ) {
             Text(text = "Masuk")
         }

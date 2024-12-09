@@ -6,7 +6,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -46,6 +48,7 @@ import com.example.petepath.Screen
 import com.example.petepath.UserViewModel
 import com.example.petepath.data.UserViewModelFactory
 import com.example.petepath.ui.theme.PetePathTheme
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 @Composable
@@ -54,22 +57,17 @@ fun SignupPage(
     context: Context,
     viewModel: UserViewModel
 ) {
-    var nama by remember { mutableStateOf("") }
+    var username by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    var isPasswordVisible by remember { mutableStateOf(false) }
-
 
     val outlineColor = Color(0xFF007BFF)
-    val viewModel: UserViewModel = viewModel(
-        factory = UserViewModelFactory(context)
-    )
     val coroutineScope = rememberCoroutineScope()
 
     Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        Modifier.fillMaxSize(),
+        Arrangement.Center,
+        Alignment.CenterHorizontally
     ) {
         Text(
             buildAnnotatedString {
@@ -87,68 +85,63 @@ fun SignupPage(
         Spacer(modifier = Modifier.height(20.dp))
 
         OutlinedTextField(
-            value = nama,
-            onValueChange = { nama = it },
-            label = { Text(text = "Nama") },
+            value = username,
+            onValueChange = { username = it },
+            label = { Text(text = "Username") },
             colors = OutlinedTextFieldDefaults.colors(
-                focusedContainerColor = Color.Transparent,  // Transparent background
+                focusedContainerColor = Color.Transparent,
                 unfocusedContainerColor = Color.Transparent,
-                focusedBorderColor = outlineColor,          // Use outlineColor here
+                focusedBorderColor = outlineColor,
                 unfocusedBorderColor = outlineColor
-            )
+            ),
         )
 
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(15.dp))
 
         OutlinedTextField(
             value = email,
             onValueChange = { email = it },
             label = { Text(text = "Email") },
             colors = OutlinedTextFieldDefaults.colors(
-                focusedContainerColor = Color.Transparent,  // Transparent background
-                unfocusedContainerColor = Color.Transparent,
-                focusedBorderColor = outlineColor,          // Use outlineColor here
-                unfocusedBorderColor = outlineColor
-            )
-        )
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        OutlinedTextField(
-            value = password,
-            onValueChange = { password = it },
-            label = { Text(text = "Password") },
-            visualTransformation = if (isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
-            trailingIcon = {
-                IconButton(onClick = { isPasswordVisible = !isPasswordVisible }) {
-                    Icon(
-                        imageVector = if (isPasswordVisible) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
-                        contentDescription = if (isPasswordVisible) "Hide Password" else "Show Password"
-                    )
-                }
-            },
-            colors = OutlinedTextFieldDefaults.colors(
                 focusedContainerColor = Color.Transparent,
                 unfocusedContainerColor = Color.Transparent,
                 focusedBorderColor = outlineColor,
                 unfocusedBorderColor = outlineColor
-            )
+            ),
         )
 
+        Spacer(modifier = Modifier.height(15.dp))
+
+        PasswordTextField(
+            password = password,
+            onPasswordChange = { password = it },
+            mainColor = outlineColor
+        )
 
         Spacer(modifier = Modifier.height(20.dp))
 
         Button(
             onClick = {
                 // Validasi input sebelum menyimpan
-                if (nama.isNotBlank() && email.isNotBlank() && password.isNotBlank()) {
+                if (username.isNotBlank() && email.isNotBlank() && password.isNotBlank()) {
                     coroutineScope.launch {
-                        viewModel.saveUserData(nama, email, password)
-                        // Setelah menyimpan, navigasi ke Login
-                        Toast.makeText(context, "Data berhasil ditambah", Toast.LENGTH_SHORT).show()
-                        navController.navigate(Screen.Login.route) {
-                            // Menghapus history agar user tidak kembali ke halaman signup
-                            popUpTo(Screen.Home.route) { inclusive = false }
+                        // Cek apakah email atau username sudah digunakan
+                        val existingUser = viewModel.getAllUsers().first().find {
+                            it.email.equals(email, ignoreCase = true) || it.username.equals(username, ignoreCase = true)
+                        }
+
+                        if (existingUser != null) {
+                            // Tampilkan pesan error jika email atau username sudah digunakan
+                            Toast.makeText(context, "Username atau Email sudah digunakan", Toast.LENGTH_SHORT).show()
+                        } else {
+                            // Simpan data pengguna baru
+                            viewModel.saveUserData(username, email, password)
+                            // Setelah menyimpan, navigasi ke Login
+                            Toast.makeText(context, "Data berhasil ditambahkan", Toast.LENGTH_SHORT).show()
+                            navController.navigate(Screen.Login.route) {
+                                // Menghapus history agar user tidak kembali ke halaman signup
+                                popUpTo(Screen.Home.route) { inclusive = false }
+                            }
                         }
                     }
                 } else {
@@ -159,7 +152,7 @@ fun SignupPage(
             modifier = Modifier
                 .width(275.dp)
                 .height(56.dp),
-            shape = RoundedCornerShape(12.dp),
+            shape = RoundedCornerShape(8.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = outlineColor,
                 contentColor = Color.White

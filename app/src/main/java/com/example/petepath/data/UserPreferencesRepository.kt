@@ -63,9 +63,9 @@ class UserPreferencesRepository(private val context: Context) {
     }
 
     // Fungsi untuk menghapus semua pengguna (opsional)
-    suspend fun clearAllUsers() {
+    suspend fun clearUserData() {
         context.dataStore.edit { preferences ->
-            preferences.remove(USERS_KEY)
+            preferences.clear()
         }
     }
 

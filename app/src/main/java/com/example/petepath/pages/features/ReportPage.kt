@@ -26,6 +26,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.petepath.Screen
 import com.example.petepath.UserViewModel
 import com.example.petepath.data.ReportItem
+import com.example.petepath.data.Route
 import com.example.petepath.ui.theme.PetePathTheme
 import kotlinx.coroutines.launch
 
@@ -80,10 +81,9 @@ fun ReportPage(navController: NavController, viewModel: UserViewModel) {
         DropdownMenuField(
             label = "Pilih Rute",
             options = listOf(
-                "Rute 01 | Sudiang",
-                "Rute 02 | Unhas",
-                "Rute 03 | BTP",
-                "Rute 04 | Pettarani"
+                "Rute 02 | Veteran",
+                "Rute 05 | Cendrawasih",
+                "Rute 07 | Pettarani",
             ),
             selectedOption = route,
             onOptionSelected = { route = it }

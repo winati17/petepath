@@ -37,6 +37,7 @@ import com.example.petepath.UserViewModel
 import com.example.petepath.data.UserViewModelFactory
 import kotlinx.coroutines.launch
 import com.example.petepath.data.DataHistoryItem
+import com.example.petepath.data.Route
 import com.example.petepath.ui.theme.PetePathTheme
 
 @Composable
@@ -154,10 +155,9 @@ fun HomePage(
 // Fungsi untuk mengelompokkan daftar route menjadi pasangan (chunked)
 private fun chunkedAllRoutes(): List<List<Triple<String, String, String>>> {
     val allRoutes = listOf(
-        Triple("01", "Sudiang", "Rp2.500"),
-        Triple("02", "Unhas", "Rp3.000"),
-        Triple("03", "BTP", "Rp3.000"),
-        Triple("04", "Pettarani", "Rp3.500")
+        Triple("02", "Veteran", "Rp5.000"),
+        Triple("05", "Cendrawasih", "Rp5.000"),
+        Triple("07", "Pettarani", "Rp5.000"),
     )
     return allRoutes.chunked(2)
 }
