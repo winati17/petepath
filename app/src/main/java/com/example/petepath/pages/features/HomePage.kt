@@ -21,6 +21,8 @@ import com.example.petepath.ui.theme.Pete2Icon
 import com.example.petepath.ui.theme.ProfileIcon
 import com.example.petepath.ui.theme.ReportIcon
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -31,6 +33,7 @@ import com.example.petepath.Screen
 import com.example.petepath.UserViewModel
 import kotlinx.coroutines.launch
 import com.example.petepath.data.DataHistoryItem
+import com.example.petepath.data.RouteRepository
 
 @Composable
 fun HomePage(
@@ -42,6 +45,8 @@ fun HomePage(
     val users by viewModel.users.collectAsState(initial = emptyList())
 
     val displayName = users.find { it.email == currentUserEmail }?.username ?: "User"
+    val allRoutes = RouteRepository.getAllRoutes()
+    val routePairs = allRoutes.chunked(2)
 
     Scaffold(
         bottomBar = {
@@ -114,23 +119,30 @@ fun HomePage(
                     Spacer(modifier = Modifier.height(4.dp))
                 }
 
-                items(chunkedAllRoutes()) { rowRoutes ->
+                items(routePairs) { pair ->
                     Row(
                         modifier = Modifier
-                            .fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                            .fillMaxWidth().padding(8.dp),
+                        horizontalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
-                        for (route in rowRoutes) {
+                        AllRoute(
+                            routeNumber = pair[0].id,
+                            routeName = pair[0].name,
+                            price = pair[0].price,
+                            navController = navController,
+                            viewModel = viewModel,
+                            modifier = Modifier.weight(1f)
+                        )
+                        if (pair.size > 1) {
                             AllRoute(
-                                routeNumber = route.first,
-                                routeName = route.second,
-                                price = route.third,
+                                routeNumber = pair[1].id,
+                                routeName = pair[1].name,
+                                price = pair[1].price,
                                 navController = navController,
                                 viewModel = viewModel,
                                 modifier = Modifier.weight(1f)
                             )
-                        }
-                        if (rowRoutes.size < 2) {
+                        } else {
                             Spacer(modifier = Modifier.weight(1f))
                         }
                     }
@@ -141,15 +153,6 @@ fun HomePage(
     )
 }
 
-private fun chunkedAllRoutes(): List<List<Triple<String, String, String>>> {
-    val allRoutes = listOf(
-        Triple("02", "Veteran", "Rp5.000"),
-        Triple("05", "Cendrawasih", "Rp5.000"),
-        Triple("07", "Pettarani", "Rp5.000"),
-    )
-    return allRoutes.chunked(2)
-}
-
 @Composable
 fun RecentRoute(
     ruteNumber: String,
@@ -157,7 +160,6 @@ fun RecentRoute(
     navController: NavController,
     viewModel: UserViewModel
 ) {
-    val mainColor = Color(0xFF007BFF)
     val coroutineScope = rememberCoroutineScope()
 
     Card(
@@ -224,7 +226,6 @@ fun AllRoute(
     viewModel: UserViewModel,
     modifier: Modifier = Modifier
 ) {
-    val mainColor = Color(0xFF007BFF)
     val coroutineScope = rememberCoroutineScope()
 
     Card(
@@ -251,9 +252,7 @@ fun AllRoute(
         elevation = CardDefaults.cardElevation(defaultElevation = 3.dp)
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(15.dp),
+            modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {

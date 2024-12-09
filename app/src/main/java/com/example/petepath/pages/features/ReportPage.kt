@@ -24,6 +24,7 @@ import androidx.navigation.NavController
 import com.example.petepath.Screen
 import com.example.petepath.UserViewModel
 import com.example.petepath.data.ReportItem
+import com.example.petepath.data.RouteRepository
 import kotlinx.coroutines.launch
 
 @Composable
@@ -38,6 +39,9 @@ fun ReportPage(
     val outlineColor = Color(0xFF007BFF)
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
+
+    val allRoutes = RouteRepository.getAllRoutes()
+    val routeOptions = allRoutes.map { "Rute ${it.id} | ${it.name}" }
 
     Column(
         modifier = Modifier
@@ -79,11 +83,7 @@ fun ReportPage(
         Spacer(modifier = Modifier.height(15.dp))
         DropdownMenuField(
             label = "Pilih Rute",
-            options = listOf(
-                "Rute 02 | Veteran",
-                "Rute 05 | Cendrawasih",
-                "Rute 07 | Pettarani",
-            ),
+            options = routeOptions,
             selectedOption = route,
             onOptionSelected = { route = it }
         )

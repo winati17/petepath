@@ -182,6 +182,7 @@ fun Profile(
                     Button(
                         onClick = {
                             viewModel.clearHistory()
+                            Toast.makeText(context, "History Rute berhasil dihapus", Toast.LENGTH_SHORT).show()
                         },
                         modifier = Modifier
                             .width(230.dp),

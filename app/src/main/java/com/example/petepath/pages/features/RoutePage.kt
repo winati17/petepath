@@ -17,7 +17,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.petepath.UserViewModel
-import com.example.petepath.data.Route
+import com.example.petepath.data.RouteRepository
+import com.example.petepath.data.getRoutesByRuteId
 import com.example.petepath.ui.theme.HistoryIcon
 import com.example.petepath.ui.theme.HomepageIcon
 import com.example.petepath.ui.theme.ProfileIcon
@@ -98,71 +99,6 @@ fun RutePage(
                 RouteItem(route = route)
             }
         }
-    }
-}
-
-object RouteRepository {
-    private val routes = listOf(
-        Route("02", "Veteran", "Rp5.000"),
-        Route("05", "Cendrawasih", "Rp5.000"),
-        Route("07", "Pettarani", "Rp5.000"),
-    )
-
-    fun getRouteById(ruteId: String): Route? {
-        return routes.find { it.id == ruteId }
-    }
-
-    fun getAllRoutes(): List<Route> = routes
-}
-
-fun getRouteNameById(ruteId: String): String {
-    return RouteRepository.getRouteById(ruteId)?.name ?: "Unknown"
-}
-
-fun getRoutesByRuteId(ruteId: String): List<String> {
-    return when (ruteId) {
-        "05" -> listOf(
-            "Terminal Tamalate",
-            "Malengkeri",
-            "Dg. Tata",
-            "Abd. Kadir",
-            "Dangko",
-            "Cendrawasih",
-            "Arif Rate",
-            "Botolempangan",
-            "Kartini",
-            "Bawakaraeng",
-            "Urip Sumoharjo",
-            "Perintis Kemerdekaan",
-            "Kampus Unhas"
-        )
-        "02" -> listOf(
-            "Terminal Tamalate",
-            "Mallengkeri",
-            "Dg. Tata",
-            "M. Tahir",
-            "Kumala",
-            "Veteran",
-            "Masjid Raya",
-            "Urip Sumoharjo",
-            "Perintis Kemerdekaan",
-            "Kampus Unhas"
-        )
-        "07" -> listOf(
-            "Panakukkang",
-            "Toddopuli Raya",
-            "Perumnas",
-            "Hertasning",
-            "A.P. Pettarani",
-            "Gunung Sari",
-            "Kampus IKIP",
-            "Abdullah Dg. Sirua",
-            "PLTU",
-            "Urip Sumoharjo",
-            "Perintis Kemerdekaan",
-            "Kampus Unhas"
-        )
-        else -> listOf("No routes available")
     }
 }
 
