@@ -1,5 +1,6 @@
 package com.example.petepath.pages.features
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -19,18 +20,24 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.petepath.Screen
+import com.example.petepath.UserViewModel
+import com.example.petepath.data.ReportItem
 import com.example.petepath.ui.theme.PetePathTheme
+import kotlinx.coroutines.launch
 
 @Composable
-fun ReportPage(navController: NavController) {
+fun ReportPage(navController: NavController, viewModel: UserViewModel) {
     var route by remember { mutableStateOf("") }
     var violationCategory by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
     var vehiclePlate by remember { mutableStateOf("") }
     val outlineColor = Color(0xFF007BFF)
+    val coroutineScope = rememberCoroutineScope()
+    val context = LocalContext.current
 
     Column(
         modifier = Modifier
@@ -147,7 +154,41 @@ fun ReportPage(navController: NavController) {
         Spacer(modifier = Modifier.height(24.dp))
 
         Button(
-            onClick = { /* Handle submit */ },
+            onClick = {
+                coroutineScope.launch {
+                    if (route.isNotBlank() && violationCategory.isNotBlank() && description.isNotBlank() && vehiclePlate.isNotBlank()) {
+                        // Parse routeNumber and routeName from route
+                        val routeParts = route.split(" | ")
+                        if (routeParts.size >= 2) {
+                            val routeNumber = routeParts[0].removePrefix("Rute ").trim()
+                            val routeName = routeParts[1].trim()
+
+                            val currentDate = java.text.SimpleDateFormat("dd MMMM yyyy, HH:mm", java.util.Locale.getDefault()).format(java.util.Date())
+
+                            val report = ReportItem(
+                                routeNumber = routeNumber,
+                                routeName = routeName,
+                                violationCategory = violationCategory,
+                                description = description,
+                                vehiclePlate = vehiclePlate,
+                                date = currentDate
+                            )
+
+                            viewModel.addReport(report)
+
+                            Toast.makeText(context, "Laporan berhasil dikirim", Toast.LENGTH_SHORT).show()
+
+                            navController.navigate(Screen.ReportHistory.route) {
+                                popUpTo(Screen.Report.route) { inclusive = true }
+                            }
+                        } else {
+                            Toast.makeText(context, "Format rute tidak valid", Toast.LENGTH_SHORT).show()
+                        }
+                    } else {
+                        Toast.makeText(context, "Silakan lengkapi semua field", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            },
             colors = ButtonDefaults.buttonColors(containerColor = Color.Red),
             modifier = Modifier
                 .fillMaxWidth()
@@ -232,10 +273,21 @@ fun DropdownMenuField(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewReportPage() {
-    PetePathTheme {
-        ReportPage(navController = rememberNavController())
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun PreviewReportPage() {
+//    // Mock NavController dan ViewModel untuk preview
+//    val navController = rememberNavController()
+//    val context = LocalContext.current
+//    val repository = UserPreferencesRepository(context = context)
+//    val viewModel = remember {
+//        UserViewModel(repository = repository).apply {
+//            // Tambahkan pengguna palsu untuk preview
+//            saveUserData(username = "TestUser", email = "test@example.com", password = "password")
+//            _currentUserEmail.value = "test@example.com"
+//        }
+//    }
+//
+//    PetePathTheme {
+//        ReportPage(navController = navController, viewModel = viewModel)
+//    }

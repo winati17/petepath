@@ -9,8 +9,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
@@ -27,6 +32,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
@@ -50,6 +57,8 @@ fun SignupPage(
     var nama by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var isPasswordVisible by remember { mutableStateOf(false) }
+
 
     val outlineColor = Color(0xFF007BFF)
     val viewModel: UserViewModel = viewModel(
@@ -108,16 +117,24 @@ fun SignupPage(
         OutlinedTextField(
             value = password,
             onValueChange = { password = it },
-            label = {
-                Text(text = "Password")
+            label = { Text(text = "Password") },
+            visualTransformation = if (isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+            trailingIcon = {
+                IconButton(onClick = { isPasswordVisible = !isPasswordVisible }) {
+                    Icon(
+                        imageVector = if (isPasswordVisible) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
+                        contentDescription = if (isPasswordVisible) "Hide Password" else "Show Password"
+                    )
+                }
             },
             colors = OutlinedTextFieldDefaults.colors(
-                focusedContainerColor = Color.Transparent,  // Transparent background
+                focusedContainerColor = Color.Transparent,
                 unfocusedContainerColor = Color.Transparent,
-                focusedBorderColor = outlineColor,          // Use outlineColor here
+                focusedBorderColor = outlineColor,
                 unfocusedBorderColor = outlineColor
             )
         )
+
 
         Spacer(modifier = Modifier.height(20.dp))
 
@@ -150,10 +167,8 @@ fun SignupPage(
         ) {
             Text(text = "Daftar")
         }
-
     }
 }
-
 
 @Preview(showBackground = true)
 @Composable
