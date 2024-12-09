@@ -118,9 +118,9 @@ fun RutePage(
 
 object RouteRepository {
     private val routes = listOf(
-        Route("02", "Unhas-Cendrawasih", "Rp5.000"),
-        Route("05", "Unhas-Veteran", "Rp5.000"),
-        Route("07", "Unhas-Pettarani", "Rp5.000"),
+        Route("02", "Veteran", "Rp5.000"),
+        Route("05", "Cendrawasih", "Rp5.000"),
+        Route("07", "Pettarani", "Rp5.000"),
 //        Route("04", "Pettarani", "Rp3.500")
     )
 
@@ -137,7 +137,7 @@ fun getRouteNameById(ruteId: String): String {
 
 fun getRoutesByRuteId(ruteId: String): List<String> {
     return when (ruteId) {
-        "02" -> listOf(
+        "05" -> listOf(
             "Terminal Tamalate",
             "Malengkeri",
             "Dg. Tata",
@@ -153,22 +153,30 @@ fun getRoutesByRuteId(ruteId: String): List<String> {
             "Kampus Unhas"
         )
         "02" -> listOf(
-            "Jl. Unhas 1",
-            "Jl. Unhas 2",
-            "Jl. Unhas 3",
-            // Tambahkan rute lainnya untuk Unhas
+            "Terminal Tamalate",
+            "Mallengkeri",
+            "Dg. Tata",
+            "M. Tahir",
+            "Kumala",
+            "Veteran",
+            "Masjid Raya",
+            "Urip Sumoharjo",
+            "Perintis Kemerdekaan",
+            "Kampus Unhas"
         )
-        "03" -> listOf(
-            "Jl. BTP 1",
-            "Jl. BTP 2",
-            "Jl. BTP 3",
-            // Tambahkan rute lainnya untuk BTP
-        )
-        "04" -> listOf(
-            "Jl. Pettarani 1",
-            "Jl. Pettarani 2",
-            "Jl. Pettarani 3",
-            // Tambahkan rute lainnya untuk Pettarani
+        "07" -> listOf(
+            "Panakukkang",
+            "Toddopuli Raya",
+            "Perumnas",
+            "Hertasning",
+            "A.P. Pettarani",
+            "Gunung Sari",
+            "Kampus IKIP",
+            "Abdullah Dg. Sirua",
+            "PLTU",
+            "Urip Sumoharjo",
+            "Perintis Kemerdekaan",
+            "Kampus Unhas"
         )
         else -> listOf("No routes available")
     }
