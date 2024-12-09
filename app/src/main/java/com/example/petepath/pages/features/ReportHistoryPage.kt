@@ -87,7 +87,9 @@ fun ReportHistoryPage(navController: NavController, viewModel: UserViewModel) {
                         .align(Alignment.Start)
                 )
                 Column(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .weight(1f), // Tambahkan weight agar konten berikutnya terpusat
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ){
@@ -148,11 +150,28 @@ fun ReportHistoryPage(navController: NavController, viewModel: UserViewModel) {
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 LazyColumn(
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f) // Ganti fillMaxSize dengan weight
                 ) {
                     items(userReports) { report ->
                         ReportItemCard(report = report)
                     }
+                }
+                Spacer(modifier = Modifier.height(16.dp)) // Tambahkan jarak sebelum tombol
+                Button(
+                    onClick = {
+                        navController.navigate(Screen.Report.route)
+                    },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF007BFF)),
+                    shape = RoundedCornerShape(11.dp),
+                    modifier = Modifier.fillMaxWidth(0.6f)
+                ) {
+                    Text(
+                        text = "+ Tambah Laporan",
+                        color = Color.White,
+                        fontSize = 16.sp
+                    )
                 }
             }
         }
