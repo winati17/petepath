@@ -9,8 +9,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
@@ -27,6 +32,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
@@ -39,21 +46,24 @@ import com.example.petepath.Screen
 import com.example.petepath.UserViewModel
 import com.example.petepath.data.UserViewModelFactory
 import com.example.petepath.ui.theme.PetePathTheme
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 @Composable
 fun SignupPage(
     modifier: Modifier = Modifier,
     navController: NavController,
-    context: Context,
-    viewModel: UserViewModel
+    context: Context
 ) {
-    var username by remember { mutableStateOf("") }
+    var nama by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var isPasswordVisible by remember { mutableStateOf(false) }
+
 
     val outlineColor = Color(0xFF007BFF)
+    val viewModel: UserViewModel = viewModel(
+        factory = UserViewModelFactory(context)
+    )
     val coroutineScope = rememberCoroutineScope()
 
     Column(
@@ -77,9 +87,9 @@ fun SignupPage(
         Spacer(modifier = Modifier.height(20.dp))
 
         OutlinedTextField(
-            value = username,
-            onValueChange = { username = it },
-            label = { Text(text = "Username") },
+            value = nama,
+            onValueChange = { nama = it },
+            label = { Text(text = "Nama") },
             colors = OutlinedTextFieldDefaults.colors(
                 focusedContainerColor = Color.Transparent,  // Transparent background
                 unfocusedContainerColor = Color.Transparent,
@@ -107,41 +117,38 @@ fun SignupPage(
         OutlinedTextField(
             value = password,
             onValueChange = { password = it },
-            label = {
-                Text(text = "Password")
+            label = { Text(text = "Password") },
+            visualTransformation = if (isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+            trailingIcon = {
+                IconButton(onClick = { isPasswordVisible = !isPasswordVisible }) {
+                    Icon(
+                        imageVector = if (isPasswordVisible) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
+                        contentDescription = if (isPasswordVisible) "Hide Password" else "Show Password"
+                    )
+                }
             },
             colors = OutlinedTextFieldDefaults.colors(
-                focusedContainerColor = Color.Transparent,  // Transparent background
+                focusedContainerColor = Color.Transparent,
                 unfocusedContainerColor = Color.Transparent,
-                focusedBorderColor = outlineColor,          // Use outlineColor here
+                focusedBorderColor = outlineColor,
                 unfocusedBorderColor = outlineColor
             )
         )
+
 
         Spacer(modifier = Modifier.height(20.dp))
 
         Button(
             onClick = {
                 // Validasi input sebelum menyimpan
-                if (username.isNotBlank() && email.isNotBlank() && password.isNotBlank()) {
+                if (nama.isNotBlank() && email.isNotBlank() && password.isNotBlank()) {
                     coroutineScope.launch {
-                        // Cek apakah email atau username sudah digunakan
-                        val existingUser = viewModel.getAllUsers().first().find {
-                            it.email.equals(email, ignoreCase = true) || it.username.equals(username, ignoreCase = true)
-                        }
-
-                        if (existingUser != null) {
-                            // Tampilkan pesan error jika email atau username sudah digunakan
-                            Toast.makeText(context, "Username atau Email sudah digunakan", Toast.LENGTH_SHORT).show()
-                        } else {
-                            // Simpan data pengguna baru
-                            viewModel.saveUserData(username, email, password)
-                            // Setelah menyimpan, navigasi ke Login
-                            Toast.makeText(context, "Data berhasil ditambahkan", Toast.LENGTH_SHORT).show()
-                            navController.navigate(Screen.Login.route) {
-                                // Menghapus history agar user tidak kembali ke halaman signup
-                                popUpTo(Screen.Home.route) { inclusive = false }
-                            }
+                        viewModel.saveUserData(nama, email, password)
+                        // Setelah menyimpan, navigasi ke Login
+                        Toast.makeText(context, "Data berhasil ditambah", Toast.LENGTH_SHORT).show()
+                        navController.navigate(Screen.Login.route) {
+                            // Menghapus history agar user tidak kembali ke halaman signup
+                            popUpTo(Screen.Home.route) { inclusive = false }
                         }
                     }
                 } else {
@@ -160,15 +167,13 @@ fun SignupPage(
         ) {
             Text(text = "Daftar")
         }
-
     }
 }
 
-
-//@Preview(showBackground = true)
-//@Composable
-//fun PreviewSignupPage() {
-//    PetePathTheme {
-//        SignupPage(navController = rememberNavController(), context = LocalContext.current)
-//    }
-//}
+@Preview(showBackground = true)
+@Composable
+fun PreviewSignupPage() {
+    PetePathTheme {
+        SignupPage(navController = rememberNavController(), context = LocalContext.current)
+    }
+}
