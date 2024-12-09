@@ -119,8 +119,8 @@ fun RutePage(
 object RouteRepository {
     private val routes = listOf(
         Route("02", "Unhas-Cendrawasih", "Rp5.000"),
-        Route("05", "Unhas-Pettarani", "Rp5.000"),
-        Route("07", "BTP", "Rp5.000"),
+        Route("05", "Unhas-Veteran", "Rp5.000"),
+        Route("07", "Unhas-Pettarani", "Rp5.000"),
 //        Route("04", "Pettarani", "Rp3.500")
     )
 
@@ -137,16 +137,20 @@ fun getRouteNameById(ruteId: String): String {
 
 fun getRoutesByRuteId(ruteId: String): List<String> {
     return when (ruteId) {
-        "01" -> listOf(
-            "Jl. Manyikkoaya",
-            "Jl. Arung Teko",
-            "Jl. Pai",
-            "Jl. Poros Pattene",
-            "Jl. Poros Makassar-Maros",
-            "Jl. Raya Puri Pattene",
-            "Jl. Dakota",
-            "Jl. Asrama Haji Sudiang",
-            "Jl. Asoka"
+        "02" -> listOf(
+            "Terminal Tamalate",
+            "Malengkeri",
+            "Dg. Tata",
+            "Abd. Kadir",
+            "Dangko",
+            "Cendrawasih",
+            "Arif Rate",
+            "Botolempangan",
+            "Kartini",
+            "Bawakaraeng",
+            "Urip Sumoharjo",
+            "Perintis Kemerdekaan",
+            "Kampus Unhas"
         )
         "02" -> listOf(
             "Jl. Unhas 1",
