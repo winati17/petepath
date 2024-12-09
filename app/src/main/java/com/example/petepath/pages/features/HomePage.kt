@@ -1,6 +1,7 @@
 package com.example.petepath.pages.features
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.foundation.clickable
@@ -27,13 +28,17 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.navigation.NavController
+import com.example.petepath.R
 import com.example.petepath.Screen
 import com.example.petepath.UserViewModel
 import kotlinx.coroutines.launch
 import com.example.petepath.data.DataHistoryItem
 import com.example.petepath.data.RouteRepository
+import com.example.petepath.ui.theme.BottomBar
+import com.example.petepath.ui.theme.BottomBarScreen
 
 @Composable
 fun HomePage(
@@ -48,20 +53,14 @@ fun HomePage(
     val allRoutes = RouteRepository.getAllRoutes()
     val routePairs = allRoutes.chunked(2)
 
+    val currentScreen = BottomBarScreen.Home
+
     Scaffold(
         bottomBar = {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(24.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                HomepageIcon(active = true, navController = navController)
-                HistoryIcon(navController = navController)
-                ReportIcon(navController = navController)
-                ProfileIcon(navController = navController)
-            }
+            BottomBar(
+                currentScreen = currentScreen,
+                navController = navController
+            )
         },
         content = { innerPadding ->
             LazyColumn(
@@ -206,7 +205,7 @@ fun RecentRoute(
 
                             viewModel.addHistoryItem(historyItem)
 
-                            navController.navigate(Screen.Rute.createRoute(ruteNumber))
+                            navController.navigate(Screen.Route.createRoute(ruteNumber))
                         }
                     },
                     text = "Lihat Rute"
@@ -243,7 +242,7 @@ fun AllRoute(
 
                     viewModel.addHistoryItem(historyItem)
 
-                    navController.navigate(Screen.Rute.createRoute(routeNumber))
+                    navController.navigate(Screen.Route.createRoute(routeNumber))
                 }
             },
         shape = RoundedCornerShape(8.dp),
@@ -256,7 +255,12 @@ fun AllRoute(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Pete2Icon()
+            Image(
+                painter = painterResource(id = R.drawable.vector_pete2),
+                contentDescription = "Pete-pete",
+                modifier = Modifier.size(50.dp)
+            )
+
             Spacer(modifier = Modifier.height(1.dp))
 
             Text(

@@ -25,6 +25,8 @@ import com.example.petepath.Screen
 import com.example.petepath.UserViewModel
 import com.example.petepath.data.ReportItem
 import com.example.petepath.data.RouteRepository
+import com.example.petepath.ui.theme.BottomBar
+import com.example.petepath.ui.theme.BottomBarScreen
 import kotlinx.coroutines.launch
 
 @Composable
@@ -43,162 +45,174 @@ fun ReportPage(
     val allRoutes = RouteRepository.getAllRoutes()
     val routeOptions = allRoutes.map { "Rute ${it.id} | ${it.name}" }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Top
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 15.dp, top = 30.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            IconButton(
-                onClick = {
-                    navController.navigate(Screen.ReportHistory.route)
-                }
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.ArrowBackIosNew,
-                    contentDescription = "Back",
-                    tint = MaterialTheme.colorScheme.onBackground,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(end = 12.dp)
-                )
-            }
-            Text(
-                text = "Laporan",
-                style = MaterialTheme.typography.headlineSmall.copy(
-                    color = outlineColor,
-                    fontWeight = FontWeight.Bold
-                ),
-                modifier = Modifier.padding(start = 2.dp)
+    val currentScreen = BottomBarScreen.Report
+
+    Scaffold(
+        bottomBar = {
+            BottomBar(
+                currentScreen = currentScreen,
+                navController = navController
             )
         }
-
-        Spacer(modifier = Modifier.height(15.dp))
-        DropdownMenuField(
-            label = "Pilih Rute",
-            options = routeOptions,
-            selectedOption = route,
-            onOptionSelected = { route = it }
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-
-        DropdownMenuField(
-            label = "Pilih Kategori Pelanggaran",
-            options = listOf(
-                "Mengabaikan rambu lalu lintas",
-                "Mengemudi secara agresif",
-                "Pelecehan",
-                "Lainnya"
-            ),
-            selectedOption = violationCategory,
-            onOptionSelected = { violationCategory = it }
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        OutlinedTextField(
-            value = description,
-            onValueChange = { description = it },
-            label = { Text("Deskripsi Pelanggaran") },
+    ) { paddingValues ->
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .height(240.dp)
-                .padding(horizontal = 10.dp),
-            singleLine = false,
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedContainerColor = Color.Transparent,
-                unfocusedContainerColor = Color.Transparent,
-                focusedBorderColor = outlineColor,
-                unfocusedBorderColor = outlineColor,
-                focusedLabelColor = outlineColor,
-                unfocusedLabelColor = Color.Gray
-            ),
-            maxLines = 20,
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Text,
-                imeAction = ImeAction.Done
+                .fillMaxSize()
+                .padding(paddingValues)
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Top
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 15.dp, top = 30.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                IconButton(
+                    onClick = {
+                        navController.navigate(Screen.ReportHistory.route)
+                    }
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.ArrowBackIosNew,
+                        contentDescription = "Back",
+                        tint = MaterialTheme.colorScheme.onBackground,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(end = 12.dp)
+                    )
+                }
+                Text(
+                    text = "Laporan",
+                    style = MaterialTheme.typography.headlineSmall.copy(
+                        color = outlineColor,
+                        fontWeight = FontWeight.Bold
+                    ),
+                    modifier = Modifier.padding(start = 2.dp)
+                )
+            }
+
+            Spacer(modifier = Modifier.height(15.dp))
+            DropdownMenuField(
+                label = "Pilih Rute",
+                options = routeOptions,
+                selectedOption = route,
+                onOptionSelected = { route = it }
             )
-        )
+            Spacer(modifier = Modifier.height(16.dp))
 
-        Spacer(modifier = Modifier.height(16.dp))
-
-        OutlinedTextField(
-            value = vehiclePlate,
-            onValueChange = { vehiclePlate = it },
-            label = { Text("Plat Kendaraan") },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(10.dp),
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Text,
-                imeAction = ImeAction.Done
-            ),
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedContainerColor = Color.Transparent,
-                unfocusedContainerColor = Color.Transparent,
-                focusedBorderColor = outlineColor,
-                unfocusedBorderColor = outlineColor,
-                focusedLabelColor = outlineColor,
-                unfocusedLabelColor = Color.Gray
+            DropdownMenuField(
+                label = "Pilih Kategori Pelanggaran",
+                options = listOf(
+                    "Mengabaikan rambu lalu lintas",
+                    "Mengemudi secara agresif",
+                    "Pelecehan",
+                    "Lainnya"
+                ),
+                selectedOption = violationCategory,
+                onOptionSelected = { violationCategory = it }
             )
-        )
 
-        Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
-        Button(
-            onClick = {
-                coroutineScope.launch {
-                    if (route.isNotBlank() && violationCategory.isNotBlank() && description.isNotBlank() && vehiclePlate.isNotBlank()) {
-                        val routeParts = route.split(" | ")
-                        if (routeParts.size >= 2) {
-                            val routeNumber = routeParts[0].removePrefix("Rute ").trim()
-                            val routeName = routeParts[1].trim()
+            OutlinedTextField(
+                value = description,
+                onValueChange = { description = it },
+                label = { Text("Deskripsi Pelanggaran") },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(240.dp)
+                    .padding(horizontal = 10.dp),
+                singleLine = false,
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedContainerColor = Color.Transparent,
+                    unfocusedContainerColor = Color.Transparent,
+                    focusedBorderColor = outlineColor,
+                    unfocusedBorderColor = outlineColor,
+                    focusedLabelColor = outlineColor,
+                    unfocusedLabelColor = Color.Gray
+                ),
+                maxLines = 20,
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Done
+                )
+            )
 
-                            val currentDate = java.text.SimpleDateFormat("dd MMMM yyyy, HH:mm", java.util.Locale.getDefault()).format(java.util.Date())
+            Spacer(modifier = Modifier.height(16.dp))
 
-                            val report = ReportItem(
-                                routeNumber = routeNumber,
-                                routeName = routeName,
-                                violationCategory = violationCategory,
-                                description = description,
-                                vehiclePlate = vehiclePlate,
-                                date = currentDate
-                            )
+            OutlinedTextField(
+                value = vehiclePlate,
+                onValueChange = { vehiclePlate = it },
+                label = { Text("Plat Kendaraan") },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(10.dp),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Done
+                ),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedContainerColor = Color.Transparent,
+                    unfocusedContainerColor = Color.Transparent,
+                    focusedBorderColor = outlineColor,
+                    unfocusedBorderColor = outlineColor,
+                    focusedLabelColor = outlineColor,
+                    unfocusedLabelColor = Color.Gray
+                )
+            )
 
-                            viewModel.addReport(report)
+            Spacer(modifier = Modifier.height(24.dp))
 
-                            Toast.makeText(context, "Laporan berhasil dikirim", Toast.LENGTH_SHORT).show()
+            Button(
+                onClick = {
+                    coroutineScope.launch {
+                        if (route.isNotBlank() && violationCategory.isNotBlank() && description.isNotBlank() && vehiclePlate.isNotBlank()) {
+                            val routeParts = route.split(" | ")
+                            if (routeParts.size >= 2) {
+                                val routeNumber = routeParts[0].removePrefix("Rute ").trim()
+                                val routeName = routeParts[1].trim()
 
-                            navController.navigate(Screen.ReportHistory.route) {
-                                popUpTo(Screen.Report.route) { inclusive = true }
+                                val currentDate = java.text.SimpleDateFormat("dd MMMM yyyy, HH:mm", java.util.Locale.getDefault()).format(java.util.Date())
+
+                                val report = ReportItem(
+                                    routeNumber = routeNumber,
+                                    routeName = routeName,
+                                    violationCategory = violationCategory,
+                                    description = description,
+                                    vehiclePlate = vehiclePlate,
+                                    date = currentDate
+                                )
+
+                                viewModel.addReport(report)
+
+                                Toast.makeText(context, "Laporan berhasil dikirim", Toast.LENGTH_SHORT).show()
+
+                                navController.navigate(Screen.ReportHistory.route) {
+                                    popUpTo(Screen.Report.route) { inclusive = true }
+                                }
+                            } else {
+                                Toast.makeText(context, "Format rute tidak valid", Toast.LENGTH_SHORT).show()
                             }
                         } else {
-                            Toast.makeText(context, "Format rute tidak valid", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "Silakan lengkapi semua field", Toast.LENGTH_SHORT).show()
                         }
-                    } else {
-                        Toast.makeText(context, "Silakan lengkapi semua field", Toast.LENGTH_SHORT).show()
                     }
-                }
-            },
-            colors = ButtonDefaults.buttonColors(containerColor = Color.Red),
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(50.dp)
-                .padding(horizontal = 10.dp),
-            shape = RoundedCornerShape(11.dp)
-        ) {
-            Text(
-                text = "Kirim Laporan",
-                color = Color.White,
-                fontSize = 18.sp
-            )
+                },
+                colors = ButtonDefaults.buttonColors(containerColor = Color.Red),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp)
+                    .padding(horizontal = 10.dp),
+                shape = RoundedCornerShape(11.dp)
+            ) {
+                Text(
+                    text = "Kirim Laporan",
+                    color = Color.White,
+                    fontSize = 18.sp
+                )
+            }
         }
     }
 }

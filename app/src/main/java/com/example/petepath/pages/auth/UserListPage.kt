@@ -1,4 +1,4 @@
-package com.example.petepath.pages.features
+package com.example.petepath.pages.auth
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -20,6 +20,8 @@ import androidx.compose.material3.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.foundation.lazy.items
+import com.example.petepath.ui.theme.BottomBar
+import com.example.petepath.ui.theme.BottomBarScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -28,6 +30,7 @@ fun UserListPage(
     viewModel: UserViewModel
 ) {
     val users by viewModel.getAllUsers().collectAsState(initial = emptyList())
+    val currentScreen = BottomBarScreen.Profile
 
     Scaffold(
         topBar = {
@@ -39,6 +42,12 @@ fun UserListPage(
                         color = Color(0xFF007BFF)
                     )
                 },
+            )
+        },
+        bottomBar = {
+            BottomBar(
+                currentScreen = currentScreen,
+                navController = navController
             )
         },
         content = { paddingValues ->

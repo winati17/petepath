@@ -162,7 +162,7 @@ fun PasswordTextField(
 //@Composable
 //fun LoginPagePreview(){
 //    PetePathTheme {
-//        LoginPage(context = LocalContext.current, navController = rememberNavController())
+//        LoginPage(navController = rememberNavController())
 //    }
 //}
 

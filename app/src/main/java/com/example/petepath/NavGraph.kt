@@ -12,10 +12,10 @@ import com.example.petepath.pages.auth.SignupPage
 import com.example.petepath.pages.features.HomePage
 import com.example.petepath.pages.auth.Profile
 import com.example.petepath.pages.features.ReportHistoryPage
-import com.example.petepath.pages.features.RutePage
+import com.example.petepath.pages.features.RoutePage
 import com.example.petepath.pages.features.ReportPage
 import com.example.petepath.pages.features.RouteHistoryPage
-import com.example.petepath.pages.features.UserListPage
+import com.example.petepath.pages.auth.UserListPage
 
 @Composable
 fun SetupNavGraph(
@@ -31,11 +31,11 @@ fun SetupNavGraph(
             HomePage(navController = navController, viewModel = viewModel)
         }
         composable(
-            route = Screen.Rute.route,
+            route = Screen.Route.route,
             arguments = listOf(navArgument("ruteId") { type = NavType.StringType })
         ) { backStackEntry ->
             val ruteId = backStackEntry.arguments?.getString("ruteId") ?: "default"
-            RutePage(ruteId = ruteId, navController = navController, viewModel = viewModel)
+            RoutePage(ruteId = ruteId, navController = navController, viewModel = viewModel)
         }
         composable(route = Screen.RouteHistory.route){
             RouteHistoryPage(navController = navController, viewModel = viewModel)
@@ -62,15 +62,15 @@ fun SetupNavGraph(
 }
 
 sealed class Screen(val route: String) {
-    object Home: Screen(route= "home_page")
-    object Rute : Screen("rute/{ruteId}") {
+    object Home : Screen("home")
+    object Route : Screen("rute/{ruteId}") {
         fun createRoute(ruteId: String) = "rute/$ruteId"
     }
-    object RouteHistory: Screen(route= "routehistory_page")
-    object Report: Screen(route= "report_page")
-    object ReportHistory: Screen(route= "reporthistory_page")
-    object Profile: Screen(route= "profile")
-    object Login: Screen(route= "login")
-    object Signup: Screen(route= "signup")
-    object UserList: Screen(route= "user_list")
+    object RouteHistory : Screen("route_history")
+    object Report : Screen("report")
+    object ReportHistory : Screen("report_history")
+    object Profile : Screen("profile")
+    object Login: Screen("login")
+    object Signup: Screen("signup")
+    object UserList: Screen("user_list")
 }

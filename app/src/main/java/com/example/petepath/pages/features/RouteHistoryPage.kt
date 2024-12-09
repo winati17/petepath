@@ -36,6 +36,8 @@ import com.example.petepath.ui.theme.HistoryIcon
 import com.example.petepath.R
 import com.example.petepath.Screen
 import com.example.petepath.UserViewModel
+import com.example.petepath.ui.theme.BottomBar
+import com.example.petepath.ui.theme.BottomBarScreen
 
 @Composable
 fun RouteHistoryPage(
@@ -45,22 +47,15 @@ fun RouteHistoryPage(
     val mainColor = Color(0xFF007BFF)
     val petepete: Painter = painterResource(id = R.drawable.vector_pete2)
     val userHistory by viewModel.userHistory.collectAsState()
+    val currentScreen = BottomBarScreen.History
 
     Scaffold(
         bottomBar = {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(24.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                HomepageIcon(navController = navController)
-                HistoryIcon(active = true, navController = navController)
-                ReportIcon(navController = navController)
-                ProfileIcon(navController = navController)
-            }
-        }
+            BottomBar(
+                currentScreen = currentScreen,
+                navController = navController
+            )
+        },
     ) { paddingValues ->
         if (userHistory.isNotEmpty()) {
             // Tampilan ketika ada riwayat

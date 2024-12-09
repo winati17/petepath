@@ -19,13 +19,15 @@ import androidx.navigation.NavController
 import com.example.petepath.UserViewModel
 import com.example.petepath.data.RouteRepository
 import com.example.petepath.data.getRoutesByRuteId
+import com.example.petepath.ui.theme.BottomBar
+import com.example.petepath.ui.theme.BottomBarScreen
 import com.example.petepath.ui.theme.HistoryIcon
 import com.example.petepath.ui.theme.HomepageIcon
 import com.example.petepath.ui.theme.ProfileIcon
 import com.example.petepath.ui.theme.ReportIcon
 
 @Composable
-fun RutePage(
+fun RoutePage(
     ruteId: String,
     navController: NavController,
     viewModel: UserViewModel
@@ -35,6 +37,7 @@ fun RutePage(
     val routesForRute = getRoutesByRuteId(ruteId)
 
     val currentUserEmail by viewModel.currentUserEmail.collectAsState()
+    val currentScreen = BottomBarScreen.History
 
     if (routeName == "Unknown") {
         Column(
@@ -60,19 +63,11 @@ fun RutePage(
 
     Scaffold(
         bottomBar = {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(24.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                HomepageIcon(navController = navController)
-                HistoryIcon(active = true, navController = navController)
-                ReportIcon(navController = navController)
-                ProfileIcon(navController = navController)
-            }
-        }
+            BottomBar(
+                currentScreen = currentScreen,
+                navController = navController
+            )
+        },
     ) { paddingValues ->
         Column(
             modifier = Modifier

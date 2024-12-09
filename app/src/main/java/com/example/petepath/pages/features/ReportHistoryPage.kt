@@ -37,6 +37,8 @@ import com.example.petepath.R
 import com.example.petepath.Screen
 import com.example.petepath.UserViewModel
 import com.example.petepath.data.ReportItem
+import com.example.petepath.ui.theme.BottomBar
+import com.example.petepath.ui.theme.BottomBarScreen
 
 @Composable
 fun ReportHistoryPage(
@@ -44,21 +46,14 @@ fun ReportHistoryPage(
     viewModel: UserViewModel
 ) {
     val userReports by viewModel.userReports.collectAsState()
+    val currentScreen = BottomBarScreen.Report
 
     Scaffold(
         bottomBar = {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(24.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                HomepageIcon(navController = navController)
-                HistoryIcon(navController = navController)
-                ReportIcon(active = true, navController = navController)
-                ProfileIcon(navController = navController)
-            }
+            BottomBar(
+                currentScreen = currentScreen,
+                navController = navController
+            )
         }
     ) { paddingValues ->
         if (userReports.isEmpty()) {
