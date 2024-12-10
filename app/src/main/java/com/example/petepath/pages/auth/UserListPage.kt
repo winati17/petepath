@@ -1,5 +1,6 @@
 package com.example.petepath.pages.auth
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -20,6 +21,8 @@ import androidx.compose.material3.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.foundation.lazy.items
+import androidx.compose.ui.platform.LocalContext
+import com.example.petepath.Screen
 import com.example.petepath.ui.theme.BottomBar
 import com.example.petepath.ui.theme.BottomBarScreen
 
@@ -31,6 +34,7 @@ fun UserListPage(
 ) {
     val users by viewModel.getAllUsers().collectAsState(initial = emptyList())
     val currentScreen = BottomBarScreen.Profile
+    val contextLocal = LocalContext.current
 
     Scaffold(
         topBar = {
@@ -83,6 +87,10 @@ fun UserListPage(
                 Button(
                     onClick = {
                         viewModel.clearUser()
+                        Toast.makeText(contextLocal, "Seluruh akun telah berhasil di hapus", Toast.LENGTH_SHORT).show()
+                        navController.navigate(Screen.Login.route) {
+                            popUpTo(Screen.Profile.route) { inclusive = true }
+                        }
                     },
                     modifier = Modifier
                         .fillMaxWidth()

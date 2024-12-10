@@ -12,15 +12,15 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val userViewModel: UserViewModel = ViewModelProvider(
-            this,
+        val userViewModel: UserViewModel =
+            ViewModelProvider(this,
             UserViewModelFactory(this)
         ).get(UserViewModel::class.java)
 
         setContent {
             PetePathTheme {
                 val navController = rememberNavController()
-                SetupNavGraph(navController = navController, viewModel = userViewModel, context = this)
+                SetupNavGraph(navController = navController, viewModel = userViewModel)
             }
         }
     }

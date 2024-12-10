@@ -20,8 +20,7 @@ import com.example.petepath.pages.auth.UserListPage
 @Composable
 fun SetupNavGraph(
     navController: NavHostController,
-    viewModel: UserViewModel,
-    context: Context
+    viewModel: UserViewModel
 ){
     NavHost(
         navController= navController,
