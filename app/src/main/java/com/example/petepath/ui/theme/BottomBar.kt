@@ -79,16 +79,13 @@ fun BottomBarIcon(
         modifier = Modifier
             .size(24.dp)
             .clickable {
-                // Hindari navigasi ke screen yang sama
-                if (screen != currentScreen) {
-                    navController.navigate(screen.route) {
-                        // Konfigurasi navigasi agar tidak menumpuk screen
-                        popUpTo(navController.graph.startDestinationId) {
-                            saveState = true
-                        }
-                        launchSingleTop = true
-                        restoreState = true
+                navController.navigate(screen.route) {
+                    // Konfigurasi navigasi agar tidak menumpuk screen
+                    popUpTo(navController.graph.startDestinationId) {
+                        saveState = true
                     }
+                    launchSingleTop = true
+                    restoreState = true
                 }
             }
     )
