@@ -3,8 +3,6 @@ package com.example.petepath
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.compose.rememberNavController
 import com.example.petepath.data.UserViewModelFactory
@@ -16,8 +14,8 @@ class MainActivity : ComponentActivity() {
 
         val userViewModel: UserViewModel =
             ViewModelProvider(this,
-            UserViewModelFactory(this)
-        ).get(UserViewModel::class.java)
+                UserViewModelFactory(this)
+            )[UserViewModel::class.java]
 
         setContent {
             PetePathTheme {
