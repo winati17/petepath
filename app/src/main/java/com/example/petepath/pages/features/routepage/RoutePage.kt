@@ -1,14 +1,10 @@
-package com.example.petepath.pages.features
+package com.example.petepath.pages.features.routepage
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -16,7 +12,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.petepath.UserViewModel
 import com.example.petepath.data.RouteRepository
 import com.example.petepath.data.getRoutesByRuteId
 import com.example.petepath.ui.theme.BottomBar
@@ -26,14 +21,11 @@ import com.example.petepath.ui.theme.BottomBarScreen
 fun RoutePage(
     ruteId: String,
     navController: NavController,
-    viewModel: UserViewModel
 ){
     val route = RouteRepository.getRouteById(ruteId)
     val routeName = route?.name ?: "Unknown"
     val routesForRute = getRoutesByRuteId(ruteId)
-
-    val currentUserEmail by viewModel.currentUserEmail.collectAsState()
-    val currentScreen = BottomBarScreen.History
+    val currentScreen = BottomBarScreen.Home
 
     if (routeName == "Unknown") {
         Column(
@@ -90,30 +82,6 @@ fun RoutePage(
                 RouteItem(route = route)
             }
         }
-    }
-}
-
-@Composable
-fun RouteItem(route: String) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 8.dp)
-    ) {
-        Box(
-            modifier = Modifier
-                .size(12.dp)
-                .background(color = Color(0xFF007BFF), shape = CircleShape)
-        )
-
-        Spacer(modifier = Modifier.width(16.dp))
-
-        Text(
-            text = route,
-            fontSize = 16.sp,
-            color = Color.Black
-        )
     }
 }
 

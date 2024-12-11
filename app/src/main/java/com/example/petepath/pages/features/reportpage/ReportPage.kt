@@ -1,4 +1,4 @@
-package com.example.petepath.pages.features
+package com.example.petepath.pages.features.reportpage
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.*

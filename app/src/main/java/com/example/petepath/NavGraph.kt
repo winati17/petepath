@@ -1,24 +1,21 @@
 package com.example.petepath
 
-import com.example.petepath.UserViewModel
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.example.petepath.data.UserViewModelFactory
 import com.example.petepath.pages.auth.LoginPage
 import com.example.petepath.pages.auth.SignupPage
-import com.example.petepath.pages.features.HomePage
+import com.example.petepath.pages.features.homepage.HomePage
 import com.example.petepath.pages.auth.Profile
-import com.example.petepath.pages.features.ReportHistoryPage
-import com.example.petepath.pages.features.RoutePage
-import com.example.petepath.pages.features.ReportPage
-import com.example.petepath.pages.features.RouteHistoryPage
+import com.example.petepath.pages.features.reportpage.ReportHistoryPage
+import com.example.petepath.pages.features.routepage.RoutePage
+import com.example.petepath.pages.features.reportpage.ReportPage
+import com.example.petepath.pages.features.activitypage.ActivityPage
 import com.example.petepath.pages.auth.UserListPage
 
 @Composable
@@ -46,10 +43,10 @@ fun SetupNavGraph(
             arguments = listOf(navArgument("ruteId") { type = NavType.StringType })
         ) { backStackEntry ->
             val ruteId = backStackEntry.arguments?.getString("ruteId") ?: "default"
-            RoutePage(ruteId = ruteId, navController = navController, viewModel = viewModel)
+            RoutePage(ruteId = ruteId, navController = navController)
         }
-        composable(route = Screen.RouteHistory.route){
-            RouteHistoryPage(navController = navController, viewModel = viewModel)
+        composable(route = Screen.Activity.route){
+            ActivityPage(navController = navController, viewModel = viewModel)
         }
         composable(route = Screen.ReportHistory.route){
             ReportHistoryPage(navController = navController, viewModel = viewModel)
@@ -77,7 +74,7 @@ sealed class Screen(val route: String) {
     object Route : Screen("rute/{ruteId}") {
         fun createRoute(ruteId: String) = "rute/$ruteId"
     }
-    object RouteHistory : Screen("route_history")
+    object Activity : Screen("activity")
     object Report : Screen("report")
     object ReportHistory : Screen("report_history")
     object Profile : Screen("profile")

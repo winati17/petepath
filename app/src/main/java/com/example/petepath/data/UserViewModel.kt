@@ -6,6 +6,7 @@ import com.example.petepath.data.DataHistoryItem
 import com.example.petepath.data.ReportItem
 import com.example.petepath.data.UserPreferences
 import com.example.petepath.data.UserPreferencesRepository
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -18,14 +19,6 @@ import kotlinx.coroutines.flow.flowOf
 
 class UserViewModel(private val repository: UserPreferencesRepository) : ViewModel() {
 
-    // Alur daftar pengguna
-    val users: StateFlow<List<UserPreferences>> = repository.usersFlow
-        .stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
-
-    // Email pengguna saat ini
-    private var _currentUserEmail = MutableStateFlow<String?>(null)
-    val currentUserEmail: StateFlow<String?> = _currentUserEmail.asStateFlow()
-
     init {
         viewModelScope.launch {
             repository.lastLoggedInEmailFlow.collect { email ->
@@ -34,7 +27,16 @@ class UserViewModel(private val repository: UserPreferencesRepository) : ViewMod
         }
     }
 
+    // Alur daftar pengguna
+    val users: StateFlow<List<UserPreferences>> = repository.usersFlow
+        .stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
+
+    // Email pengguna saat ini
+    private var _currentUserEmail = MutableStateFlow<String?>(null)
+    val currentUserEmail: StateFlow<String?> = _currentUserEmail.asStateFlow()
+
     // Alur riwayat pengguna saat ini
+    @OptIn(ExperimentalCoroutinesApi::class)
     val userHistory: StateFlow<List<DataHistoryItem>> = _currentUserEmail
         .flatMapLatest { email ->
             if (email != null) {
@@ -46,6 +48,7 @@ class UserViewModel(private val repository: UserPreferencesRepository) : ViewMod
         .stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
 
     // Alur laporan pengguna saat ini
+    @OptIn(ExperimentalCoroutinesApi::class)
     val userReports: StateFlow<List<ReportItem>> = _currentUserEmail
         .flatMapLatest { email ->
             if (email != null) {
