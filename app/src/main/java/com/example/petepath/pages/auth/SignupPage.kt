@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.petepath.Screen
 import com.example.petepath.UserViewModel
+import com.example.petepath.ui.theme.PasswordTextField
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
