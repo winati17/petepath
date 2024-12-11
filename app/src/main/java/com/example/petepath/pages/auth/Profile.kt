@@ -101,7 +101,7 @@ fun Profile(
                         Box(
                             modifier = Modifier
                                 .clip(CircleShape)
-                                .size(80.dp)
+                                .size(60.dp)
                                 .background(Color(0xFFD8D8D8))
                         )
 
@@ -111,12 +111,12 @@ fun Profile(
                             Text(
                                 text = displayName,
                                 fontWeight = FontWeight.Bold,
-                                fontSize = 20.sp
+                                fontSize = 16.sp
                             )
                             Text(
                                 text = email,
                                 color = Color.Gray,
-                                fontSize = 16.sp
+                                fontSize = 12.sp
                             )
                         }
                     }

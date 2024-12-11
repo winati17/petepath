@@ -84,6 +84,8 @@ fun UserListPage(
                     }
                 }
 
+                Spacer(modifier = Modifier.height(15.dp))
+
                 Button(
                     onClick = {
                         viewModel.clearUser()

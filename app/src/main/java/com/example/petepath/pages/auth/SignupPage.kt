@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedTextField
@@ -26,6 +27,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
@@ -36,6 +39,7 @@ import com.example.petepath.UserViewModel
 import com.example.petepath.ui.theme.PasswordTextField
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import android.util.Patterns
 
 @Composable
 fun SignupPage(
@@ -48,6 +52,9 @@ fun SignupPage(
     val context= LocalContext.current
     val outlineColor = Color(0xFF007BFF)
     val coroutineScope = rememberCoroutineScope()
+
+    var emailError by remember { mutableStateOf(false) }
+    var usernameError by remember { mutableStateOf(false) }
 
     Column(
         Modifier.fillMaxSize(),
@@ -71,30 +78,51 @@ fun SignupPage(
 
         OutlinedTextField(
             value = username,
-            onValueChange = { username = it },
+            onValueChange = {
+                username = it
+                if (usernameError) {
+                    usernameError = false
+                }
+            },
             shape = RoundedCornerShape(8.dp),
             label = { Text(text = "Username") },
+            singleLine = true,
+            isError = usernameError,
             colors = OutlinedTextFieldDefaults.colors(
                 focusedContainerColor = Color.Transparent,
                 unfocusedContainerColor = Color.Transparent,
                 focusedBorderColor = outlineColor,
                 unfocusedBorderColor = outlineColor
             ),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Text,
+                imeAction = ImeAction.Next
+            )
         )
 
         Spacer(modifier = Modifier.height(15.dp))
 
         OutlinedTextField(
             value = email,
-            onValueChange = { email = it },
+            onValueChange = {
+                email = it
+                if (emailError) {
+                    emailError = false
+                } },
             shape = RoundedCornerShape(8.dp),
             label = { Text(text = "Email") },
+            singleLine = true,
+            isError = emailError,
             colors = OutlinedTextFieldDefaults.colors(
                 focusedContainerColor = Color.Transparent,
                 unfocusedContainerColor = Color.Transparent,
                 focusedBorderColor = outlineColor,
                 unfocusedBorderColor = outlineColor
             ),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Email,
+                imeAction = ImeAction.Next
+            )
         )
 
         Spacer(modifier = Modifier.height(15.dp))
@@ -110,6 +138,13 @@ fun SignupPage(
         Button(
             onClick = {
                 if (username.isNotBlank() && email.isNotBlank() && password.isNotBlank()) {
+                    // Validasi format email
+                    if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                        emailError = true
+                        Toast.makeText(context, "Format email tidak valid", Toast.LENGTH_SHORT).show()
+                        return@Button
+                    }
+
                     coroutineScope.launch {
                         // Cek apakah email atau username sudah digunakan
                         val existingUser = viewModel.getAllUsers().first().find {
@@ -117,6 +152,8 @@ fun SignupPage(
                         }
 
                         if (existingUser != null) {
+                            emailError = true
+                            usernameError = true
                             Toast.makeText(context, "Username atau Email sudah digunakan", Toast.LENGTH_SHORT).show()
                         } else {
                             viewModel.saveUserData(username, email, password)
