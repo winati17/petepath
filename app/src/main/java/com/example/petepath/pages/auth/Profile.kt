@@ -181,7 +181,7 @@ fun Profile(
                             .width(230.dp),
                         shape = RoundedCornerShape(8.dp),
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = Color.Gray,
+                            containerColor = Color.Red,
                             contentColor = Color.White
                         )
                     ) {

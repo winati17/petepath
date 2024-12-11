@@ -61,8 +61,6 @@ class UserViewModel(private val repository: UserPreferencesRepository) : ViewMod
         viewModelScope.launch {
             val newUser = UserPreferences(username, email, password)
             repository.addUser(newUser)
-            // Set pengguna saat ini
-            _currentUserEmail.value = email
         }
     }
 

@@ -49,7 +49,7 @@ fun DropdownMenuField(
                     Icon(
                         imageVector = Icons.Default.ArrowDropDown,
                         contentDescription = "Dropdown icon",
-                        tint = Color(0xFF007BFF) // Adjust color to match the design
+                        tint = Color(0xFF007BFF)
                     )
                 }
             },
@@ -85,7 +85,7 @@ fun DropdownMenuField(
                     text = { Text(option, style = TextStyle(color = Color.Black, fontSize = 14.sp)) },
                 )
                 if (index != options.lastIndex) {
-                    HorizontalDivider(color = Color.Gray, thickness = 1.dp) // Divider for all items except the last one
+                    HorizontalDivider(color = Color.Gray, thickness = 1.dp)
                 }
             }
         }
