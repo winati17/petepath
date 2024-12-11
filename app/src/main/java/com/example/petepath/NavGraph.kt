@@ -1,12 +1,16 @@
 package com.example.petepath
 
-import android.content.Context
+import com.example.petepath.UserViewModel
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.example.petepath.data.UserViewModelFactory
 import com.example.petepath.pages.auth.LoginPage
 import com.example.petepath.pages.auth.SignupPage
 import com.example.petepath.pages.features.HomePage
@@ -22,9 +26,17 @@ fun SetupNavGraph(
     navController: NavHostController,
     viewModel: UserViewModel
 ){
+    val currentUserEmail by viewModel.currentUserEmail.collectAsState()
+
+    val startDestination = if (currentUserEmail != null) {
+        Screen.Home.route
+    } else {
+        Screen.Login.route
+    }
+
     NavHost(
-        navController= navController,
-        startDestination= Screen.Login.route
+        navController = navController,
+        startDestination = startDestination
     ){
         composable(route = Screen.Home.route){
             HomePage(navController = navController, viewModel = viewModel)

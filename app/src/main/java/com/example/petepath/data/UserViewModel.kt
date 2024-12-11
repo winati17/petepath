@@ -26,6 +26,14 @@ class UserViewModel(private val repository: UserPreferencesRepository) : ViewMod
     private var _currentUserEmail = MutableStateFlow<String?>(null)
     val currentUserEmail: StateFlow<String?> = _currentUserEmail.asStateFlow()
 
+    init {
+        viewModelScope.launch {
+            repository.lastLoggedInEmailFlow.collect { email ->
+                _currentUserEmail.value = email
+            }
+        }
+    }
+
     // Alur riwayat pengguna saat ini
     val userHistory: StateFlow<List<DataHistoryItem>> = _currentUserEmail
         .flatMapLatest { email ->
@@ -62,8 +70,8 @@ class UserViewModel(private val repository: UserPreferencesRepository) : ViewMod
     suspend fun login(usernameOrEmail: String, passwordInput: String): Boolean {
         val user = repository.getUser(usernameOrEmail, usernameOrEmail)
         return if (user?.password == passwordInput) {
-            // Set pengguna saat ini
             _currentUserEmail.value = user.email
+            repository.setLastLoggedInEmail(user.email)
             true
         } else {
             false
@@ -75,6 +83,7 @@ class UserViewModel(private val repository: UserPreferencesRepository) : ViewMod
         viewModelScope.launch {
             // Hapus pengguna saat ini
             _currentUserEmail.value = null
+            repository.setLastLoggedInEmail(null)
         }
     }
 

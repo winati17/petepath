@@ -1,6 +1,7 @@
 package com.example.petepath.data
 
 import android.content.Context
+import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
@@ -10,9 +11,32 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.serialization.json.Json.Default.decodeFromString
 
 class UserPreferencesRepository(private val context: Context) {
+
+    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "user_prefs")
+
+    private object PreferencesKeys {
+        val LAST_LOGGED_IN_EMAIL = stringPreferencesKey("last_logged_in_email")
+    }
+
+    val lastLoggedInEmailFlow: Flow<String?> = context.dataStore.data.map { preferences ->
+        preferences[PreferencesKeys.LAST_LOGGED_IN_EMAIL]
+    }
+
+    suspend fun setLastLoggedInEmail(email: String?) {
+        context.dataStore.edit { preferences ->
+            if (email != null) {
+                preferences[PreferencesKeys.LAST_LOGGED_IN_EMAIL] = email
+            } else {
+                preferences.remove(PreferencesKeys.LAST_LOGGED_IN_EMAIL)
+            }
+        }
+    }
 
     private val json = Json { ignoreUnknownKeys = true }
 
