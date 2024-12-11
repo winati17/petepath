@@ -21,25 +21,26 @@ private val LightColorScheme = lightColorScheme(
     onSurface = Color.Black
 )
 
-private val DarkColorScheme = darkColorScheme(
-    primary = Color(0xFF007BFF),
-    background = Color.Black,
-    surface = Color.Black,
-    onPrimary = Color.Black,
-    onBackground = Color.White,
-    onSurface = Color.White
-)
+//private val DarkColorScheme = darkColorScheme(
+//    primary = Color(0xFF007BFF),
+//    background = Color.Black,
+//    surface = Color.Black,
+//    onPrimary = Color.Black,
+//    onBackground = Color.White,
+//    onSurface = Color.White
+//)
 
 @Composable
 fun PetePathTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
-    val colors = if (darkTheme) {
-        DarkColorScheme
-    } else {
-        LightColorScheme
-    }
+    val colors = (LightColorScheme)
+//    val colors = if (darkTheme) {
+//        DarkColorScheme
+//    } else {
+//        LightColorScheme
+//    }
 
     MaterialTheme(
         colorScheme = colors,
